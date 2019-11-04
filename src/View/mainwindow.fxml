@@ -7,9 +7,9 @@
    <children>
       <ToolBar prefHeight="45.0" prefWidth="600.0">
         <items>
-            <Button mnemonicParsing="false" text="Cargar cursos" />
-            <Button mnemonicParsing="false" text="Cargar Inclusiones" />
-            <Button mnemonicParsing="false" text="Cargar RN" />
+            <Button fx:id="btn_abrirConfig" mnemonicParsing="false" onAction="#abrirConfiguracion" text="Configuracion" />
+            <Button mnemonicParsing="false" text="Pendiente" />
+            <Button mnemonicParsing="false" text="Pendiente" />
         </items>
       </ToolBar>
       <Label text="Estadisticas generales" />
