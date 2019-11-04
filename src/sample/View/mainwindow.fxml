@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controllers.MainWindow">
+   <children>
+      <ToolBar prefHeight="45.0" prefWidth="600.0">
+        <items>
+            <Button mnemonicParsing="false" text="Cargar cursos" />
+            <Button mnemonicParsing="false" text="Cargar Inclusiones" />
+            <Button mnemonicParsing="false" text="Cargar RN" />
+        </items>
+      </ToolBar>
+      <Label text="Estadisticas generales" />
+      <HBox prefHeight="35.0" prefWidth="600.0">
+         <children>
+            <Label text="Inclusiones cargadas: " />
+            <Label text="Pendientes: " />
+            <Label text="Aceptadas: " />
+            <Label text="Rechazadas:" />
+         </children>
+      </HBox>
+      <Separator orientation="VERTICAL" prefHeight="10.0" />
+      <HBox prefHeight="35.0" prefWidth="600.0">
+         <children>
+            <Label text="Filtrado: " />
+            <RadioButton mnemonicParsing="false" text="Estudiantes" />
+            <RadioButton mnemonicParsing="false" text="Cursos" />
+         </children></HBox>
+      <ListView prefHeight="400.0" prefWidth="200.0" />
+   </children>
+</VBox>
