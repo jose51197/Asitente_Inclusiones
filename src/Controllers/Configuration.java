@@ -1,4 +1,4 @@
-package sample.Controllers;
+package Controllers;
 
 public class Configuration {
 }
