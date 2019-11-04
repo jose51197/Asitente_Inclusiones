@@ -1,10 +1,15 @@
 package sample;
 
+import Model.CSVreader;
+import Model.Estudiante;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.util.Map;
 
 public class Main extends Application {
 
@@ -17,7 +22,8 @@ public class Main extends Application {
     }
 
 
-    public static void main(String[] args) {
-        launch(args);
+    public static void main(String[] args) throws IOException {
+        CSVreader r= new CSVreader();
+        Map<Integer, Estudiante> algo=r.getEstudiantes("C:\\Users\\Sergie\\Downloads\\resul.csv");
     }
 }
