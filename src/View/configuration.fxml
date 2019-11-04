@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox prefHeight="500.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controllers.Configuration">
+<VBox prefHeight="500.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Configuration">
    <children>
       <Label text="Configuracion del asistente">
          <font>
@@ -15,7 +15,7 @@
          <children>
             <Label prefHeight="25.0" text="Periodo de inclusiones:" />
             <Separator prefWidth="5.0" />
-            <TextField id="tbox_semestre" promptText="Semestre" />
+            <TextField id="tbox_semestre" fx:id="tbox_periodo" promptText="Semestre" />
          </children>
       </HBox>
       <Label text="Carga de datos">
@@ -27,7 +27,7 @@
            <children>
                <Label prefHeight="25.0" text="Datos de estudiantes:" />
                <Separator prefWidth="5.0" />
-            <Button mnemonicParsing="false" text="Cargar" />
+            <Button fx:id="btn_cargarEstudiantes" mnemonicParsing="false" onAction="#cargarEstudiantes" text="Cargar" />
            </children>
        </HBox>
 
@@ -35,15 +35,15 @@
            <children>
                <Label prefHeight="25.0" text="Plan de estudios:" />
                <Separator prefWidth="5.0" />
-               <Button mnemonicParsing="false" text="Cargar" />
+               <Button fx:id="btn_cargarPlan" mnemonicParsing="false" onAction="#cargarPlan" text="Cargar" />
            </children>
        </HBox>
 
        <HBox alignment="CENTER_LEFT" prefHeight="45.0" prefWidth="200.0">
            <children>
-               <Label prefHeight="25.0" text="Grupos del semestre" />
+               <Label prefHeight="25.0" text="Oferta del semestre" />
                <Separator prefWidth="5.0" />
-               <Button mnemonicParsing="false" text="Cargar" />
+               <Button fx:id="btn_cargarOfertaSem" mnemonicParsing="false" onAction="#cargarOfertaSemestre" text="Cargar" />
            </children>
        </HBox>
 
@@ -51,7 +51,7 @@
            <children>
                <Label prefHeight="25.0" text="Inclusiones registradas" />
                <Separator prefWidth="5.0" />
-               <Button mnemonicParsing="false" text="Cargar" />
+               <Button fx:id="btn_cargarInclusiones" mnemonicParsing="false" onAction="#cargarInclusiones" text="Cargar" />
            </children>
        </HBox>
 
