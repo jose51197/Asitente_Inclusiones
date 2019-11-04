@@ -1,14 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="Controllers.Configuration"
-            prefHeight="400.0" prefWidth="600.0">
+<VBox prefHeight="500.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controllers.Configuration">
+   <children>
+      <Label text="Configuracion del asistente">
+         <font>
+            <Font size="16.0" />
+         </font></Label>
+      <HBox alignment="CENTER_LEFT" prefHeight="45.0" prefWidth="200.0">
+         <children>
+            <Label prefHeight="25.0" text="Periodo de inclusiones:" />
+            <Separator prefWidth="5.0" />
+            <TextField id="tbox_semestre" promptText="Semestre" />
+         </children>
+      </HBox>
+      <Label text="Carga de datos">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+       <HBox alignment="CENTER_LEFT" prefHeight="45.0" prefWidth="200.0">
+           <children>
+               <Label prefHeight="25.0" text="Datos de estudiantes:" />
+               <Separator prefWidth="5.0" />
+            <Button mnemonicParsing="false" text="Cargar" />
+           </children>
+       </HBox>
 
-</AnchorPane>
+       <HBox alignment="CENTER_LEFT" prefHeight="45.0" prefWidth="200.0">
+           <children>
+               <Label prefHeight="25.0" text="Plan de estudios:" />
+               <Separator prefWidth="5.0" />
+               <Button mnemonicParsing="false" text="Cargar" />
+           </children>
+       </HBox>
+
+       <HBox alignment="CENTER_LEFT" prefHeight="45.0" prefWidth="200.0">
+           <children>
+               <Label prefHeight="25.0" text="Grupos del semestre" />
+               <Separator prefWidth="5.0" />
+               <Button mnemonicParsing="false" text="Cargar" />
+           </children>
+       </HBox>
+
+       <HBox alignment="CENTER_LEFT" prefHeight="45.0" prefWidth="200.0">
+           <children>
+               <Label prefHeight="25.0" text="Inclusiones registradas" />
+               <Separator prefWidth="5.0" />
+               <Button mnemonicParsing="false" text="Cargar" />
+           </children>
+       </HBox>
+
+   </children>
+   <padding>
+      <Insets left="10.0" right="10.0" top="5.0" />
+   </padding>
+</VBox>
