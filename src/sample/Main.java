@@ -24,6 +24,7 @@ public class Main extends Application {
 
     public static void main(String[] args) throws IOException {
         CSVreader r= new CSVreader();
-        Map<Integer, Estudiante> algo=r.getEstudiantes("C:\\Users\\Sergie\\Downloads\\resul.csv");
+        //Map<Integer, Estudiante> algo=r.getEstudiantes("C:\\Users\\Sergie\\Downloads\\resul.csv");
+        launch(args);
     }
 }
