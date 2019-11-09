@@ -33,4 +33,23 @@ public class MainWindow {
 
 
     }
+
+    public void abrirSolicitud()  {
+
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../View/inclusion.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initStyle(StageStyle.UNIFIED);
+            stage.setTitle("Configuración");
+            stage.setScene(new Scene(root1));
+            stage.show();
+        }  catch (IOException e){
+            System.out.println(e.toString());
+        }
+
+
+
+    }
 }
