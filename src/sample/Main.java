@@ -25,9 +25,13 @@ public class Main extends Application {
 
     public static void main(String[] args) throws IOException {
         CSVreader r= new CSVreader();
-        ////Map<Integer, Estudiante> algo=r.getEstudiantes("C:\\Users\\Sergie\\Downloads\\resul.csv");
-        Map<String, Curso> algo=r.getMalla_Curricular("C:\\Users\\Sergie\\Downloads\\plan.csv");
-        System.out.println(algo.get("TI2102").getRequisitos().get(0).getId());
+
+        //pruebas de funcionamiento de los diccionarios;
+        /*Map<String, Curso> malla=r.getMalla_Curricular("C:\\Users\\Sergie\\Downloads\\plan.csv");
+        Map<Integer, Estudiante> estudiantes=r.getEstudiantes("C:\\Users\\Sergie\\Downloads\\rn.csv",malla);
+        System.out.printf( estudiantes.get(2).getCursosActuales().get(0).getNombre());*/
+
+
         //launch(args);
     }
 }

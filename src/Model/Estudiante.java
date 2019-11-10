@@ -1,21 +1,40 @@
 package Model;
 
+import java.util.ArrayList;
+
 public class Estudiante{
 
     private int carnet;
-    private String nombre;
-    private int ponderado;
-    private String email;
-    private int phone;
+    private String nombre="";
+    private String email="";
+    private int phone=0;
     private boolean rn;
+    private ArrayList<Curso> cursosActuales= new ArrayList<>();
 
-    public Estudiante(int carnet, String nombre, String email, int phone,int ponderado) {
+    public Estudiante(int carnet, String nombre, String email, int phone) {
         this.carnet = carnet;
         this.nombre = nombre;
         this.email = email;
         this.phone = phone;
         this.rn=false;
-        this.ponderado=ponderado;
+    }
+
+    public Estudiante(int carnet) {
+        this.carnet = carnet;
+        this.rn=false;
+    }
+
+
+    public ArrayList<Curso> getCursosActuales() {
+        return cursosActuales;
+    }
+
+    public void setCursosActuales(ArrayList<Curso> cursosActuales) {
+        this.cursosActuales = cursosActuales;
+    }
+
+    public void addCursoActuale(Curso cursoActual) {
+        this.cursosActuales.add(cursoActual);
     }
 
     public int getCarnet() {
@@ -38,10 +57,6 @@ public class Estudiante{
         return rn;
     }
 
-    public int getPonderado() {
-        return ponderado;
-    }
-
     public void setCarnet(int carnet) {
         this.carnet = carnet;
     }
@@ -62,8 +77,5 @@ public class Estudiante{
         this.rn = rn;
     }
 
-    public void setPonderado(int ponderado) {
-        this.ponderado = ponderado;
-    }
 }
 

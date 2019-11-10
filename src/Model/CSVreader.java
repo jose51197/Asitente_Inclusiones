@@ -42,7 +42,7 @@ public class CSVreader {
         return result;
     }
 
-    public Map<Integer, Estudiante> getEstudiantes(String filepath) throws IOException {
+    public Map<Integer, Estudiante> getEstudiantes(String filepath, Map<String,Curso> malla) throws IOException {
         ArrayList<ArrayList<String>> data= readFiles(filepath);
         data.remove(0);
         int carnet=0;
@@ -51,13 +51,16 @@ public class CSVreader {
         for(ArrayList<String> row :data){
             int currentCarnet= Integer.valueOf(row.get(0));
             if(currentCarnet!=carnet){
-                estudiante= new Estudiante(currentCarnet,"estudiante "+String.valueOf(currentCarnet),"somethig@email.com",88888888,0);
+                estudiante= new Estudiante(currentCarnet);
                 result.put(currentCarnet,estudiante);
                 carnet=currentCarnet;
             }
             if(!row.get(2).equals("1")){
                 estudiante.setRn(true);
             }
+            String codigoCurso=row.get(1).split(" - ")[0];
+            Curso curso=malla.get(codigoCurso);
+            estudiante.addCursoActuale(curso);
 
         }
         return result;
