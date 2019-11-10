@@ -4,16 +4,18 @@ public class Estudiante{
 
     private int carnet;
     private String nombre;
+    private int ponderado;
     private String email;
     private int phone;
     private boolean rn;
 
-    public Estudiante(int carnet, String nombre, String email, int phone) {
+    public Estudiante(int carnet, String nombre, String email, int phone,int ponderado) {
         this.carnet = carnet;
         this.nombre = nombre;
         this.email = email;
         this.phone = phone;
         this.rn=false;
+        this.ponderado=ponderado;
     }
 
     public int getCarnet() {
@@ -36,6 +38,10 @@ public class Estudiante{
         return rn;
     }
 
+    public int getPonderado() {
+        return ponderado;
+    }
+
     public void setCarnet(int carnet) {
         this.carnet = carnet;
     }
@@ -55,4 +61,9 @@ public class Estudiante{
     public void setRn(boolean rn) {
         this.rn = rn;
     }
+
+    public void setPonderado(int ponderado) {
+        this.ponderado = ponderado;
+    }
 }
+

@@ -51,7 +51,7 @@ public class CSVreader {
         for(ArrayList<String> row :data){
             int currentCarnet= Integer.valueOf(row.get(0));
             if(currentCarnet!=carnet){
-                estudiante= new Estudiante(currentCarnet,"estudiante "+String.valueOf(currentCarnet),"somethig@email.com",88888888);
+                estudiante= new Estudiante(currentCarnet,"estudiante "+String.valueOf(currentCarnet),"somethig@email.com",88888888,0);
                 result.put(currentCarnet,estudiante);
                 carnet=currentCarnet;
             }
@@ -59,6 +59,38 @@ public class CSVreader {
                 estudiante.setRn(true);
             }
 
+        }
+        return result;
+    }
+
+    public Map<String, Curso> getMalla_Curricular(String filepath) throws IOException {
+        ArrayList<ArrayList<String>> data= readFiles(filepath);
+        data.remove(0);
+        Curso actual;
+        Map<String, Curso> result = new HashMap<String, Curso>();
+        for(ArrayList<String> row :data){
+            String codigo= row.get(0);
+            actual=new Curso(codigo,row.get(1),Integer.valueOf(row.get(2)));
+            result.put(codigo,actual);
+        }
+        for(ArrayList<String> row :data){
+            String codigo= row.get(0);
+            String[] requisitos = row.get(3).split(",");
+            String[] corequisitos = row.get(4).split(",");
+            for(String requisito:requisitos){
+                if(result.containsKey(requisito)) {
+                    Curso requisitoActual = result.get(requisito);
+                    actual = result.get(codigo);
+                    actual.addRequisito(requisitoActual);
+                }
+            }
+            for(String corequisito:corequisitos){
+                if(result.containsKey(corequisito)) {
+                    Curso corequisitoActual = result.get(corequisito);
+                    actual = result.get(codigo);
+                    actual.addCorequisito(corequisitoActual);
+                }
+            }
         }
         return result;
     }

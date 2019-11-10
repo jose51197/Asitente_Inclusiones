@@ -1,6 +1,7 @@
 package sample;
 
 import Model.CSVreader;
+import Model.Curso;
 import Model.Estudiante;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -24,7 +25,9 @@ public class Main extends Application {
 
     public static void main(String[] args) throws IOException {
         CSVreader r= new CSVreader();
-        //Map<Integer, Estudiante> algo=r.getEstudiantes("C:\\Users\\Sergie\\Downloads\\resul.csv");
-        launch(args);
+        ////Map<Integer, Estudiante> algo=r.getEstudiantes("C:\\Users\\Sergie\\Downloads\\resul.csv");
+        Map<String, Curso> algo=r.getMalla_Curricular("C:\\Users\\Sergie\\Downloads\\plan.csv");
+        System.out.println(algo.get("TI2102").getRequisitos().get(0).getId());
+        //launch(args);
     }
 }

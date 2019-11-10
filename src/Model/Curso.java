@@ -5,28 +5,14 @@ import java.util.ArrayList;
 public class Curso {
     private String id;
     private String nombre;
-    private ArrayList<Curso> requisitos;
-    private ArrayList<Curso> corequisitos;
+    private ArrayList<Curso> requisitos = new ArrayList<>();
+    private ArrayList<Curso> corequisitos = new ArrayList<>();
+    private int creditos;
 
-    public Curso(String id, String nombre, ArrayList<Curso> requisitos, ArrayList<Curso> corequisitos) {
+    public Curso(String id, String nombre, int creditos) {
         this.id = id;
         this.nombre = nombre;
-        this.requisitos = requisitos;
-        this.corequisitos = corequisitos;
-    }
-
-    public Curso(String id, String nombre, ArrayList<Curso> requisitos) {
-        this.id = id;
-        this.nombre = nombre;
-        this.requisitos = requisitos;
-        this.corequisitos = new ArrayList();
-    }
-
-    public Curso(String id, String nombre) {
-        this.id = id;
-        this.nombre = nombre;
-        this.requisitos = new ArrayList();
-        this.corequisitos = new ArrayList();
+        this.creditos=creditos;
     }
 
 
@@ -46,19 +32,27 @@ public class Curso {
         this.nombre = nombre;
     }
 
-    public ArrayList<Curso> getRequisito() {
+    public ArrayList<Curso> getRequisitos() {
         return requisitos;
     }
 
-    public void setRequisito(ArrayList<Curso> requisito) {
+    public void setRequisitos(ArrayList<Curso> requisito) {
         this.requisitos = requisito;
     }
 
-    public ArrayList<Curso> getCorequisito() {
+    public ArrayList<Curso> getCorequisitos() {
         return corequisitos;
     }
 
-    public void setCorequisito(ArrayList<Curso> corequisito) {
+    public void setCorequisitos(ArrayList<Curso> corequisito) {
         this.corequisitos = corequisito;
+    }
+
+    public void addRequisito(Curso requisito){
+        this.requisitos.add(requisito);
+    }
+
+    public void addCorequisito(Curso corequisito){
+        this.corequisitos.add(corequisito);
     }
 }
