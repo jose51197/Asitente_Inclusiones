@@ -42,7 +42,8 @@ public class MainWindow {
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initStyle(StageStyle.UNIFIED);
-            stage.setTitle("Configuración");
+            System.out.println("Here");
+            stage.setTitle("Solicitud de inclusión");
             stage.setScene(new Scene(root1));
             stage.show();
         }  catch (IOException e){

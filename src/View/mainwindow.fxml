@@ -47,7 +47,7 @@
             <Label text="Filtrado: " />
             <RadioButton mnemonicParsing="false" text="Estudiantes" />
             <RadioButton mnemonicParsing="false" text="Cursos" />
-            <Button mnemonicParsing="false" text="Temporal" />
+            <Button mnemonicParsing="false" onAction="#abrirSolicitud" text="Temporal" />
          </children></HBox>
       <ListView prefHeight="400.0" prefWidth="200.0" />
    </children>

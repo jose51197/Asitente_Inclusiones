@@ -32,6 +32,6 @@ public class Main extends Application {
         System.out.printf( estudiantes.get(2).getCursosActuales().get(0).getNombre());*/
 
 
-        //launch(args);
+        launch(args);
     }
 }
