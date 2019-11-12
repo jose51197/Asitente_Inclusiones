@@ -1,5 +1,6 @@
 package sample;
 
+import Model.*;
 import Data.ResultPDF;
 import Model.Aula;
 import Model.Grupo;
