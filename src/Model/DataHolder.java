@@ -1,5 +1,6 @@
 package Model;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -75,5 +76,15 @@ public class DataHolder {
 
     public void setInclusiones(ArrayList<Inclusion> inclusiones) {
         this.inclusiones = inclusiones;
+    }
+
+    public void guardar() throws IOException {
+        Serializator serializator= new Serializator();
+        serializator.serializeObject(malla,"malla");
+        serializator.serializeObject(estudiantes,"estudiantes");
+        serializator.serializeObject(aulas,"aulas");
+        serializator.serializeObject(grupos,"grupos");
+        serializator.serializeObject(inclusiones,"inclusiones");
+        serializator.serializeObject(inclusionesMap,"inclusionesMap");
     }
 }

@@ -1,7 +1,6 @@
 package sample;
 
 import Controllers.CargadorArchivos;
-import Data.ResultPDF;
 import Model.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -10,12 +9,11 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.*;
-import java.util.*;
-
 
 
 public class Main extends Application {
     private static DataHolder dataHolder= DataHolder.getInstance();
+    private static CargadorArchivos cargadorArchivos= new CargadorArchivos();
     Email email = Email.getInstance();
 
     @Override
@@ -53,12 +51,13 @@ public class Main extends Application {
 
     }
 
-    public static void main(String[] args) throws IOException {
-        CargadorArchivos cargadorArchivos= new CargadorArchivos();
+    public static void main(String[] args) throws Exception {
+
         //descomentar lo de abajo si no hay .ser
         cargadorArchivos.cargarNuevosDatos("plan.csv","rn.csv","aulas.csv","grupos.csv");
         cargadorArchivos.cargarInclusiones("inclusiones.csv");
-        //cargadorArchivos.cargarDatos();
+        cargadorArchivos.cargarDatos();
+        dataHolder.guardar();
         pruebasJose();
         pruebasSergie();
         //pruebasOscar();
