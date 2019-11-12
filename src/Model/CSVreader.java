@@ -121,4 +121,48 @@ public class CSVreader {
         }
         return result;
     }
+
+    public ArrayList<Inclusion> getInclusiones(String filepath, Map<String,Grupo> grupos,Map<Integer, Estudiante> estudiantes,Map<Integer, ArrayList<Inclusion>> inclusionesEstudianteMap ) throws IOException {
+        ArrayList<ArrayList<String>> data= readFiles(filepath);
+        data.remove(0);
+        ArrayList<Inclusion>  result = new ArrayList<> ();
+        for(ArrayList<String> row :data){
+            try{
+                Estudiante e= estudiantes.get(Integer.valueOf(row.get(2)));
+                //validar pin WIP
+                if(e== null){
+                    System.out.println("estudiante no existe");
+                }
+                else{
+                    String[] datosCurso=row.get(6).split(" - ");
+                    Grupo g = grupos.get(datosCurso[1]+datosCurso[0]);
+                    if(g== null){
+                        System.out.println("grupo no existe");
+                    }
+                    else{
+                        boolean planB = (row.get(7).equals("Si"));
+                        e.setNombre(row.get(4));
+                        e.setEmail(row.get(1));
+                        e.setPhone(Integer.valueOf(row.get(5)));
+                        Inclusion nuevaInclusion= new Inclusion(planB, g,e,row.get(8),row.get(1));
+                        result.add(nuevaInclusion);
+                        ArrayList<Inclusion> inclusionesEstudiante;
+                        if(inclusionesEstudianteMap.containsKey(e.getCarnet())){
+                            inclusionesEstudiante=inclusionesEstudianteMap.get(e.getCarnet());
+                            inclusionesEstudiante.add(nuevaInclusion);
+                        }
+                        else{
+                            inclusionesEstudiante= new ArrayList<>();
+                            inclusionesEstudiante.add(nuevaInclusion);
+                            inclusionesEstudianteMap.put(e.getCarnet(),inclusionesEstudiante);
+                        }
+                    }
+                }
+            }
+            catch (Exception e){
+                System.out.println("Datos Invalidos");
+            }
+        }
+        return result;
+    }
 }
