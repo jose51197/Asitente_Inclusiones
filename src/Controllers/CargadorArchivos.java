@@ -38,7 +38,19 @@ public class CargadorArchivos {
         }
         try{
             dataHolder.setInclusiones((ArrayList<Inclusion>) serializator.deserializeObject("inclusiones"));
-            dataHolder.setInclusionesMap((Map)serializator.deserializeObject("inclusionesMap"));
+            for(Inclusion inclusion: dataHolder.getInclusiones()){
+                ArrayList<Inclusion> inclusionesEstudiante;
+                Map <Integer,ArrayList<Inclusion>>inclusionesEstudianteMap = dataHolder.getInclusionesMap();
+                if(inclusionesEstudianteMap.containsKey(inclusion.getEstudiante().getCarnet())){
+                    inclusionesEstudiante=inclusionesEstudianteMap.get(inclusion.getEstudiante().getCarnet());
+                    inclusionesEstudiante.add(inclusion);
+                }
+                else{
+                    inclusionesEstudiante= new ArrayList<>();
+                    inclusionesEstudiante.add(inclusion);
+                    inclusionesEstudianteMap.put(inclusion.getEstudiante().getCarnet(),inclusionesEstudiante);
+                }
+            }
         }
         catch (Exception e){
             System.out.printf("Datos Corruptos");

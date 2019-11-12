@@ -54,9 +54,14 @@ public class Main extends Application {
     public static void main(String[] args) throws Exception {
 
         //descomentar lo de abajo si no hay .ser
-        cargadorArchivos.cargarNuevosDatos("plan.csv","rn.csv","aulas.csv","grupos.csv");
-        cargadorArchivos.cargarInclusiones("inclusiones.csv");
+        //cargadorArchivos.cargarNuevosDatos("plan.csv","rn.csv","aulas.csv","grupos.csv");
+        //cargadorArchivos.cargarInclusiones("inclusiones.csv");
         cargadorArchivos.cargarDatos();
+        System.out.println(dataHolder.getInclusiones().get(0).getMateria());
+        System.out.println(dataHolder.getInclusionesMap().get(2016157695).get(0).getMateria());
+        if(dataHolder.getInclusiones().get(0)==dataHolder.getInclusionesMap().get(2016157695).get(0)){
+            System.out.printf("son iguales");
+        }
         dataHolder.guardar();
         pruebasJose();
         pruebasSergie();
