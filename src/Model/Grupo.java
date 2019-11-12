@@ -1,6 +1,8 @@
 package Model;
 
-public class Grupo {
+import java.io.Serializable;
+
+public class Grupo implements Serializable {
     private int numGrupo;
     private String horarios;
     private String profesor;

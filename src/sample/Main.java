@@ -8,7 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 public class Main extends Application {
@@ -26,7 +26,7 @@ public class Main extends Application {
         CSVreader r= new CSVreader();
 
         //pruebas de funcionamiento de los diccionarios;
-        Map<String, Curso> malla=r.getMalla_Curricular("C:\\Users\\sergi\\Desktop\\plan.csv");
+        /*Map<String, Curso> malla=r.getMalla_Curricular("C:\\Users\\sergi\\Desktop\\plan.csv");
         Map<Integer, Estudiante> estudiantes=r.getEstudiantes("C:\\Users\\sergi\\Desktop\\rn.csv",malla);
         Map<String, Aula> aulas = r.getAulas("C:\\Users\\sergi\\Desktop\\aulas.csv");
         Map<String, Grupo> grupos= r.getGrupos("C:\\Users\\sergi\\Desktop\\grupos.csv",malla,aulas);
@@ -35,8 +35,42 @@ public class Main extends Application {
         estudiantes.put(2016138296,sergie);
         estudiantes.put(2016157695,jose);
         Map <Integer,ArrayList<Inclusion>> inclusionesMap= new HashMap<Integer, ArrayList<Inclusion>>();
-        ArrayList<Inclusion> inclusions = r.getInclusiones("C:\\Users\\sergi\\Desktop\\inclusiones.csv",grupos,estudiantes,inclusionesMap);
-        System.out.println(inclusions.get(1).getEstudiante().getEmail());
+        ArrayList<Inclusion> inclusiones = r.getInclusiones("C:\\Users\\sergi\\Desktop\\inclusiones.csv",grupos,estudiantes,inclusionesMap);
+        try {
+            FileOutputStream fileOut = new FileOutputStream("C:\\Users\\sergi\\Desktop\\plan.ser");
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(malla);
+            out.close();
+            fileOut.close();
+            fileOut = new FileOutputStream("C:\\Users\\sergi\\Desktop\\estudiantes.ser");
+            out = new ObjectOutputStream(fileOut);
+            out.writeObject(estudiantes);
+            out.close();
+            fileOut.close();
+            fileOut = new FileOutputStream("C:\\Users\\sergi\\Desktop\\aulas.ser");
+            out = new ObjectOutputStream(fileOut);
+            out.writeObject(aulas);
+            out.close();
+            fileOut.close();
+            fileOut = new FileOutputStream("C:\\Users\\sergi\\Desktop\\grupos.ser");
+            out = new ObjectOutputStream(fileOut);
+            out.writeObject(grupos);
+            out.close();
+            fileOut.close();
+            fileOut = new FileOutputStream("C:\\Users\\sergi\\Desktop\\inclusionesMap.ser");
+            out = new ObjectOutputStream(fileOut);
+            out.writeObject(inclusionesMap);
+            out.close();
+            fileOut.close();
+            fileOut = new FileOutputStream("C:\\Users\\sergi\\Desktop\\inclusiones.ser");
+            out = new ObjectOutputStream(fileOut);
+            out.writeObject(inclusiones);
+            out.close();
+            fileOut.close();
+        } catch (IOException i) {
+            i.printStackTrace();
+        }*/
+
         //ResultPDF resultPDF = new ResultPDF();
         //resultPDF.write();
         launch(args);
