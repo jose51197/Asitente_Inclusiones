@@ -25,7 +25,7 @@
                      <Font size="18.0" />
                   </font>
                </Label>
-               <ComboBox prefHeight="25.0" prefWidth="206.0" />
+               <ComboBox fx:id="combo_Aulas" prefHeight="25.0" prefWidth="206.0" />
                <Separator prefWidth="200.0" />
                     <Label prefHeight="27.0" prefWidth="60.0" text="Aula: ">
                         <padding>
