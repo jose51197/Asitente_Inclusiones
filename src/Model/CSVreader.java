@@ -97,4 +97,28 @@ public class CSVreader {
         }
         return result;
     }
+
+    public Map<String, Aula> getAulas(String filepath) throws IOException {
+        ArrayList<ArrayList<String>> data= readFiles(filepath);
+        data.remove(0);
+        Map<String, Aula>  result = new HashMap<String, Aula> ();
+        for(ArrayList<String> row :data){
+            Aula aula= new Aula(row.get(0),Integer.valueOf(row.get(1)),Integer.valueOf(row.get(1))-Integer.valueOf(row.get(2)));
+            result.put(row.get(0),aula);
+        }
+        return result;
+    }
+
+    public Map<String, Grupo> getGrupos(String filepath, Map<String,Curso> malla, Map<String,Aula> aulas ) throws IOException {
+        ArrayList<ArrayList<String>> data= readFiles(filepath);
+        data.remove(0);
+        Map<String, Grupo>  result = new HashMap<String, Grupo> ();
+        for(ArrayList<String> row :data){
+            Aula aula=aulas.get(row.get(4));
+            Curso curso = malla.get(row.get(0));
+            Grupo grupo= new Grupo(Integer.valueOf(row.get(1)),row.get(3),row.get(2), aula,curso);
+            result.put("GR"+row.get(1)+curso.getId(),grupo);
+        }
+        return result;
+    }
 }

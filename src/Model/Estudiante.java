@@ -9,6 +9,7 @@ public class Estudiante{
     private String email="";
     private int phone=0;
     private boolean rn;
+    private int  pin;
     private ArrayList<Curso> cursosActuales= new ArrayList<>();
 
     public Estudiante(int carnet, String nombre, String email, int phone) {
@@ -17,6 +18,7 @@ public class Estudiante{
         this.email = email;
         this.phone = phone;
         this.rn=false;
+        this.pin=0;
     }
 
     public Estudiante(int carnet) {
@@ -77,5 +79,12 @@ public class Estudiante{
         this.rn = rn;
     }
 
+    public int getPin() {
+        return pin;
+    }
+
+    public void setPin(int pin) {
+        this.pin = pin;
+    }
 }
 
