@@ -12,6 +12,7 @@
                 <Menu mnemonicParsing="false" text="Inicio">
                   <items>
                     <MenuItem mnemonicParsing="false" text="Close" />
+                        <MenuItem mnemonicParsing="false" onAction="#enviarCorreos" text="Enviar Correos" />
                   </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Configuración">

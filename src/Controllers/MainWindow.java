@@ -1,6 +1,8 @@
 package Controllers;
 
 import Model.DataHolder;
+import Model.Email;
+import Model.EstadoInclusion;
 import Model.Inclusion;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -19,6 +21,7 @@ import javafx.stage.StageStyle;
 import javafx.util.Callback;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class MainWindow {
     @FXML Menu btn_abrirConfig;
@@ -150,4 +153,24 @@ public class MainWindow {
         }
     }
 
+    public void enviarCorreos(ActionEvent actionEvent) {
+        ArrayList<Inclusion> inclusiones = DataHolder.getInstance().getInclusiones();
+        Email email =Email.getInstance();
+        Thread thread = new Thread(){
+            public void run(){
+                for(Inclusion inclusion:inclusiones){
+                    if(inclusion.getEstado()!= EstadoInclusion.EN_PROCESO){
+                        email.sendEmail(inclusion.getCorreo(),"Resultado de inclusion "+
+                                        inclusion.getGrupo().getCurso().getNombre() + " GR "+ inclusion.getGrupo().getNumGrupo(),
+                                "El resultado de la inclusion es: "+inclusion.getEstado().toString());
+                    }
+                }
+            }
+        };
+
+        thread.start();
+
+
+
+    }
 }

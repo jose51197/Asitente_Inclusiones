@@ -76,6 +76,10 @@ public class Inclusion implements Serializable {
         this.comentarioAdmin = comentarioAdmin;
     }
 
+    public String getCorreo() {
+        return correo;
+    }
+
     //FUNCIONES para mostrar NO TOCAR
     public String getNombre(){
         return estudiante.getNombre();
