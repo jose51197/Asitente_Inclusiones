@@ -31,9 +31,9 @@
       </SplitPane>
       <TableView fx:id="tablaInclusiones" VBox.vgrow="ALWAYS">
         <columns>
-          <TableColumn prefWidth="431.0" text="Nombre" />
-            <TableColumn minWidth="1.0" prefWidth="360.0" text="Materia" />
-          <TableColumn prefWidth="108.0" text="Estado" />
+          <TableColumn fx:id="cNombre" prefWidth="431.0" text="Nombre" />
+            <TableColumn fx:id="cMateria" minWidth="1.0" prefWidth="360.0" text="Materia" />
+          <TableColumn fx:id="cEstado" prefWidth="108.0" text="Estado" />
         </columns>
       </TableView>
    </children>

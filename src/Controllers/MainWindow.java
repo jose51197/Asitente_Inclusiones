@@ -2,6 +2,8 @@ package Controllers;
 
 import Model.DataHolder;
 import Model.Inclusion;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,7 +11,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -19,10 +23,11 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class MainWindow {
-    @FXML
-    Button btn_abrirConfig;
-    @FXML
-    TableView tablaInclusiones;
+    @FXML Button btn_abrirConfig;
+    @FXML TableView tablaInclusiones;
+    @FXML TableColumn cNombre;
+    @FXML TableColumn cMateria;
+    @FXML TableColumn cEstado;
 
     public void abrirConfiguracion()  {
 
@@ -61,16 +66,13 @@ public class MainWindow {
     }
 
     public void cargarInclusiones(){
-        ArrayList<Inclusion> inclusiones = DataHolder.getInstance().getInclusiones();
-
-        for (Inclusion inclusion: inclusiones) {
-            //tablaInclusiones.getItems().add(inclusion);
-            System.out.println("Si me llaman");
-        }
-        
+        cNombre.setCellValueFactory(new PropertyValueFactory<>("Nombre"));
+        cMateria.setCellValueFactory(new PropertyValueFactory<>("Materia"));
+        cEstado.setCellValueFactory(new PropertyValueFactory<>("EstadoString"));
+        ObservableList<Inclusion> inclusiones = FXCollections.observableArrayList(DataHolder.getInstance().getInclusiones());
+        tablaInclusiones.setItems(inclusiones);
     }
-
-    public MainWindow() {
+    public void initialize(){
         cargarInclusiones();
     }
 }
