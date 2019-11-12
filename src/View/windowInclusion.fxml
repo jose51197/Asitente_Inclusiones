@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="730.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.WindowInclusion">
+   <children>
+      <Label fx:id="lnombre" layoutX="14.0" layoutY="14.0" text="Nombre">
+         <font>
+            <Font size="20.0" />
+         </font></Label>
+      <Label fx:id="lcarnet" layoutX="509.0" layoutY="14.0" text="Carnet">
+         <font>
+            <Font size="20.0" />
+         </font></Label>
+      <Label layoutX="14.0" layoutY="98.0" text="Inclusiones">
+         <font>
+            <Font size="16.0" />
+         </font></Label>
+      <Button layoutX="526.0" layoutY="146.0" mnemonicParsing="false" onAction="#izquierda" text="&lt;" />
+      <Button layoutX="586.0" layoutY="146.0" mnemonicParsing="false" onAction="#derecha" text="&gt;" />
+      <Label fx:id="lcantidad" layoutX="562.0" layoutY="150.0" text="#" />
+      <TabPane fx:id="tabInclusiones" layoutX="10.0" layoutY="186.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" tabClosingPolicy="UNAVAILABLE" tabMaxHeight="1.7" tabMaxWidth="1.7" tabMinHeight="1.0" tabMinWidth="1.0" />
+      <Label fx:id="lrn" layoutX="512.0" layoutY="44.0" text="RN" />
+   </children>
+</AnchorPane>
