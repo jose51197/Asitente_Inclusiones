@@ -11,4 +11,13 @@ public class Horario {
         this.dia = dia;
         this.horas = horas;
     }
+
+    @Override
+    public String toString() {
+        return "Horario{" +
+                "aula=" + aula +
+                ", dia='" + dia + '\'' +
+                ", horas='" + horas + '\'' +
+                '}';
+    }
 }

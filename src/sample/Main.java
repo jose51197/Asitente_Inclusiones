@@ -34,7 +34,13 @@ public class Main extends Application {
         dataHolder.setMalla(r.getMalla_Curricular("plan.csv"));
         dataHolder.setEstudiantes(r.getEstudiantes("rn.csv",dataHolder.getMalla()));
         dataHolder.setAulas(r.getAulas("aulas.csv"));
-        dataHolder.setGrupos(r.getGrupos("grupos.csv",dataHolder.getMalla(),dataHolder.getAulas()));
+        //dataHolder.setGrupos(r.getGrupos("grupos.csv",dataHolder.getMalla(),dataHolder.getAulas()));
+        dataHolder.setGrupos(r.getGrupos_Aulas("grupos-horario-fixed.csv",dataHolder.getMalla(),dataHolder.getAulas()));
+
+        for (Grupo grupo : dataHolder.getGrupos().values()){
+            System.out.println(grupo.toString());
+        }
+
         Estudiante sergie = new Estudiante(2016138296, "Sergie Salas Rojas", "Sergie98@gmail.com", 87764520) ;
         Estudiante jose = new Estudiante(2016157695, "Jose Gonzalez Alvarado", "jose51197@hotmail.com", 71085654) ;
         dataHolder.getEstudiantes().put(2016138296,sergie);
