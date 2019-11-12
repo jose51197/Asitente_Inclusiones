@@ -11,6 +11,8 @@ import javafx.stage.Stage;
 import java.io.*;
 import java.util.*;
 
+
+
 public class Main extends Application {
     Email email = Email.getInstance();
     @Override
@@ -21,11 +23,16 @@ public class Main extends Application {
         primaryStage.show();
     }
 
+    public static void pruebasJose(){
 
-    public static void main(String[] args) throws IOException {
+    }
+
+    public static void pruebasOscar(){
+
+    }
+
+    public static void pruebasSergie() throws IOException {
         CSVreader r= new CSVreader();
-
-        //pruebas de funcionamiento de los diccionarios;
         Map<String, Curso> malla=r.getMalla_Curricular("plan.csv");
         Map<Integer, Estudiante> estudiantes=r.getEstudiantes("rn.csv",malla);
         Map<String, Aula> aulas = r.getAulas("aulas.csv");
@@ -115,8 +122,18 @@ public class Main extends Application {
             c.printStackTrace();
             return;
         }*/
+    }
+
+    public static void main(String[] args) throws IOException {
+        pruebasJose();
+        pruebasSergie();
+        pruebasOscar();
+        //pruebas de funcionamiento de los diccionarios;
+
         //ResultPDF resultPDF = new ResultPDF();
         //resultPDF.write();
         launch(args);
     }
+
+
 }
