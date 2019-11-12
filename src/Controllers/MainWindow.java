@@ -46,7 +46,7 @@ public class MainWindow {
     public void alertMe(){
         Alert a = new Alert(Alert.AlertType.NONE);
         a.setAlertType(Alert.AlertType.ERROR);
-
+        a.setContentText("La 4t temporada de Rick and Morty pinta bien.");
         // show the dialog
         a.show();
     }
@@ -92,6 +92,7 @@ public class MainWindow {
         cNombre.setCellValueFactory(new PropertyValueFactory<>("Nombre"));
         cMateria.setCellValueFactory(new PropertyValueFactory<>("Materia"));
         cEstado.setCellValueFactory(new PropertyValueFactory<>("EstadoString"));
+
 
         ObservableList<Inclusion> inclusiones = FXCollections.observableArrayList(DataHolder.getInstance().getInclusiones());
         System.out.println(inclusiones.size());
