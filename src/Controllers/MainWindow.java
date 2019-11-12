@@ -71,9 +71,10 @@ public class MainWindow {
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initStyle(StageStyle.UNIFIED);
-            System.out.println("Here");
-            stage.setTitle("Solicitud de inclusión");
+            stage.setTitle("Administrador  de aula");
             stage.setScene(new Scene(root1));
+            stage.setMaxHeight(600);
+            stage.setMaxWidth(800);
             stage.show();
         }  catch (IOException e){
             System.out.println(e.toString());

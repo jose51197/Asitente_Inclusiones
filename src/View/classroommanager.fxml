@@ -1,14 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="Controllers.ClassroomManager"
-            prefHeight="400.0" prefWidth="600.0">
+<AnchorPane maxHeight="600.0" maxWidth="800" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.ClassroomManager">
+    <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <children>
+            <HBox prefHeight="42.0" prefWidth="900.0">
+                <children>
+               <Label prefHeight="27.0" prefWidth="158.0" text="Aulas registradas: " textAlignment="RIGHT">
+                  <padding>
+                     <Insets left="10.0" />
+                  </padding>
+                  <font>
+                     <Font size="18.0" />
+                  </font>
+               </Label>
+               <ComboBox prefHeight="25.0" prefWidth="206.0" />
+               <Separator prefWidth="200.0" />
+                    <Label prefHeight="27.0" prefWidth="60.0" text="Aula: ">
+                        <padding>
+                            <Insets left="10.0" />
+                        </padding>
+                        <font>
+                            <Font size="18.0" />
+                        </font>
+                    </Label>
+                    <Label prefHeight="27.0" prefWidth="113.0" text="Capacidad: ">
+                        <padding>
+                            <Insets left="10.0" />
+                        </padding>
+                        <font>
+                            <Font size="18.0" />
+                        </font>
+                    </Label>
+                </children>
+            <padding>
+               <Insets top="10.0" />
+            </padding>
+            </HBox>
+         <TableView prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+           <columns>
+               <TableColumn prefWidth="75.0" sortable="false" text="Horario" />
+             <TableColumn id="cLunes" prefWidth="75.0" sortable="false" text="Lunes" />
+             <TableColumn id="cMartes" prefWidth="75.0" sortable="false" text="Martes" />
+               <TableColumn id="cMiercoles" prefWidth="75.0" sortable="false" text="Miércoles" />
+               <TableColumn id="cJueves" prefWidth="75.0" sortable="false" text="Jueves" />
+               <TableColumn id="cViernes" prefWidth="75.0" sortable="false" text="Viernes" />
+               <TableColumn id="cSabado" prefWidth="75.0" sortable="false" text="Sábado" />
+           </columns>
+         </TableView>
+        </children>
+    </VBox>
 
 </AnchorPane>
