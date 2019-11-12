@@ -80,5 +80,7 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="javax.mail" level="project" />
+    <orderEntry type="library" name="pdfbox-app-1.8.16" level="project" />
+    <orderEntry type="library" name="javax.mail1" level="project" />
   </component>
 </module>

@@ -1,5 +1,6 @@
 package sample;
 
+import Data.ResultPDF;
 import Model.Aula;
 import Model.Grupo;
 import Model.CSVreader;
@@ -33,7 +34,8 @@ public class Main extends Application {
         Map<Integer, Estudiante> estudiantes=r.getEstudiantes("C:\\Users\\sergi\\Desktop\\rn.csv",malla);
         Map<String, Aula> aulas = r.getAulas("C:\\Users\\sergi\\Desktop\\aulas.csv");
         Map<String, Grupo> grupos= r.getGrupos("C:\\Users\\sergi\\Desktop\\grupos.csv",malla,aulas);*/
-
+        ResultPDF resultPDF = new ResultPDF();
+        resultPDF.write();
         launch(args);
     }
 }
