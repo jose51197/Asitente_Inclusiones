@@ -12,7 +12,7 @@ import java.io.*;
 import java.util.*;
 
 public class Main extends Application {
-
+    Email email = Email.getInstance();
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("../View/mainwindow.fxml"));
