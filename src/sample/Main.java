@@ -16,6 +16,7 @@ import java.util.*;
 public class Main extends Application {
     private static DataHolder dataHolder= DataHolder.getInstance();
     Email email = Email.getInstance();
+
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("../View/mainwindow.fxml"));
@@ -28,8 +29,17 @@ public class Main extends Application {
 
     }
 
-    public static void pruebasOscar(){
-
+    public static void pruebasOscar() throws IOException {
+        CSVreader r= new CSVreader();
+        dataHolder.setMalla(r.getMalla_Curricular("plan.csv"));
+        dataHolder.setEstudiantes(r.getEstudiantes("rn.csv",dataHolder.getMalla()));
+        dataHolder.setAulas(r.getAulas("aulas.csv"));
+        dataHolder.setGrupos(r.getGrupos("grupos.csv",dataHolder.getMalla(),dataHolder.getAulas()));
+        Estudiante sergie = new Estudiante(2016138296, "Sergie Salas Rojas", "Sergie98@gmail.com", 87764520) ;
+        Estudiante jose = new Estudiante(2016157695, "Jose Gonzalez Alvarado", "jose51197@hotmail.com", 71085654) ;
+        dataHolder.getEstudiantes().put(2016138296,sergie);
+        dataHolder.getEstudiantes().put(2016157695,jose);
+        dataHolder.setInclusiones(r.getInclusiones("inclusiones.csv",dataHolder.getGrupos(),dataHolder.getEstudiantes(),dataHolder.getInclusionesMap()));
     }
 
     public static void pruebasSergie() throws IOException {
