@@ -1,10 +1,6 @@
 package sample;
 
-import Model.Aula;
-import Model.Grupo;
-import Model.CSVreader;
-import Model.Curso;
-import Model.Estudiante;
+import Model.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -15,7 +11,7 @@ import java.io.IOException;
 import java.util.Map;
 
 public class Main extends Application {
-
+    Email email=Email.getInstance();
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("../View/mainwindow.fxml"));
@@ -27,6 +23,12 @@ public class Main extends Application {
 
     public static void main(String[] args) throws IOException {
         CSVreader r= new CSVreader();
+
+
+        //for(int i=0;i<10;i++){
+        //    System.out.println(email.sendEmail ("sergie98@gmail.com","Test2"+i,"Inclusion de algo lel"));
+        //}
+
 
         //pruebas de funcionamiento de los diccionarios;
         /*Map<String, Curso> malla=r.getMalla_Curricular("C:\\Users\\sergi\\Desktop\\plan.csv");
