@@ -2,6 +2,7 @@ package Controllers;
 
 import Model.DataHolder;
 import Model.Inclusion;
+import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,6 +23,8 @@ public class WindowInclusion {
     @FXML Label lnombre;
     @FXML TabPane tabInclusiones;
     private int carnet;
+    private int selected=0;
+    private int total=1;
 
     public void iniciar(int carnet, Inclusion i) {
         this.carnet = carnet;
@@ -42,6 +45,7 @@ public class WindowInclusion {
                 if (inclusion==i){
                     continue;
                 }
+                this.total+=1;
                 Tab tab = new Tab();
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/viewInclusion.fxml"));
                 tab.setContent(loader.load());
@@ -62,6 +66,7 @@ public class WindowInclusion {
             lrn.setText("RN: NO");
             lrn.setTextFill(Color.BLUE);
         }
+        lcantidad.setText(String.valueOf(selected+1)+"/"+ String.valueOf(total));
 
 
     }
@@ -71,9 +76,18 @@ public class WindowInclusion {
     }
 
     public void izquierda(ActionEvent actionEvent) {
-
+        if(selected>0){
+            selected-=1;
+            tabInclusiones.getSelectionModel().select(selected);
+        }
+        lcantidad.setText(String.valueOf(selected+1)+"/"+ String.valueOf(total));
     }
 
     public void derecha(ActionEvent actionEvent) {
+        if(selected<total){
+            selected+=1;
+            tabInclusiones.getSelectionModel().select(selected);
+        }
+        lcantidad.setText(String.valueOf(selected+1)+"/"+ String.valueOf(total));
     }
 }

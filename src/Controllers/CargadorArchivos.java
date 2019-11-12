@@ -10,6 +10,7 @@ public class CargadorArchivos {
     private CSVreader reader= new CSVreader();
     private DataHolder dataHolder = DataHolder.getInstance();
     private Serializator serializator= new Serializator();
+    private int selected=0;
 
 
     public void cargarNuevosDatos(String pathMalla,String pathRN, String pathAulas, String pathGrupos) throws IOException {
