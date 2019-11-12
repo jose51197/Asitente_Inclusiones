@@ -57,6 +57,11 @@ public class Main extends Application {
         CargadorArchivos cargadorArchivos= new CargadorArchivos();
         //descomentar lo de abajo si no hay .ser
         cargadorArchivos.cargarNuevosDatos("plan.csv","rn.csv","aulas.csv","grupos.csv");
+        Estudiante sergie = new Estudiante(2016138296, "Sergie Salas Rojas", "Sergie98@gmail.com", 87764520) ;
+        Estudiante jose = new Estudiante(2016157695, "Jose Gonzalez Alvarado", "jose51197@hotmail.com", 71085654) ;
+        dataHolder.getEstudiantes().put(2016138296,sergie);
+        dataHolder.getEstudiantes().put(2016157695,jose);
+        cargadorArchivos.cargarInclusiones("inclusiones.csv");
         //cargadorArchivos.cargarDatos();
         pruebasJose();
         pruebasSergie();
