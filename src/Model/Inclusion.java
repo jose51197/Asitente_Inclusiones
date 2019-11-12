@@ -8,14 +8,16 @@ public class Inclusion {
     private Estudiante estudiante;
     private String detalle;
     private String comentarioAdmin="";
+    private String correo="";
 
 
-    public Inclusion(boolean planB, Grupo grupo, EstadoInclusion estado, Estudiante estudiante, String detalle) {
+    public Inclusion(boolean planB, Grupo grupo,  Estudiante estudiante, String detalle, String correo) {
         this.planB = planB;
         this.grupo = grupo;
-        this.estado = estado;
+        this.estado = EstadoInclusion.EN_PROCESO;
         this.estudiante = estudiante;
         this.detalle=detalle;
+        this.correo=correo;
     }
 
     public boolean isPlanB() {
