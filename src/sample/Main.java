@@ -14,6 +14,7 @@ import java.util.*;
 
 
 public class Main extends Application {
+    private static DataHolder dataHolder= DataHolder.getInstance();
     Email email = Email.getInstance();
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -38,16 +39,15 @@ public class Main extends Application {
     public static void main(String[] args) throws IOException {
 
         CSVreader r= new CSVreader();
-        Map<String, Curso> malla=r.getMalla_Curricular("plan.csv");
-        Map<Integer, Estudiante> estudiantes=r.getEstudiantes("rn.csv",malla);
-        Map<String, Aula> aulas = r.getAulas("aulas.csv");
-        Map<String, Grupo> grupos= r.getGrupos("grupos.csv",malla,aulas);
+        dataHolder.setMalla(r.getMalla_Curricular("plan.csv"));
+        dataHolder.setEstudiantes(r.getEstudiantes("rn.csv",dataHolder.getMalla()));
+        dataHolder.setAulas(r.getAulas("aulas.csv"));
+        dataHolder.setGrupos(r.getGrupos("grupos.csv",dataHolder.getMalla(),dataHolder.getAulas()));
         Estudiante sergie = new Estudiante(2016138296, "Sergie Salas Rojas", "Sergie98@gmail.com", 87764520) ;
         Estudiante jose = new Estudiante(2016157695, "Jose Gonzalez Alvarado", "jose51197@hotmail.com", 71085654) ;
-        estudiantes.put(2016138296,sergie);
-        estudiantes.put(2016157695,jose);
-        Map <Integer,ArrayList<Inclusion>> inclusionesMap= new HashMap<Integer, ArrayList<Inclusion>>();
-        ArrayList<Inclusion> inclusiones = r.getInclusiones("inclusiones.csv",grupos,estudiantes,inclusionesMap);
+        dataHolder.getEstudiantes().put(2016138296,sergie);
+        dataHolder.getEstudiantes().put(2016157695,jose);
+        dataHolder.setInclusiones(r.getInclusiones("inclusiones.csv",dataHolder.getGrupos(),dataHolder.getEstudiantes(),dataHolder.getInclusionesMap()));
 
         pruebasJose();
         pruebasSergie();

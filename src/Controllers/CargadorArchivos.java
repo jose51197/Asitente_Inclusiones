@@ -10,6 +10,8 @@ public class CargadorArchivos {
     private CSVreader reader= new CSVreader();
 
     void serializeObject( Object object){
+
+
         /*try {
             FileOutputStream fileOut = new FileOutputStream("plan.ser");
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
