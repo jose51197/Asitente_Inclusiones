@@ -1,17 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.RadioButton?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<VBox prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.MainWindow">
+<VBox prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.MainWindow">
    <children>
       <MenuBar>
         <menus>
@@ -32,23 +24,7 @@
           </Menu>
         </menus>
       </MenuBar>
-      <Label text="Estadisticas generales" />
-      <HBox prefHeight="35.0" prefWidth="600.0">
-         <children>
-            <Label text="Inclusiones cargadas: " />
-            <Label text="Pendientes: " />
-            <Label text="Aceptadas: " />
-            <Label text="Rechazadas:" />
-         </children>
-      </HBox>
       <Separator orientation="VERTICAL" prefHeight="10.0" />
-      <HBox prefHeight="35.0" prefWidth="600.0">
-         <children>
-            <Label text="Filtrado: " />
-            <RadioButton mnemonicParsing="false" text="Estudiantes" />
-            <RadioButton mnemonicParsing="false" text="Cursos" />
-            <Button mnemonicParsing="false" onAction="#abrirSolicitud" text="Temporal" />
-         </children></HBox>
-      <ListView prefHeight="400.0" prefWidth="200.0" />
+      <ListView maxHeight="1.7976931348623157E308" prefWidth="900.0" VBox.vgrow="ALWAYS" />
    </children>
 </VBox>
