@@ -1,5 +1,6 @@
 package sample;
 
+import Controllers.CargadorArchivos;
 import Data.ResultPDF;
 import Model.*;
 import javafx.application.Application;
@@ -53,21 +54,13 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) throws IOException {
-
-        CSVreader r= new CSVreader();
-        dataHolder.setMalla(r.getMalla_Curricular("plan.csv"));
-        dataHolder.setEstudiantes(r.getEstudiantes("rn.csv",dataHolder.getMalla()));
-        dataHolder.setAulas(r.getAulas("aulas.csv"));
-        dataHolder.setGrupos(r.getGrupos("grupos.csv",dataHolder.getMalla(),dataHolder.getAulas()));
-        Estudiante sergie = new Estudiante(2016138296, "Sergie Salas Rojas", "Sergie98@gmail.com", 87764520) ;
-        Estudiante jose = new Estudiante(2016157695, "Jose Gonzalez Alvarado", "jose51197@hotmail.com", 71085654) ;
-        dataHolder.getEstudiantes().put(2016138296,sergie);
-        dataHolder.getEstudiantes().put(2016157695,jose);
-        dataHolder.setInclusiones(r.getInclusiones("inclusiones.csv",dataHolder.getGrupos(),dataHolder.getEstudiantes(),dataHolder.getInclusionesMap()));
-
+        CargadorArchivos cargadorArchivos= new CargadorArchivos();
+        //descomentar lo de abajo si no hay .ser
+        cargadorArchivos.cargarNuevosDatos("plan.csv","rn.csv","aulas.csv","grupos.csv");
+        //cargadorArchivos.cargarDatos();
         pruebasJose();
         pruebasSergie();
-        pruebasOscar();
+        //pruebasOscar();
 
         //ResultPDF resultPDF = new ResultPDF();
         //resultPDF.write();

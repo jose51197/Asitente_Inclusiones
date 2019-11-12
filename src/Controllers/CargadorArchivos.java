@@ -1,96 +1,84 @@
 package Controllers;
 
 import Model.CSVreader;
+import Model.DataHolder;
+import Model.Estudiante;
+import Model.Inclusion;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Map;
 
 public class CargadorArchivos {
     private CSVreader reader= new CSVreader();
+    private DataHolder dataHolder = DataHolder.getInstance();
 
-    void serializeObject( Object object){
-
-
-        /*try {
-            FileOutputStream fileOut = new FileOutputStream("plan.ser");
+    public void serializeObject( Object object, String name){
+        try {
+            FileOutputStream fileOut = new FileOutputStream(name+".ser");
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
-            out.writeObject(malla);
-            out.close();
-            fileOut.close();
-            fileOut = new FileOutputStream("estudiantes.ser");
-            out = new ObjectOutputStream(fileOut);
-            out.writeObject(estudiantes);
-            out.close();
-            fileOut.close();
-            fileOut = new FileOutputStream("aulas.ser");
-            out = new ObjectOutputStream(fileOut);
-            out.writeObject(aulas);
-            out.close();
-            fileOut.close();
-            fileOut = new FileOutputStream("grupos.ser");
-            out = new ObjectOutputStream(fileOut);
-            out.writeObject(grupos);
-            out.close();
-            fileOut.close();
-            fileOut = new FileOutputStream("inclusionesMap.ser");
-            out = new ObjectOutputStream(fileOut);
-            out.writeObject(inclusionesMap);
-            out.close();
-            fileOut.close();
-            fileOut = new FileOutputStream("inclusiones.ser");
-            out = new ObjectOutputStream(fileOut);
-            out.writeObject(inclusiones);
+            out.writeObject(object);
             out.close();
             fileOut.close();
         } catch (IOException i) {
             i.printStackTrace();
         }
-        /*Map<String, Curso> malla;
-        Map<Integer, Estudiante> estudiantes;
-        Map<String, Aula> aulas;
-        Map<String, Grupo> grupos;
-        Map <Integer,ArrayList<Inclusion>> inclusionesMap;
-        ArrayList<Inclusion> inclusiones;
+    }
+
+
+    public Object deserializeObject( String name){
+        Object object = null;
         try {
-            FileInputStream fileIn = new FileInputStream("plan.ser");
+            FileInputStream fileIn = new FileInputStream(name+".ser");
             ObjectInputStream in = new ObjectInputStream(fileIn);
-            malla = (Map<String, Curso>) in.readObject();
-            in.close();
-            fileIn.close();
-            fileIn = new FileInputStream("aulas.ser");
-            in = new ObjectInputStream(fileIn);
-            aulas = (Map<String, Aula>) in.readObject();
-            in.close();
-            fileIn.close();
-            fileIn = new FileInputStream("estudiantes.ser");
-            in = new ObjectInputStream(fileIn);
-            estudiantes = (Map<Integer, Estudiante> ) in.readObject();
-            in.close();
-            fileIn.close();
-            fileIn = new FileInputStream("grupos.ser");
-            in = new ObjectInputStream(fileIn);
-            grupos = (Map<String, Grupo>) in.readObject();
-            in.close();
-            fileIn.close();
-            fileIn = new FileInputStream("inclusionesMap.ser");
-            in = new ObjectInputStream(fileIn);
-            inclusionesMap = (Map <Integer,ArrayList<Inclusion>> ) in.readObject();
-            in.close();
-            fileIn.close();
-            fileIn = new FileInputStream("inclusiones.ser");
-            in = new ObjectInputStream(fileIn);
-            inclusiones = (ArrayList<Inclusion> ) in.readObject();
+            object = (Object) in.readObject();
             in.close();
             fileIn.close();
         } catch (IOException i) {
             i.printStackTrace();
-            return;
         } catch (ClassNotFoundException c) {
             System.out.println("Employee class not found");
             c.printStackTrace();
-            return;
-        }*/
+        }
+        return object;
     }
+
+    public void cargarNuevosDatos(String pathMalla,String pathRN, String pathAulas, String pathGrupos) throws IOException {
+
+        CSVreader reader= new CSVreader();
+        dataHolder.setMalla(reader.getMalla_Curricular(pathMalla));
+        serializeObject(dataHolder.getMalla(),"malla");
+        dataHolder.setEstudiantes(reader.getEstudiantes(pathRN,dataHolder.getMalla()));
+        serializeObject(dataHolder.getEstudiantes(),"estudiantes");
+        dataHolder.setAulas(reader.getAulas(pathAulas));
+        serializeObject(dataHolder.getAulas(),"aulas");
+        dataHolder.setGrupos(reader.getGrupos(pathGrupos,dataHolder.getMalla(),dataHolder.getAulas()));
+        serializeObject(dataHolder.getGrupos(),"grupos");
+    }
+
+    public void cargarInclusiones(String pathInclusiones) throws IOException {
+        CSVreader reader= new CSVreader();
+        dataHolder.setInclusiones(reader.getInclusiones(pathInclusiones,dataHolder.getGrupos(),dataHolder.getEstudiantes(),dataHolder.getInclusionesMap()));
+    }
+
+    public void cargarDatos(){
+        try{
+            dataHolder.setMalla((Map)deserializeObject("malla"));
+            dataHolder.setEstudiantes((Map)deserializeObject("estudiantes"));
+            dataHolder.setAulas((Map)deserializeObject("aulas"));
+            dataHolder.setGrupos((Map)deserializeObject("grupos"));
+        }
+        catch (Exception e){
+            System.out.printf("Datos Corruptos");
+        }
+        try{
+            dataHolder.setInclusiones((ArrayList<Inclusion>) deserializeObject("inclusiones"));
+            dataHolder.setInclusionesMap((Map)deserializeObject("inclusionesMap"));
+        }
+        catch (Exception e){
+            System.out.printf("Datos Corruptos");
+        }
+    }
+    
 
 }
