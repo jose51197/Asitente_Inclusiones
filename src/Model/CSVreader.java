@@ -5,10 +5,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Dictionary;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class CSVreader {
 
@@ -119,6 +116,30 @@ public class CSVreader {
             Grupo grupo= new Grupo(Integer.valueOf(row.get(1)),row.get(3),row.get(2), aula,curso);
             result.put("GR"+row.get(1)+curso.getId(),grupo);
         }
+        return result;
+    }
+
+    public Map<String, Grupo> getGrupos_Aulas(String filepath, Map<String,Curso> malla, Map<String,Aula> aulas ) throws IOException {
+        ArrayList<ArrayList<String>> data = readFiles(filepath);
+        data.remove(0);
+        Map<String, Grupo>  result = new HashMap<String, Grupo> ();
+
+        for(ArrayList<String> row :data){
+            Curso curso = malla.get(row.get(0));
+            Grupo grupo = result.get("GR"+row.get(1)+curso.getId());
+            if (grupo == null) { //Add to the map
+                grupo = new Grupo(Integer.valueOf(row.get(1)), row.get(3), curso, new ArrayList<>());
+                result.put("GR"+row.get(1)+curso.getId(),grupo);
+            }
+
+            Aula aula=aulas.get(row.get(5));
+            String dia = row.get(3);
+            String horas = row.get(4);
+            Horario h = new Horario(aula, dia, horas);
+            grupo.addHorario(h);
+
+        }
+
         return result;
     }
 

@@ -10,6 +10,7 @@ public class Email {
     final String password = "DeporteInclusiones2019";
     private static Email instance = new Email();
     private Session session;
+
     private Email() {
         Properties prop = new Properties();
         prop.put("mail.smtp.host", "smtp.gmail.com");

@@ -1,6 +1,7 @@
 package Model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -54,11 +55,24 @@ public class Grupo implements Serializable {
         this.curso = curso;
     }
 
+    public void addHorario(Horario horario){
+        this.horario.add(horario);
+    }
+
     public Grupo(int numGrupo, String horarios, String profesor, Aula aula, Curso curso) {
         this.numGrupo = numGrupo;
         this.horarios = horarios;
         this.profesor = profesor;
         this.aula = aula;
         this.curso = curso;
+        this.horario = new ArrayList<>();
+    }
+
+    public Grupo(int numGrupo, String profesor, Curso curso, List<Horario> horario) {
+        this.numGrupo = numGrupo;
+
+        this.profesor = profesor;
+        this.curso = curso;
+        this.horario = horario;
     }
 }
