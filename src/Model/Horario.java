@@ -1,6 +1,8 @@
 package Model;
 
-public class Horario {
+import java.io.Serializable;
+
+public class Horario implements Serializable {
     private Aula aula;
     private String dia;
     private String horas;
@@ -10,5 +12,14 @@ public class Horario {
         this.aula = aula;
         this.dia = dia;
         this.horas = horas;
+    }
+
+    @Override
+    public String toString() {
+        return "Horario{" +
+                "aula=" + aula +
+                ", dia='" + dia + '\'' +
+                ", horas='" + horas + '\'' +
+                '}';
     }
 }

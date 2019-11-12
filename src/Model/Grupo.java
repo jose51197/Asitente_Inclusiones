@@ -75,4 +75,16 @@ public class Grupo implements Serializable {
         this.curso = curso;
         this.horario = horario;
     }
+
+    @Override
+    public String toString() {
+        return "Grupo{" +
+                "numGrupo=" + numGrupo +
+                ", horarios='" + horarios + '\'' +
+                ", profesor='" + profesor + '\'' +
+                ", aula=" + aula +
+                ", curso=" + curso +
+                ", horario=" + horario +
+                '}';
+    }
 }
