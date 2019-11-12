@@ -37,7 +37,7 @@ public class CargadorArchivos {
             System.out.printf("Datos Corruptos");
         }
         try{
-            dataHolder.setInclusiones((ArrayList<Inclusion>) serializator.deserializeObject("inclusiones"));
+            dataHolder.setInclusiones((ArrayList<Model.Inclusion>) serializator.deserializeObject("inclusiones"));
             dataHolder.setInclusionesMap((Map)serializator.deserializeObject("inclusionesMap"));
         }
         catch (Exception e){

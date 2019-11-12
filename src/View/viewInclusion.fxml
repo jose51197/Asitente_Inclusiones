@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="anchor" prefHeight="502.0" prefWidth="596.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.ViewInclusion">
+<AnchorPane fx:id="anchor" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.ViewInclusion">
    <children>
       <Button layoutX="512.0" layoutY="114.0" mnemonicParsing="false" onAction="#btn_aceptar" prefHeight="39.0" prefWidth="104.0" text="Aceptar">
          <font>
@@ -24,13 +24,12 @@
          </font></Button>
       <Label fx:id="lmateria" layoutX="14.0" layoutY="15.0" text="Materia">
          <font>
-            <Font size="24.0" />
+            <Font size="14.0" />
          </font></Label>
-      <Label fx:id="lestado" layoutX="528.0" layoutY="15.0" text="Estado">
+      <Label fx:id="lestado" alignment="CENTER_RIGHT" layoutX="469.0" layoutY="15.0" prefHeight="35.0" prefWidth="130.0" text="Estado" textAlignment="RIGHT">
          <font>
             <Font size="24.0" />
          </font></Label>
-      <Label layoutX="14.0" layoutY="50.0" text="Label" />
       <Label layoutX="15.0" layoutY="106.0" text="Requisitos">
          <font>
             <Font size="18.0" />
@@ -41,8 +40,8 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Label fx:id="lrequisitos" layoutX="14.0" layoutY="153.0" text="requisitos" />
-      <Label fx:id="lcorrequistos" layoutX="256.0" layoutY="153.0" text="correquisitos" />
+      <Label fx:id="lrequisitos" layoutX="14.0" layoutY="153.0" text="Ninguno" />
+      <Label fx:id="lcorrequistos" layoutX="256.0" layoutY="153.0" text="Ninguno" />
       <TextArea fx:id="lcomentario" layoutX="15.0" layoutY="302.0" prefHeight="200.0" prefWidth="586.0" />
       <Label layoutX="14.0" layoutY="287.0" text="Comentario:" />
    </children>

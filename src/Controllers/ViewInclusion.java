@@ -28,22 +28,25 @@ public class ViewInclusion {
     public void btn_aceptar(ActionEvent actionEvent) {
         inclusion.setEstado(EstadoInclusion.ACEPTADA);
         lestado.setTextFill(Color.BLUE);
+        lestado.setText("Aceptada");
     }
 
     public void btn_pendiente(ActionEvent actionEvent) {
         inclusion.setEstado(EstadoInclusion.EN_PROCESO);
         lestado.setTextFill(Color.BLUEVIOLET);
+        lestado.setText("Pendiente");
     }
 
     public void btn_cancelar(ActionEvent actionEvent) {
         inclusion.setEstado(EstadoInclusion.CANCELADA);
         lestado.setTextFill(Color.BLACK);
+        lestado.setText("Cancelada");
     }
 
     public void setInclusion(Inclusion inclusion) {
         this.inclusion = inclusion;
         lestado.setText(inclusion.getEstado().toString());
-        lmateria.setText(inclusion.getNombre());
+        lmateria.setText(inclusion.getGrupo().getCurso().getNombre()+ " GR "+ inclusion.getGrupo().getNumGrupo());
         String requisitos="";
         for (Curso curso: inclusion.getGrupo().getCurso().getRequisitos()) {
             requisitos+=curso.getNombre() + "\n";

@@ -1,13 +1,10 @@
 package Controllers;
 
 import Model.DataHolder;
-import Model.EstadoInclusion;
 import Model.Inclusion;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -22,8 +19,6 @@ import javafx.stage.StageStyle;
 import javafx.util.Callback;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Map;
 
 public class MainWindow {
     @FXML Menu btn_abrirConfig;
@@ -134,8 +129,10 @@ public class MainWindow {
 
     public void onSeleccionarInclusion(MouseEvent mouseEvent) {
         Inclusion seleccionada = (Inclusion)tablaInclusiones.getSelectionModel().getSelectedItem();
-        //seleccionada.setEstado(EstadoInclusion.RECHAZADA);
-        System.out.println(((Inclusion)tablaInclusiones.getSelectionModel().getSelectedItem()).getNombre());
+        if(seleccionada==null){
+            return;
+        }
+        tablaInclusiones.getSelectionModel().clearSelection();
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../View/WindowInclusion.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
@@ -146,9 +143,10 @@ public class MainWindow {
             stage.setScene(new Scene(root1));
             stage.show();
             WindowInclusion controlador = fxmlLoader.getController();
-            controlador.setCarnet(seleccionada.getEstudiante().getCarnet());
+            controlador.iniciar(seleccionada.getEstudiante().getCarnet(),seleccionada);
         }  catch (IOException e){
             System.out.println(e.toString());
         }
     }
+
 }
