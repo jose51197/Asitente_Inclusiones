@@ -61,7 +61,23 @@ public class MainWindow {
             System.out.println(e.toString());
         }
 
+    }
 
+    public void abrirAdminAulas()  {
+
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../View/classroommanager.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initStyle(StageStyle.UNIFIED);
+            System.out.println("Here");
+            stage.setTitle("Solicitud de inclusión");
+            stage.setScene(new Scene(root1));
+            stage.show();
+        }  catch (IOException e){
+            System.out.println(e.toString());
+        }
 
     }
 
@@ -74,6 +90,7 @@ public class MainWindow {
         System.out.println(inclusiones.size());
         tablaInclusiones.setItems(inclusiones);
     }
+
     public void initialize(){
         cargarInclusiones();
     }
