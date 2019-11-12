@@ -5,14 +5,13 @@ import Model.Inclusion;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -23,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class MainWindow {
-    @FXML Button btn_abrirConfig;
+    @FXML Menu btn_abrirConfig;
     @FXML TableView tablaInclusiones;
     @FXML TableColumn cNombre;
     @FXML TableColumn cMateria;
@@ -43,6 +42,14 @@ public class MainWindow {
         }  catch (IOException e){
             System.out.println(e.toString());
         }
+    }
+
+    public void alertMe(){
+        Alert a = new Alert(Alert.AlertType.NONE);
+        a.setAlertType(Alert.AlertType.ERROR);
+
+        // show the dialog
+        a.show();
     }
 
     public void abrirSolicitud()  {

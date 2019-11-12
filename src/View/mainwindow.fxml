@@ -29,7 +29,7 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="Ayuda">
                   <items>
-                    <MenuItem mnemonicParsing="false" text="About" />
+                    <MenuItem mnemonicParsing="false" onAction="#alertMe" text="About" />
                   </items>
                 </Menu>
               </menus>
