@@ -31,7 +31,7 @@ public class Main extends Application {
         Map<String, Aula> aulas = r.getAulas("aulas.csv");
         Map<String, Grupo> grupos= r.getGrupos("grupos.csv",malla,aulas);
         Estudiante sergie = new Estudiante(2016138296, "Sergie Salas Rojas", "Sergie98@gmail.com", 87764520) ;
-        Estudiante jose = new Estudiante(2016157695, "Jose Gonzalez Alvarado", "jose5119798@hotmail.com", 71085654) ;
+        Estudiante jose = new Estudiante(2016157695, "Jose Gonzalez Alvarado", "jose51197@hotmail.com", 71085654) ;
         estudiantes.put(2016138296,sergie);
         estudiantes.put(2016157695,jose);
         Map <Integer,ArrayList<Inclusion>> inclusionesMap= new HashMap<Integer, ArrayList<Inclusion>>();
