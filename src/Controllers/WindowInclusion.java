@@ -39,6 +39,9 @@ public class WindowInclusion {
 
         for(Inclusion inclusion: inclusiones){
             try{
+                if (inclusion==i){
+                    continue;
+                }
                 Tab tab = new Tab();
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/viewInclusion.fxml"));
                 tab.setContent(loader.load());
