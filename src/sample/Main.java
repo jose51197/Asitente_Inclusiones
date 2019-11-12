@@ -26,51 +26,95 @@ public class Main extends Application {
         CSVreader r= new CSVreader();
 
         //pruebas de funcionamiento de los diccionarios;
-        /*Map<String, Curso> malla=r.getMalla_Curricular("C:\\Users\\sergi\\Desktop\\plan.csv");
-        Map<Integer, Estudiante> estudiantes=r.getEstudiantes("C:\\Users\\sergi\\Desktop\\rn.csv",malla);
-        Map<String, Aula> aulas = r.getAulas("C:\\Users\\sergi\\Desktop\\aulas.csv");
-        Map<String, Grupo> grupos= r.getGrupos("C:\\Users\\sergi\\Desktop\\grupos.csv",malla,aulas);
+        Map<String, Curso> malla=r.getMalla_Curricular("plan.csv");
+        Map<Integer, Estudiante> estudiantes=r.getEstudiantes("rn.csv",malla);
+        Map<String, Aula> aulas = r.getAulas("aulas.csv");
+        Map<String, Grupo> grupos= r.getGrupos("grupos.csv",malla,aulas);
         Estudiante sergie = new Estudiante(2016138296, "Sergie Salas Rojas", "Sergie98@gmail.com", 87764520) ;
         Estudiante jose = new Estudiante(2016157695, "Jose Gonzalez Alvarado", "jose5119798@hotmail.com", 71085654) ;
         estudiantes.put(2016138296,sergie);
         estudiantes.put(2016157695,jose);
         Map <Integer,ArrayList<Inclusion>> inclusionesMap= new HashMap<Integer, ArrayList<Inclusion>>();
-        ArrayList<Inclusion> inclusiones = r.getInclusiones("C:\\Users\\sergi\\Desktop\\inclusiones.csv",grupos,estudiantes,inclusionesMap);
+        ArrayList<Inclusion> inclusiones = r.getInclusiones("inclusiones.csv",grupos,estudiantes,inclusionesMap);
         try {
-            FileOutputStream fileOut = new FileOutputStream("C:\\Users\\sergi\\Desktop\\plan.ser");
+            FileOutputStream fileOut = new FileOutputStream("plan.ser");
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
             out.writeObject(malla);
             out.close();
             fileOut.close();
-            fileOut = new FileOutputStream("C:\\Users\\sergi\\Desktop\\estudiantes.ser");
+            fileOut = new FileOutputStream("estudiantes.ser");
             out = new ObjectOutputStream(fileOut);
             out.writeObject(estudiantes);
             out.close();
             fileOut.close();
-            fileOut = new FileOutputStream("C:\\Users\\sergi\\Desktop\\aulas.ser");
+            fileOut = new FileOutputStream("aulas.ser");
             out = new ObjectOutputStream(fileOut);
             out.writeObject(aulas);
             out.close();
             fileOut.close();
-            fileOut = new FileOutputStream("C:\\Users\\sergi\\Desktop\\grupos.ser");
+            fileOut = new FileOutputStream("grupos.ser");
             out = new ObjectOutputStream(fileOut);
             out.writeObject(grupos);
             out.close();
             fileOut.close();
-            fileOut = new FileOutputStream("C:\\Users\\sergi\\Desktop\\inclusionesMap.ser");
+            fileOut = new FileOutputStream("inclusionesMap.ser");
             out = new ObjectOutputStream(fileOut);
             out.writeObject(inclusionesMap);
             out.close();
             fileOut.close();
-            fileOut = new FileOutputStream("C:\\Users\\sergi\\Desktop\\inclusiones.ser");
+            fileOut = new FileOutputStream("inclusiones.ser");
             out = new ObjectOutputStream(fileOut);
             out.writeObject(inclusiones);
             out.close();
             fileOut.close();
         } catch (IOException i) {
             i.printStackTrace();
+        }
+        /*Map<String, Curso> malla;
+        Map<Integer, Estudiante> estudiantes;
+        Map<String, Aula> aulas;
+        Map<String, Grupo> grupos;
+        Map <Integer,ArrayList<Inclusion>> inclusionesMap;
+        ArrayList<Inclusion> inclusiones;
+        try {
+            FileInputStream fileIn = new FileInputStream("plan.ser");
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            malla = (Map<String, Curso>) in.readObject();
+            in.close();
+            fileIn.close();
+            fileIn = new FileInputStream("aulas.ser");
+            in = new ObjectInputStream(fileIn);
+            aulas = (Map<String, Aula>) in.readObject();
+            in.close();
+            fileIn.close();
+            fileIn = new FileInputStream("estudiantes.ser");
+            in = new ObjectInputStream(fileIn);
+            estudiantes = (Map<Integer, Estudiante> ) in.readObject();
+            in.close();
+            fileIn.close();
+            fileIn = new FileInputStream("grupos.ser");
+            in = new ObjectInputStream(fileIn);
+            grupos = (Map<String, Grupo>) in.readObject();
+            in.close();
+            fileIn.close();
+            fileIn = new FileInputStream("inclusionesMap.ser");
+            in = new ObjectInputStream(fileIn);
+            inclusionesMap = (Map <Integer,ArrayList<Inclusion>> ) in.readObject();
+            in.close();
+            fileIn.close();
+            fileIn = new FileInputStream("inclusiones.ser");
+            in = new ObjectInputStream(fileIn);
+            inclusiones = (ArrayList<Inclusion> ) in.readObject();
+            in.close();
+            fileIn.close();
+        } catch (IOException i) {
+            i.printStackTrace();
+            return;
+        } catch (ClassNotFoundException c) {
+            System.out.println("Employee class not found");
+            c.printStackTrace();
+            return;
         }*/
-
         //ResultPDF resultPDF = new ResultPDF();
         //resultPDF.write();
         launch(args);
