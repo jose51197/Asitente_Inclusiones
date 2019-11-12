@@ -69,7 +69,9 @@ public class MainWindow {
         cNombre.setCellValueFactory(new PropertyValueFactory<>("Nombre"));
         cMateria.setCellValueFactory(new PropertyValueFactory<>("Materia"));
         cEstado.setCellValueFactory(new PropertyValueFactory<>("EstadoString"));
+
         ObservableList<Inclusion> inclusiones = FXCollections.observableArrayList(DataHolder.getInstance().getInclusiones());
+        System.out.println(inclusiones.size());
         tablaInclusiones.setItems(inclusiones);
     }
     public void initialize(){

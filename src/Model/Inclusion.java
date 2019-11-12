@@ -76,12 +76,12 @@ public class Inclusion implements Serializable {
         this.comentarioAdmin = comentarioAdmin;
     }
 
-    //FUNCIONES para mostrar
+    //FUNCIONES para mostrar NO TOCAR
     public String getNombre(){
         return estudiante.getNombre();
     }
     public String getMateria(){
-        return grupo.getCurso().getNombre();
+        return grupo.getCurso().getNombre() + " GR "+grupo.getNumGrupo();
     }
     public String getEstadoString(){
         return estado.toString();
