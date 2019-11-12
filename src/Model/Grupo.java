@@ -1,6 +1,10 @@
 package Model;
 
 import java.io.Serializable;
+import java.util.List;
+
+
+import java.util.List;
 
 public class Grupo implements Serializable {
     private int numGrupo;
@@ -8,6 +12,7 @@ public class Grupo implements Serializable {
     private String profesor;
     private Aula aula;
     private Curso curso;
+    private List<Horario> horario;
 
     public int getNumGrupo() {
         return numGrupo;

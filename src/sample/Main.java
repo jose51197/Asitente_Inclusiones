@@ -22,6 +22,15 @@ public class Main extends Application {
     }
 
 
+    public void pruebasSergie(){
+
+    }
+
+    public void pruebasJose(){
+
+    }
+
+
     public static void main(String[] args) throws IOException {
         CSVreader r= new CSVreader();
 
