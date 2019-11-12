@@ -1,5 +1,7 @@
 package sample;
 
+import Model.Aula;
+import Model.Grupo;
 import Model.CSVreader;
 import Model.Curso;
 import Model.Estudiante;
@@ -27,10 +29,10 @@ public class Main extends Application {
         CSVreader r= new CSVreader();
 
         //pruebas de funcionamiento de los diccionarios;
-        /*Map<String, Curso> malla=r.getMalla_Curricular("C:\\Users\\Sergie\\Downloads\\plan.csv");
-        Map<Integer, Estudiante> estudiantes=r.getEstudiantes("C:\\Users\\Sergie\\Downloads\\rn.csv",malla);
-        System.out.printf( estudiantes.get(2).getCursosActuales().get(0).getNombre());*/
-
+        /*Map<String, Curso> malla=r.getMalla_Curricular("C:\\Users\\sergi\\Desktop\\plan.csv");
+        Map<Integer, Estudiante> estudiantes=r.getEstudiantes("C:\\Users\\sergi\\Desktop\\rn.csv",malla);
+        Map<String, Aula> aulas = r.getAulas("C:\\Users\\sergi\\Desktop\\aulas.csv");
+        Map<String, Grupo> grupos= r.getGrupos("C:\\Users\\sergi\\Desktop\\grupos.csv",malla,aulas);*/
 
         launch(args);
     }
