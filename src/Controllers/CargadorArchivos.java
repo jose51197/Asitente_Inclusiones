@@ -52,7 +52,7 @@ public class CargadorArchivos {
         serializeObject(dataHolder.getEstudiantes(),"estudiantes");
         dataHolder.setAulas(reader.getAulas(pathAulas));
         serializeObject(dataHolder.getAulas(),"aulas");
-        dataHolder.setGrupos(reader.getGrupos(pathGrupos,dataHolder.getMalla(),dataHolder.getAulas()));
+        dataHolder.setGrupos(reader.getGrupos_Aulas(pathGrupos,dataHolder.getMalla(),dataHolder.getAulas()));
         serializeObject(dataHolder.getGrupos(),"grupos");
     }
 

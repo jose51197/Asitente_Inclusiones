@@ -1,6 +1,8 @@
 package Model;
 
-public class Horario {
+import java.io.Serializable;
+
+public class Horario implements Serializable {
     private Aula aula;
     private String dia;
     private String horas;
