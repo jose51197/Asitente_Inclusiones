@@ -1,21 +1,22 @@
 package sample;
 
 import Controllers.CargadorArchivos;
-import Data.ResultPDF;
 import Model.*;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
 import java.io.*;
-import java.util.*;
-
 
 
 public class Main extends Application {
     private static DataHolder dataHolder= DataHolder.getInstance();
+    private static CargadorArchivos cargadorArchivos= new CargadorArchivos();
     Email email = Email.getInstance();
 
     @Override
@@ -27,6 +28,7 @@ public class Main extends Application {
     }
 
     public static void pruebasJose(){
+
 
     }
 
@@ -53,16 +55,13 @@ public class Main extends Application {
 
     }
 
-    public static void main(String[] args) throws IOException {
-        CargadorArchivos cargadorArchivos= new CargadorArchivos();
+    public static void main(String[] args) throws Exception {
+
         //descomentar lo de abajo si no hay .ser
         cargadorArchivos.cargarNuevosDatos("plan.csv","rn.csv","aulas.csv","grupos.csv");
-        Estudiante sergie = new Estudiante(2016138296, "Sergie Salas Rojas", "Sergie98@gmail.com", 87764520) ;
-        Estudiante jose = new Estudiante(2016157695, "Jose Gonzalez Alvarado", "jose51197@hotmail.com", 71085654) ;
-        dataHolder.getEstudiantes().put(2016138296,sergie);
-        dataHolder.getEstudiantes().put(2016157695,jose);
         cargadorArchivos.cargarInclusiones("inclusiones.csv");
-        //cargadorArchivos.cargarDatos();
+        cargadorArchivos.cargarDatos();
+        dataHolder.guardar();
         pruebasJose();
         pruebasSergie();
         //pruebasOscar();

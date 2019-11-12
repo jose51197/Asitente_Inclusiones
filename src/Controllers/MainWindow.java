@@ -6,6 +6,8 @@ import Model.Inclusion;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -24,7 +26,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class MainWindow {
-    @FXML Button btn_abrirConfig;
+    @FXML Menu btn_abrirConfig;
     @FXML TableView tablaInclusiones;
     @FXML TableColumn cNombre;
     @FXML TableColumn cMateria;
@@ -46,6 +48,14 @@ public class MainWindow {
         }
     }
 
+    public void alertMe(){
+        Alert a = new Alert(Alert.AlertType.NONE);
+        a.setAlertType(Alert.AlertType.ERROR);
+
+        // show the dialog
+        a.show();
+    }
+
     public void abrirSolicitud()  {
 
         try {
@@ -62,7 +72,24 @@ public class MainWindow {
             System.out.println(e.toString());
         }
 
+    }
 
+    public void abrirAdminAulas()  {
+
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../View/classroommanager.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initStyle(StageStyle.UNIFIED);
+            stage.setTitle("Administrador  de aula");
+            stage.setScene(new Scene(root1));
+            stage.setMaxHeight(600);
+            stage.setMaxWidth(800);
+            stage.show();
+        }  catch (IOException e){
+            System.out.println(e.toString());
+        }
 
     }
 
@@ -100,6 +127,7 @@ public class MainWindow {
 
         tablaInclusiones.setItems(inclusiones);
     }
+
     public void initialize(){
         cargarInclusiones();
     }
