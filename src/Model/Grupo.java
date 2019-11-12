@@ -42,6 +42,14 @@ public class Grupo implements Serializable {
         this.horario.add(horario);
     }
 
+    public List<Horario> getHorario() {
+        return horario;
+    }
+
+    public void setHorario(List<Horario> horario) {
+        this.horario = horario;
+    }
+
     public Grupo(int numGrupo, String horarios, String profesor, Aula aula, Curso curso) {
         this.numGrupo = numGrupo;
         this.profesor = profesor;
