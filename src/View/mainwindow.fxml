@@ -5,26 +5,36 @@
 
 <VBox prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.MainWindow">
    <children>
-      <MenuBar>
-        <menus>
-          <Menu mnemonicParsing="false" text="Inicio">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" onAction="#abrirConfiguracion" text="Configuración">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Ayuda">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
-      <Separator orientation="VERTICAL" prefHeight="10.0" />
-      <ListView maxHeight="1.7976931348623157E308" prefWidth="900.0" VBox.vgrow="ALWAYS" />
+      <SplitPane dividerPositions="0.5" prefHeight="23.0" prefWidth="900.0">
+        <items>
+            <MenuBar>
+              <menus>
+                <Menu mnemonicParsing="false" text="Inicio">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Close" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" onAction="#abrirConfiguracion" text="Configuración">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Delete" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Ayuda">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="About" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+            <TextField prefHeight="25.0" prefWidth="312.0" />
+        </items>
+      </SplitPane>
+      <TableView fx:id="tablaInclusiones" VBox.vgrow="ALWAYS">
+        <columns>
+          <TableColumn prefWidth="431.0" text="Nombre" />
+            <TableColumn minWidth="1.0" prefWidth="360.0" text="Materia" />
+          <TableColumn prefWidth="108.0" text="Estado" />
+        </columns>
+      </TableView>
    </children>
 </VBox>
