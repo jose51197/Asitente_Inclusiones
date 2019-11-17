@@ -83,10 +83,12 @@ public class ResultadoPDF {
         //draw the rows
         float nexty = page.getMediaBox().getHeight() - 200; //Inicio de la tabla
 
-
         ArrayList<String[]> headerContent = new ArrayList<>();
         headerContent.add( new String[]{"SEDE", "CA", "Año "} );
         headerContent.add( new String[]{"Código", "Descripción", "Periodo", "Modalidad"} );
+        headerContent.add( new String[]{"ATI-7001", "Inteligencia Artificial", "2S-19", "Semestre"} );
+        headerContent.add( new String[]{"Grupo", "2"} );
+        headerContent.add( new String[]{"Profesor", "Uno de ATI", "Se autoriza inclusión con"} );
 
         //Filas
         for (int i = 0; i <= 5; i++) {
@@ -97,24 +99,80 @@ public class ResultadoPDF {
         nexty = page.getMediaBox().getHeight() - 200; //Inicio de la tabla
 
         //draw the columns
+        //Columnas
         float nextx = inicioTabla;
-        contentStream.drawLine(inicioTabla,nexty,inicioTabla,nexty+125); //Izquierda
-        contentStream.drawLine(inicioTabla+100,nexty,inicioTabla+100,nexty+125);
-        contentStream.drawLine(inicioTabla+350,nexty,inicioTabla+350,nexty+125);
-        contentStream.drawLine(inicioTabla+400,nexty,inicioTabla+400,nexty+100);
+        contentStream.drawLine(nextx,nexty,inicioTabla,nexty+125); //Izquierda
+        contentStream.drawLine(nextx+100,nexty,nextx+100,nexty+125);
+        contentStream.drawLine(nextx+350,nexty,nextx+350,nexty+125);
+        contentStream.drawLine(nextx+415,nexty+50,nextx+415,nexty+100);
         contentStream.drawLine(anchoTabla,nexty,anchoTabla,nexty+125); //Derecha
 
+        nexty = page.getMediaBox().getHeight() - 90; //Inicio de la tabla
 
-        float xPositions[] = {inicioTabla+20, inicioTabla+120, inicioTabla+370};
+        float xPositions[] = {inicioTabla+10, inicioTabla+110, inicioTabla+360};
+        contentStream.setFont(PDType1Font.HELVETICA,12);
+        for (int index = 0; index < 3; index++){
+            escribirLinea(contentStream, xPositions[index], nexty, headerContent.get(0)[index]);
+        }
+
+        xPositions = new float[] {inicioTabla+5, inicioTabla+105, inicioTabla+360, inicioTabla+425};
+        for (int index = 0; index < 4; index++){
+            contentStream.setFont(PDType1Font.HELVETICA_BOLD,12);
+            contentStream.beginText();
+            contentStream.moveTextPositionByAmount(xPositions[index], nexty-25);
+            contentStream.drawString(headerContent.get(1)[index]);
+            contentStream.endText();
+        }
+
+        xPositions = new float[] {inicioTabla+5, inicioTabla+105, inicioTabla+360, inicioTabla+425};
+        for (int index = 0; index < 4; index++){
+            contentStream.setFont(PDType1Font.HELVETICA,12);
+            contentStream.beginText();
+            contentStream.moveTextPositionByAmount(xPositions[index], nexty-50);
+            contentStream.drawString(headerContent.get(2)[index]);
+            contentStream.endText();
+        }
+
+        xPositions = new float[] {inicioTabla+5, inicioTabla+105};
+        for (int index = 0; index < 2; index++){
+            contentStream.setFont(PDType1Font.HELVETICA,12);
+            contentStream.beginText();
+            contentStream.moveTextPositionByAmount(xPositions[index], nexty-75);
+            contentStream.drawString(headerContent.get(3)[index]);
+            contentStream.endText();
+        }
+
+        xPositions = new float[] {inicioTabla+5, inicioTabla+105, inicioTabla+360};
         for (int index = 0; index < 3; index++){
             contentStream.setFont(PDType1Font.HELVETICA,12);
             contentStream.beginText();
-            contentStream.moveTextPositionByAmount(xPositions[index], nexty);
-            contentStream.drawString(headerContent.get(0)[index]);
+            contentStream.moveTextPositionByAmount(xPositions[index], nexty-100);
+            contentStream.drawString(headerContent.get(4)[index]);
             contentStream.endText();
         }
+
+        String body[] = {"Carné", "Nombre del estudiante", "RN", "LR", "LC", "CH"};
+
+        //Filas
+        nexty = page.getMediaBox().getHeight() - 200; //Inicio de la tabla
+        for (int i = 0; i <= 5; i++) {
+            contentStream.drawLine(inicioTabla,nexty,anchoTabla,nexty);
+            nexty-= 25f;
+        }
+
+        xPositions = new float[] {inicioTabla+5, inicioTabla+105, inicioTabla+360, inicioTabla+425};
+
+
+
+
     }
 
+    private void escribirLinea(PDPageContentStream cs, float x, float y, String texto) throws IOException {
+        cs.beginText();
+        cs.moveTextPositionByAmount(x, y);
+        cs.drawString(texto);
+        cs.endText();
+    }
 
     public void escribirDatosGrupo(PDPage page, PDPageContentStream contentStream, Grupo grupo) throws IOException {
         //draw the rows
