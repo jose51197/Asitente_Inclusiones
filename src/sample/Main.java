@@ -39,16 +39,12 @@ public class Main extends Application {
 
     public static void main(String[] args) throws Exception {
 
-        //descomentar lo de abajo si no hay .ser
-        //cargadorArchivos.cargarNuevosDatos("plan.csv","rn.csv","aulas.csv","grupos.csv");
-        //cargadorArchivos.cargarInclusiones("inclusiones.csv");
+
         DataLoader dataLoader = new DataLoader();
         dataLoader.getPlanes("plan.xlsx");
-        //cambiar a las direcciones de cada uno
+
         dataLoader.getEstudiantes("..\\PROYINCLUSIONES\\ATI.xlsx","..\\PROYINCLUSIONES\\rn.csv");
         dataLoader.getInclusiones("inclusiones.csv");
-        //cargadorArchivos.cargarDatos();
-        //dataHolder.guardar();
         pruebasJose();
         pruebasSergie();
         //pruebasOscar();
