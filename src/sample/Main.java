@@ -58,7 +58,7 @@ public class Main extends Application {
     public static void main(String[] args) throws Exception {
 
         //descomentar lo de abajo si no hay .ser
-        cargadorArchivos.cargarNuevosDatos("plan.csv","rn.csv","aulas.csv","grupos.csv");
+        cargadorArchivos.cargarNuevosDatos("plan.csv","rn.csv","aulas.csv","grupos-horario-fixed.csv");
         cargadorArchivos.cargarInclusiones("inclusiones.csv");
         //cargadorArchivos.cargarDatos();
         pruebasJose();

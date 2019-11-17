@@ -128,7 +128,7 @@ public class CSVreader {
             Curso curso = malla.get(row.get(0));
             Grupo grupo = result.get("GR"+row.get(1)+curso.getId());
             if (grupo == null) { //Add to the map
-                grupo = new Grupo(Integer.valueOf(row.get(1)), row.get(3), curso, new ArrayList<>());
+                grupo = new Grupo(Integer.valueOf(row.get(1)), row.get(2), curso, new ArrayList<>());
                 result.put("GR"+row.get(1)+curso.getId(),grupo);
             }
 
