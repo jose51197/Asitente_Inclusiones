@@ -72,12 +72,12 @@ public class ClassroomManager {
             Grupo grupo = DataHolder.getInstance().getGrupos().get(key);
 
             for (Horario horario : grupo.getHorario()){
-                if (horario.getAula().getCodigo().equals(aula.getCodigo())){
+                if (horario.getAula().equals(aula.getCodigo())){
                     System.out.println("Agregando al mapa");
                     addPane(grupo, horario);
 
                 } else {
-                    System.out.println(horario.getAula().getCodigo() + "   " +aula.getCodigo() );
+                    System.out.println(horario.getAula() + "   " +aula.getCodigo() );
                 }
             }
         }
@@ -107,7 +107,6 @@ public class ClassroomManager {
         gc.fillText(title,x+10,y+15,width);
         gc.setFill(Color.BLACK);
         gc.fillText(body,x+5,y+25,width-10);
-
 
         posiciones.add(new double[]{x,y});
         gruposEnPantalla.add(grupo);
