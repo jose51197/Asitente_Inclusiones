@@ -8,16 +8,28 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
 
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
+import javafx.event.EventHandler;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -34,6 +46,9 @@ public class ClassroomManager {
     @FXML
     private Canvas canvas_horarioAula;
     private GraphicsContext gc;
+
+    private List<double[]> posiciones = new ArrayList<>();
+    private List<Grupo> gruposEnPantalla = new ArrayList<>();
 
     int debugX = 0;
     int debugY = 0;
@@ -61,13 +76,9 @@ public class ClassroomManager {
                     System.out.println("Agregando al mapa");
                     addPane(grupo, horario);
 
-                } else {
-                    System.out.println(horario.getAula().getCodigo() + "   " +aula.getCodigo() );
                 }
             }
-
         }
-
     }
 
     public void addPane(Grupo grupo, Horario horario){
@@ -78,9 +89,7 @@ public class ClassroomManager {
         body += "\n  Aula: ";
 
         String title = grupo.getCurso().getId()+ " Grupo: " + grupo.getNumGrupo();
-
         gc.setFont(new Font("Calibri", 14));
-
 
         int x = 200 * debugX++ + 100;
         int y = 100 * debugY++ + 50;
@@ -97,18 +106,17 @@ public class ClassroomManager {
         gc.setFill(Color.BLACK);
         gc.fillText(body,x+5,y+25,width-10);
 
+
+        posiciones.add(new double[]{x,y});
+        gruposEnPantalla.add(grupo);
     }
 
-    private void pruebas(){
-        gc.strokeRoundRect(10, 10, 100, 100, 10, 10);
-        gc.setFill(Color.WHITE);
-        gc.fillRect(0, 0, 300, 50);
-        gc.setFill(Color.BLUE);
-        gc.fillRect(0, 50, 300, 50);
-    }
+
 
     private void clearCanvas(){
         gc.clearRect(0, 0, 1000, 1000);
+        gruposEnPantalla.clear();
+        posiciones.clear();
         drawDays();
         drawHours();
     }
@@ -125,7 +133,6 @@ public class ClassroomManager {
         }
 
         canvas_horarioAula.setWidth(baseX);
-
     }
 
     private void drawHours(){
@@ -140,16 +147,11 @@ public class ClassroomManager {
         }
 
         canvas_horarioAula.setHeight(baseY);
-
-
     }
-
 
 
     public void initialize(){
         this.gc = canvas_horarioAula.getGraphicsContext2D();
-
-        pruebas();
 
         Set<String> aulas = DataHolder.getInstance().getAulas().keySet();
         combo_Aulas.getItems().addAll(aulas);
@@ -201,6 +203,47 @@ public class ClassroomManager {
         diasMap.put("JUEVES", 4);
         diasMap.put("VIERNES", 5);
         diasMap.put("SABADO", 6);
+
+        drawOnCanvas("B3-8");
+        canvas_horarioAula.setOnMouseClicked(seleccionGrupo);
     }
 
+    private EventHandler<MouseEvent> seleccionGrupo = new EventHandler<MouseEvent>() {
+
+        @Override
+        public void handle(MouseEvent event) {
+            if (!(event.getEventType() == MouseEvent.MOUSE_CLICKED)) return;
+            double[] coordClick = {event.getX(), event.getY()};
+
+            for (int i = 0; i < posiciones.size(); i++){
+                double[] coord = posiciones.get(i);
+                if (isInRange(coordClick, coord)){
+                    popUp(gruposEnPantalla.get(i));
+                }
+            }
+
+        }
+
+        private boolean isInRange(double[] coordClick, double[] coordTest){
+            return coordTest[0] <= coordClick[0] && coordClick[0] <= (coordTest[0]+100) &&
+                    coordTest[1] <= coordClick[1] && coordClick[1] <= (coordTest[1]+100);
+        }
+    };
+
+    private void popUp(Grupo group){
+        System.out.println(group.toString());
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../View/editgroup.fxml"));
+            Parent parent = (Parent) fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initStyle(StageStyle.UNIFIED);
+
+            stage.setTitle("Editar grupo");
+            stage.setScene(new Scene(parent));
+            stage.show();
+        }  catch (IOException e){
+            System.out.println(e.toString());
+        }
+    }
 }
