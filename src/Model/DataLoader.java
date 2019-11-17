@@ -137,7 +137,7 @@ public class DataLoader {
 
 
 
-    public ArrayList<Inclusion> getInclusiones(String filepath ) throws IOException {
+    public void getInclusiones(String filepath ) throws IOException {
         ArrayList<ArrayList<String>> data= excelreader.readCsvFiles(filepath);
         Map<Integer, Estudiante> estudiantes = dataHolder.getEstudiantes();
         Map<String, Grupo> grupos = dataHolder.getGrupos();
@@ -147,42 +147,41 @@ public class DataLoader {
         ArrayList<Inclusion>  result = dataHolder.getInclusiones();
         for(ArrayList<String> row :data){
             try{
-                Estudiante e= estudiantes.get(Integer.valueOf(row.get(2)));
-                //validar pin WIP
-                if(e== null){
+                Estudiante estudiante= estudiantes.get(Integer.valueOf(row.get(2)));
+                if(estudiante== null){
                     System.out.println("estudiante no existe");
                 }
                 else{
                     String[] datosCurso=row.get(6).split(" - ");
-                    Grupo g = grupos.get(datosCurso[1]+datosCurso[0]);
-                    if(g== null){
+                    Grupo grupo = grupos.get(datosCurso[1]+datosCurso[0]);
+                    if(grupo== null){
                         System.out.println("grupo no existe");
                     }
                     else{
                         boolean planB = (row.get(7).equals("Si"));
-                        e.setNombre(row.get(4));
-                        e.setEmail(row.get(1));
-                        e.setPhone(Integer.valueOf(row.get(5)));
-                        Inclusion nuevaInclusion= new Inclusion(planB, g,e,row.get(8),row.get(1));
+                        estudiante.setNombre(row.get(4));
+                        estudiante.setEmail(row.get(1));
+                        estudiante.setPhone(Integer.valueOf(row.get(5)));
+                        Inclusion nuevaInclusion= new Inclusion(planB, grupo,estudiante,row.get(8),row.get(1));
                         result.add(nuevaInclusion);
-                        ArrayList<Inclusion> inclusionesEstudiante;
-                        if(inclusionesEstudianteMap.containsKey(e.getCarnet())){
-                            inclusionesEstudiante=inclusionesEstudianteMap.get(e.getCarnet());
-                            inclusionesEstudiante.add(nuevaInclusion);
+                        ArrayList<Inclusion> inclusionesAux;
+                        if(inclusionesEstudianteMap.containsKey(estudiante.getCarnet())){
+                            inclusionesAux=inclusionesEstudianteMap.get(estudiante.getCarnet());
+                            inclusionesAux.add(nuevaInclusion);
                         }
                         else{
-                            inclusionesEstudiante= new ArrayList<>();
-                            inclusionesEstudiante.add(nuevaInclusion);
-                            inclusionesEstudianteMap.put(e.getCarnet(),inclusionesEstudiante);
+                            inclusionesAux= new ArrayList<>();
+                            inclusionesAux.add(nuevaInclusion);
+                            inclusionesEstudianteMap.put(estudiante.getCarnet(),inclusionesAux);
                         }
-                        if(inclusionesEstudianteMap.containsKey(e.getCarnet())){
-                            inclusionesEstudiante=inclusionesEstudianteMap.get(e.getCarnet());
-                            inclusionesEstudiante.add(nuevaInclusion);
+                        if(inclusionesMateriaMap.containsKey(datosCurso[0])){
+                            inclusionesAux=inclusionesMateriaMap.get(datosCurso[0]);
+                            inclusionesAux.add(nuevaInclusion);
                         }
                         else{
-                            inclusionesEstudiante= new ArrayList<>();
-                            inclusionesEstudiante.add(nuevaInclusion);
-                            inclusionesEstudianteMap.put(e.getCarnet(),inclusionesEstudiante);
+                            inclusionesAux= new ArrayList<>();
+                            inclusionesAux.add(nuevaInclusion);
+                            inclusionesMateriaMap.put(datosCurso[0],inclusionesAux);
                         }
                     }
                 }
@@ -191,6 +190,5 @@ public class DataLoader {
                 System.out.println("Datos Invalidos");
             }
         }
-        return result;
     }
 }
