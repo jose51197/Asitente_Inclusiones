@@ -1,6 +1,7 @@
 package sample;
 
 import Controllers.CargadorArchivos;
+import Data.ResultadoPDF;
 import Model.*;
 import Model.DataLoader;
 import javafx.application.Application;
@@ -8,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.apache.pdfbox.exceptions.COSVisitorException;
 
 import java.io.*;
 
@@ -31,13 +33,21 @@ public class Main extends Application {
     }
 
     public static void pruebasOscar() throws IOException {
-       }
+        ResultadoPDF pdf = new ResultadoPDF();
+        try {
+            pdf.write();
+        } catch (COSVisitorException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static void pruebasSergie() throws IOException {
 
     }
 
     public static void main(String[] args) throws Exception {
+
+        pruebasOscar();
 
 
         DataLoader dataLoader = new DataLoader();
@@ -47,9 +57,9 @@ public class Main extends Application {
         dataLoader.getInclusiones("inclusiones.csv");
         pruebasJose();
         pruebasSergie();
-        //pruebasOscar();
 
-        //ResultPDF resultPDF = new ResultPDF();
+
+        //ResultadoPDF resultPDF = new ResultadoPDF();
         //resultPDF.write();
         launch(args);
     }

@@ -40,22 +40,15 @@ public class ClassroomManager {
     private Canvas canvas_horarioAula;
     private GraphicsContext gc;
 
+    private final double anchoCelda = 160;
     private List<double[]> posiciones = new ArrayList<>();
     private List<Grupo> gruposEnPantalla = new ArrayList<>();
+    Map<String, Integer> diasMap;
 
     private String diasLectivos[] = {"Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"};
 
-    int debugX = 0;
-    int debugY = 0;
-
-    Map<String, Integer> bHoursMap;
-    Map<String, Integer> fHoursMap;
-    Map<String, Integer> diasMap;
-
     private void drawOnCanvas(String codigoAula){
         clearCanvas();
-        debugX = 0;
-        debugY = 0;
 
         Aula aula = DataHolder.getInstance().getAulas().get( codigoAula );
         if (aula == null) return;
@@ -64,11 +57,11 @@ public class ClassroomManager {
             Grupo grupo = DataHolder.getInstance().getGrupos().get(key);
 
             for (Horario horario : grupo.getHorario()){
+                System.out.println(horario.getHoraInicio().toString());
                 if (horario.getAula().equals(aula.getCodigo())){
                     agregarLecciones(grupo, horario);
                 }
             }
-
         }
     }
 
@@ -80,22 +73,21 @@ public class ClassroomManager {
         String title = grupo.getCurso().getId()+ " Grupo: " + grupo.getNumGrupo();
         gc.setFont(new Font("Calibri", 14));
 
-        String hInicio = horario.getHoraInicio().toString();
-        int debugY = bHoursMap.get(hInicio);
-        int x = 200 * diasMap.get(horario.getDia()) + 100;
-        int y = 100 * debugY + 50;
 
-        int width = 160;
+
+        double x = diasMap.get(horario.getDia());
+        double y = (horario.getHoraInicio().toSecondOfDay()/60) - 420;
+        double height=(horario.getHoraSalida().toSecondOfDay()/60) - 420 - y;
 
         gc.setFill(Color.WHITE);
-        gc.fillRoundRect(x,y ,width,100,15,15);
+        gc.fillRoundRect(x,y , anchoCelda, height,15,15);
         gc.setFill(Color.GRAY);
-        gc.fillRoundRect(x,y ,width,15,15,15);
-        gc.fillRect(x,y+2,width,20);
+        gc.fillRoundRect(x,y ,anchoCelda,15,15,15);
+        gc.fillRect(x,y+2, anchoCelda,20);
         gc.setFill(Color.WHITE);
-        gc.fillText(title,x+10,y+15,width);
+        gc.fillText(title,x+10,y+15, anchoCelda);
         gc.setFill(Color.BLACK);
-        gc.fillText(body,x+5,y+25,width-10);
+        gc.fillText(body,x+5,y+25,anchoCelda-10);
 
         posiciones.add(new double[]{x,y});
         gruposEnPantalla.add(grupo);
@@ -109,13 +101,22 @@ public class ClassroomManager {
         drawHours();
     }
 
+    private void drawLines(){
+        int baseY = 50;
+        double HEIGHT = 200;
+        for (int row = 0; row < 15; row++){
+            gc.setFill(row%2==0? Color.GRAY : Color.WHITE);
+            gc.fillRect(0,baseY, anchoCelda,HEIGHT);
+            baseY+=200;
+        }
+    }
+
     private void drawDays(){
-        int baseX = 120;
-        int baseY = 20;
+        int baseX = 160;
 
         for (String currentDay : diasLectivos){
             gc.setFill(Color.BLACK);
-            gc.fillText(currentDay,baseX,baseY,100);
+            gc.fillText(currentDay, baseX, 20 ,60);
             baseX+=200;
         }
 
@@ -123,16 +124,14 @@ public class ClassroomManager {
     }
 
     private void drawHours(){
-        int baseX = 20;
         int baseY = 120;
 
         for (int i = 0; i < 15; i++){
-            String hora = bHoursMap.get(i) + " - " + fHoursMap.get(i);
+            //String hora = bHoursMap.get(i) + " - " + fHoursMap.get(i);
             gc.setFill(Color.BLACK);
-            gc.fillText(hora, baseX, baseY,100);
+            //gc.fillText(hora, 20, baseY,100);
             baseY+=100;
         }
-        canvas_horarioAula.setHeight(baseY);
     }
 
     public void initialize(){
@@ -144,52 +143,19 @@ public class ClassroomManager {
                 aulas.add(h.getAula());
             }
         }
-
         combo_Aulas.getItems().addAll(aulas);
-
         combo_Aulas.getSelectionModel().selectFirst();
         combo_Aulas.valueProperty().addListener((ChangeListener<String>) (ov, t, t1) -> drawOnCanvas(t1));
 
         //Para hacer las pruebas, antes de seguir esto lo pasare a un CSV o alguna otra alternativa, pero ocupo esto en especifico
-        bHoursMap = new HashMap<>();
-        bHoursMap.put("7:30", 1);
-        bHoursMap.put("8:30", 2);
-        bHoursMap.put("9:30", 3);
-        bHoursMap.put("10:30", 4);
-        bHoursMap.put("11:30", 5);
-        bHoursMap.put("13:00", 6);
-        bHoursMap.put("14:00", 7);
-        bHoursMap.put("15:00", 8);
-        bHoursMap.put("16:00", 9);
-        bHoursMap.put("17:00", 10);
-        bHoursMap.put("18:00", 11);
-        bHoursMap.put("19:00", 12);
-        bHoursMap.put("20:00", 13);
-        bHoursMap.put("21:00", 14);
-
-        fHoursMap = new HashMap<>();
-        fHoursMap.put("8:20", 1);
-        fHoursMap.put("9:20", 2);
-        fHoursMap.put("10:20", 3);
-        fHoursMap.put("11:20", 4);
-        fHoursMap.put("12:20", 5);
-        fHoursMap.put("13:50", 6);
-        fHoursMap.put("14:50", 7);
-        fHoursMap.put("15:50", 8);
-        fHoursMap.put("16:50", 9);
-        fHoursMap.put("17:50", 10);
-        fHoursMap.put("18:50", 11);
-        fHoursMap.put("19:50", 12);
-        fHoursMap.put("20:50", 13);
-        fHoursMap.put("21:50", 14);
 
         diasMap = new HashMap<>();
-        diasMap.put("LUNES", 1);
-        diasMap.put("MARTES", 2);
-        diasMap.put("MIERCOLES", 3);
-        diasMap.put("JUEVES", 4);
-        diasMap.put("VIERNES", 5);
-        diasMap.put("SABADO", 6);
+        diasMap.put("LUNES",50);
+        diasMap.put("MARTES",250);
+        diasMap.put("MIERCOLES",450);
+        diasMap.put("JUEVES",650);
+        diasMap.put("VIERNES",850);
+        diasMap.put("SABADO",1150);
 
         drawOnCanvas("B3-8");
         canvas_horarioAula.setOnMouseClicked(seleccionGrupo);
@@ -208,14 +174,12 @@ public class ClassroomManager {
                     popUp(gruposEnPantalla.get(i));
                 }
             }
-
         }
 
         private boolean isInRange(double[] coordClick, double[] coordTest){
-            return coordTest[0] <= coordClick[0] && coordClick[0] <= (coordTest[0]+100) &&
-                    coordTest[1] <= coordClick[1] && coordClick[1] <= (coordTest[1]+100);
+            return coordTest[0] <= coordClick[0] && coordClick[0] <= (coordTest[0]+anchoCelda) &&
+                    coordTest[1] <= coordClick[1] && coordClick[1] <= (coordTest[1]+15);
         }
-
     };
 
     private void popUp(Grupo group){

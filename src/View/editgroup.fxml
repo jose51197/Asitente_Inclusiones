@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="500" maxWidth="591.0" prefHeight="500.0" prefWidth="241.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.EditGroupController">
+<AnchorPane maxHeight="500" maxWidth="591.0" prefHeight="190.0" prefWidth="241.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.EditGroupController">
    <children>
        <GridPane fx:id="grid_horarios" AnchorPane.bottomAnchor="100" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" VBox.vgrow="ALWAYS">
            <columnConstraints>
@@ -39,8 +39,8 @@
        </GridPane>
       <SplitPane dividerPositions="0.5" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
          <items>
-            <Button mnemonicParsing="false" text="Button" />
-            <Button mnemonicParsing="false" text="Button" />
+            <Button mnemonicParsing="false" text="Cancelar" />
+            <Button mnemonicParsing="false" text="Guardar" />
          </items></SplitPane>
 
        
