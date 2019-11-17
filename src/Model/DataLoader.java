@@ -38,6 +38,7 @@ public class DataLoader {
             String nombre= row.get(1);
             Estudiante estudiante= new Estudiante(carnet,nombre,sheetName);
             estudiante.setPonderado(Double.valueOf(row.get(2)));
+            estudiante.setPlan(sheetName);
             Map<String, String> cursos = estudiante.getCursos();
             for(int j=2; j<row.size();j++){
                 cursos.put(columns.get(j),row.get(j));
@@ -140,7 +141,8 @@ public class DataLoader {
         ArrayList<ArrayList<String>> data= excelreader.readCsvFiles(filepath);
         Map<Integer, Estudiante> estudiantes = dataHolder.getEstudiantes();
         Map<String, Grupo> grupos = dataHolder.getGrupos();
-        Map<Integer, ArrayList<Inclusion>> inclusionesEstudianteMap = dataHolder.getInclusionesMap();
+        Map<Integer, ArrayList<Inclusion>> inclusionesEstudianteMap = dataHolder.getInclusionesMapPorEstudiante();
+        Map<String, ArrayList<Inclusion>> inclusionesMateriaMap = dataHolder.getInclusionesMapPorMateria();
         data.remove(0);
         ArrayList<Inclusion>  result = dataHolder.getInclusiones();
         for(ArrayList<String> row :data){
@@ -164,6 +166,15 @@ public class DataLoader {
                         Inclusion nuevaInclusion= new Inclusion(planB, g,e,row.get(8),row.get(1));
                         result.add(nuevaInclusion);
                         ArrayList<Inclusion> inclusionesEstudiante;
+                        if(inclusionesEstudianteMap.containsKey(e.getCarnet())){
+                            inclusionesEstudiante=inclusionesEstudianteMap.get(e.getCarnet());
+                            inclusionesEstudiante.add(nuevaInclusion);
+                        }
+                        else{
+                            inclusionesEstudiante= new ArrayList<>();
+                            inclusionesEstudiante.add(nuevaInclusion);
+                            inclusionesEstudianteMap.put(e.getCarnet(),inclusionesEstudiante);
+                        }
                         if(inclusionesEstudianteMap.containsKey(e.getCarnet())){
                             inclusionesEstudiante=inclusionesEstudianteMap.get(e.getCarnet());
                             inclusionesEstudiante.add(nuevaInclusion);

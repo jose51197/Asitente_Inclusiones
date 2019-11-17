@@ -11,7 +11,8 @@ public class DataHolder {
     private Map<Integer, Estudiante> estudiantes;
     private Map<String, Aula> aulas;
     private Map<String, Grupo> grupos;
-    private Map <Integer, ArrayList<Inclusion>> inclusionesMap;
+    private Map <Integer, ArrayList<Inclusion>> inclusionesMapPorEstudiante;
+    private Map <String, ArrayList<Inclusion>> inclusionesMapPorMateria;
     private ArrayList<Inclusion> inclusiones;
     private static DataHolder instance ;
 
@@ -20,7 +21,8 @@ public class DataHolder {
         estudiantes= new HashMap<>();
         aulas = new HashMap<>();
         grupos = new HashMap<>();
-        inclusionesMap= new HashMap<>();
+        inclusionesMapPorEstudiante= new HashMap<>();
+        inclusionesMapPorMateria= new HashMap<>();
         inclusiones = new ArrayList<>();
     }
 
@@ -63,12 +65,12 @@ public class DataHolder {
         this.grupos = grupos;
     }
 
-    public Map<Integer, ArrayList<Inclusion>> getInclusionesMap() {
-        return inclusionesMap;
+    public Map<Integer, ArrayList<Inclusion>> getInclusionesMapPorEstudiante() {
+        return inclusionesMapPorEstudiante;
     }
 
-    public void setInclusionesMap(Map<Integer, ArrayList<Inclusion>> inclusionesMap) {
-        this.inclusionesMap = inclusionesMap;
+    public void setInclusionesMapPorEstudiante(Map<Integer, ArrayList<Inclusion>> inclusionesMap) {
+        this.inclusionesMapPorEstudiante = inclusionesMap;
     }
 
     public ArrayList<Inclusion> getInclusiones() {
@@ -79,13 +81,11 @@ public class DataHolder {
         this.inclusiones = inclusiones;
     }
 
-    public void guardar() throws IOException {
-        Serializator serializator= new Serializator();
-        serializator.serializeObject(malla,"malla");
-        serializator.serializeObject(estudiantes,"estudiantes");
-        serializator.serializeObject(aulas,"aulas");
-        serializator.serializeObject(grupos,"grupos");
-        serializator.serializeObject(inclusiones,"inclusiones");
-        serializator.serializeObject(inclusionesMap,"inclusionesMap");
+    public Map<String, ArrayList<Inclusion>> getInclusionesMapPorMateria() {
+        return inclusionesMapPorMateria;
+    }
+
+    public void setInclusionesMapPorMateria(Map<String, ArrayList<Inclusion>> inclusionesMapPorMateria) {
+        this.inclusionesMapPorMateria = inclusionesMapPorMateria;
     }
 }
