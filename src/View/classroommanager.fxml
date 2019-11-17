@@ -56,13 +56,9 @@
                </HBox>
                 </items>
             </SplitPane>
-         <ScrollPane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+         <ScrollPane fx:id="scroll_horario" prefHeight="50.0" prefWidth="50.0" VBox.vgrow="ALWAYS">
            <content>
-             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
-                  <children>
-                     <Canvas height="200.0" width="200.0" />
-                  </children>
-               </AnchorPane>
+               <Canvas fx:id="canvas_horarioAula" height="1500.0" width="1400.0" VBox.vgrow="ALWAYS" />
            </content>
          </ScrollPane>
 

@@ -1,6 +1,8 @@
 package Model;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
@@ -9,6 +11,7 @@ public class Horario implements Serializable{
     private String dia;
     private LocalTime horaInicio;
     private  LocalTime horaSalida;
+
 
     public Aula getAula() {
         return aula;
@@ -46,6 +49,7 @@ public class Horario implements Serializable{
         this.aula = aula;
         this.dia = dia;
         String [] hora = horas.split("-");
+
         horaInicio= LocalTime.parse(hora[0]);
         horaSalida= LocalTime.parse(hora[1]);
     }
