@@ -7,11 +7,20 @@ import java.util.List;
 
 import java.util.List;
 
-public class Grupo implements Serializable{
+public class Grupo {
     private int numGrupo;
     private String profesor;
     private Curso curso;
-    private List<Horario> horario;
+    private List<Horario> horarios;
+
+    public boolean notContainsHorario(String dia){
+        for (Horario horario: horarios){
+            if(horario.getDia().equals(dia)){
+                return false;
+            }
+        }
+        return true;
+    }
 
     public int getNumGrupo() {
         return numGrupo;
@@ -39,30 +48,29 @@ public class Grupo implements Serializable{
     }
 
     public void addHorario(Horario horario){
-        this.horario.add(horario);
+        this.horarios.add(horario);
     }
 
     public List<Horario> getHorario() {
-        return horario;
+        return horarios;
     }
 
-    public void setHorario(List<Horario> horario) {
-        this.horario = horario;
+    public void setHorario(List<Horario> horarios) {
+        this.horarios = horarios;
     }
 
-    public Grupo(int numGrupo, String horarios, String profesor, Aula aula, Curso curso) {
+    public Grupo(int numGrupo, String profesor, Curso curso) {
         this.numGrupo = numGrupo;
         this.profesor = profesor;
         this.curso = curso;
-        this.horario = new ArrayList<>();
+        this.horarios = new ArrayList<>();
     }
 
-    public Grupo(int numGrupo, String profesor, Curso curso, List<Horario> horario) {
+    public Grupo(int numGrupo, String profesor, Curso curso, List<Horario> horarios) {
         this.numGrupo = numGrupo;
-
         this.profesor = profesor;
         this.curso = curso;
-        this.horario = horario;
+        this.horarios = horarios;
     }
 
     @Override
@@ -71,7 +79,7 @@ public class Grupo implements Serializable{
                 "numGrupo=" + numGrupo +
                 ", profesor='" + profesor + '\'' +
                 ", curso=" + curso +
-                ", horario=" + horario +
+                ", horario=" + horarios.toString() +
                 '}';
     }
 }

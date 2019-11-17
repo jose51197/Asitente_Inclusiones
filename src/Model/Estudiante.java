@@ -2,43 +2,45 @@ package Model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
-public class Estudiante implements Serializable{
+public class Estudiante {
 
     private int carnet;
     private String nombre="";
     private String email="";
     private int phone=0;
     private boolean rn;
-    private int  pin;
-    private ArrayList<Curso> cursosActuales= new ArrayList<>();
+    private double ponderado;
+    private String plan;
+    private Map<String, String> cursos=  new HashMap<>();
+    private Map<String, Grupo> grupos=  new HashMap<>();
 
-    public Estudiante(int carnet, String nombre, String email, int phone) {
+    public Estudiante(int carnet, String nombre, String email, int phone,String plan) {
         this.carnet = carnet;
         this.nombre = nombre;
         this.email = email;
         this.phone = phone;
+        this.plan=plan;
         this.rn=false;
-        this.pin=0;
     }
 
-    public Estudiante(int carnet) {
+    public Estudiante(int carnet, String nombre,String plan) {
+        this.carnet = carnet;
+        this.nombre = nombre;
+        this.rn=false;
+        this.plan=plan;
+    }
+
+    public Estudiante(int carnet,String plan) {
         this.carnet = carnet;
         this.rn=false;
+        this.plan=plan;
     }
 
 
-    public ArrayList<Curso> getCursosActuales() {
-        return cursosActuales;
-    }
 
-    public void setCursosActuales(ArrayList<Curso> cursosActuales) {
-        this.cursosActuales = cursosActuales;
-    }
-
-    public void addCursoActuale(Curso cursoActual) {
-        this.cursosActuales.add(cursoActual);
-    }
 
     public int getCarnet() {
         return carnet;
@@ -80,12 +82,36 @@ public class Estudiante implements Serializable{
         this.rn = rn;
     }
 
-    public int getPin() {
-        return pin;
+    public String getPlan() {
+        return plan;
     }
 
-    public void setPin(int pin) {
-        this.pin = pin;
+    public void setPlan(String plan) {
+        this.plan = plan;
+    }
+
+    public Map<String, String> getCursos() {
+        return cursos;
+    }
+
+    public void setCursos(Map<String, String> cursos) {
+        this.cursos = cursos;
+    }
+
+    public Map<String, Grupo> getGrupos() {
+        return grupos;
+    }
+
+    public void setGrupos(Map<String, Grupo> grupos) {
+        this.grupos = grupos;
+    }
+
+    public double getPonderado() {
+        return ponderado;
+    }
+
+    public void setPonderado(double ponderado) {
+        this.ponderado = ponderado;
     }
 }
 

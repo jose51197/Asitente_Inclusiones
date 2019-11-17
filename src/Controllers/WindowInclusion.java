@@ -9,15 +9,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-
-import javax.swing.plaf.TabbedPaneUI;
 import java.util.ArrayList;
 
 public class WindowInclusion {
     public Label lrn;
+    @FXML Label labelPonderado;
     @FXML Tab tab1;
     @FXML Label lcantidad;
     @FXML Label lcarnet;
@@ -30,10 +28,11 @@ public class WindowInclusion {
     private int selected=0;
     private int total=1;
 
-    public void iniciar(int carnet, Inclusion i) {
+    public void iniciar(Inclusion i) {
+        this.carnet = i.getEstudiante().getCarnet();
+        labelPonderado.setText("Ponderado: " + String.valueOf(i.getEstudiante().getPonderado()));
 
-        this.carnet = carnet;
-        ArrayList<Inclusion> inclusiones = DataHolder.getInstance().getInclusionesMap().get(carnet);
+        ArrayList<Inclusion> inclusiones = DataHolder.getInstance().getInclusionesMapPorEstudiante().get(carnet);
         try{
             Tab tab = new Tab();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/viewInclusion.fxml"));
@@ -47,9 +46,10 @@ public class WindowInclusion {
 
         try{
             Tab tab = new Tab();
-            tab.setText("Plan ");//TODO poner el plan del estudiante
+            tab.setText(i.getEstudiante().getPlan());
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/viewPlan.fxml"));
             tab.setContent(loader.load());
+            ((viewPlanController)loader.getController()).setPlan(i.getEstudiante());
             tabPlanHorario.getTabs().add(tab);
         }catch (Exception e){
             e.printStackTrace();
@@ -100,7 +100,7 @@ public class WindowInclusion {
     }
 
     public void derecha(ActionEvent actionEvent) {
-        if(selected<total){
+        if(selected<total-1){
             selected+=1;
             tabInclusiones.getSelectionModel().select(selected);
         }

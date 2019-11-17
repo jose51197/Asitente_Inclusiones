@@ -1,0 +1,18 @@
+<component name="libraryTable">
+  <library name="poi-scratchpad-4.1.1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libs/poi-scratchpad-4.1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/poi-ooxml-schemas-4.1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/poi-ooxml-4.1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/poi-excelant-4.1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/poi-examples-4.1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/poi-4.1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/curvesapi-1.06.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/xmlbeans-3.1.0.jar!/" />
+      <root url="file://$PROJECT_DIR$/libs/poi-libs" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+    <jarDirectory url="file://$PROJECT_DIR$/libs/poi-libs" recursive="false" />
+  </library>
+</component>

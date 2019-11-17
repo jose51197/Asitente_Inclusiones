@@ -152,7 +152,7 @@ public class MainWindow {
             stage.setScene(new Scene(root1));
             stage.show();
             WindowInclusion controlador = fxmlLoader.getController();
-            controlador.iniciar(seleccionada.getEstudiante().getCarnet(),seleccionada);
+            controlador.iniciar(seleccionada);
         }  catch (IOException e){
             System.out.println(e.toString());
         }

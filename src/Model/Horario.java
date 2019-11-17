@@ -1,23 +1,20 @@
 package Model;
 
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-public class Horario implements Serializable{
-    private Aula aula;
+public class Horario {
+    private String aula;
     private String dia;
     private LocalTime horaInicio;
     private  LocalTime horaSalida;
 
-
-    public Aula getAula() {
+    public String getAula() {
         return aula;
     }
 
-    public void setAula(Aula aula) {
+    public void setAula(String aula) {
         this.aula = aula;
     }
 
@@ -45,13 +42,11 @@ public class Horario implements Serializable{
         this.horaSalida = horaSalida;
     }
 
-    public Horario(Aula aula, String dia, String horas) {
+    public Horario(String aula, String dia, LocalTime horaInicio, LocalTime horaSalida) {
         this.aula = aula;
         this.dia = dia;
-        String [] hora = horas.split("-");
-
-        horaInicio= LocalTime.parse(hora[0]);
-        horaSalida= LocalTime.parse(hora[1]);
+        this.horaInicio= horaInicio;
+        this.horaSalida=horaSalida;
     }
 
     @Override

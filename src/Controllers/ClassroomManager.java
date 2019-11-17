@@ -76,6 +76,8 @@ public class ClassroomManager {
                     System.out.println("Agregando al mapa");
                     addPane(grupo, horario);
 
+                } else {
+                    System.out.println(horario.getAula().getCodigo() + "   " +aula.getCodigo() );
                 }
             }
         }
