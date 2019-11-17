@@ -33,17 +33,22 @@ public class DataLoader {
         Map<Integer, Estudiante> estudiantes= DataHolder.getInstance().getEstudiantes();
         ArrayList<String> columns= sheet.get(0);
         for(int i=1; i <sheet.size();i++){
-            ArrayList<String> row= sheet.get(i);
-            int carnet= new BigDecimal(row.get(0)).setScale(0, RoundingMode.HALF_UP).intValue();
-            String nombre= row.get(1);
-            Estudiante estudiante= new Estudiante(carnet,nombre,sheetName);
-            estudiante.setPonderado(Double.valueOf(row.get(2)));
-            estudiante.setPlan(sheetName);
-            Map<String, String> cursos = estudiante.getCursos();
-            for(int j=2; j<row.size();j++){
-                cursos.put(columns.get(j),row.get(j));
+            try {
+                ArrayList<String> row = sheet.get(i);
+                int carnet = new BigDecimal(row.get(0)).setScale(0, RoundingMode.HALF_UP).intValue();
+                String nombre = row.get(1);
+                Estudiante estudiante = new Estudiante(carnet, nombre, sheetName);
+                estudiante.setPonderado(Double.valueOf(row.get(2)));
+                estudiante.setPlan(sheetName);
+                Map<String, String> cursos = estudiante.getCursos();
+                for (int j = 2; j < row.size(); j++) {
+                    cursos.put(columns.get(j), row.get(j));
+                }
+                estudiantes.put(carnet, estudiante);
             }
-            estudiantes.put(carnet,estudiante);
+            catch (Exception e){
+                System.out.println("estudiante invalido");
+            }
         }
     }
 
