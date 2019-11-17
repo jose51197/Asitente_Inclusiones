@@ -37,5 +37,4 @@ public class Aula implements Serializable {
         this.camposDisponibles = camposDisponibles;
     }
 
-
 }

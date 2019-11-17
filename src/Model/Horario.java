@@ -54,7 +54,6 @@ public class Horario implements Serializable {
         this.aula = aula;
         this.dia = dia;
         this.horas = horas;
-        System.out.println(horas);
         horaInicio = horas.split("-")[0];
         horaFin = horas.split("-")[1];
     }
