@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="850.0" prefWidth="1250.0" style="-fx-background-color: #E04836;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.WindowInclusion">
+<AnchorPane prefHeight="850.0" prefWidth="1250.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.WindowInclusion">
    <children>
       <Label fx:id="lnombre" layoutX="14.0" layoutY="14.0" text="Nombre">
          <font>
@@ -23,7 +23,7 @@
       <Label fx:id="lrn" layoutX="14.0" layoutY="76.0" text="RN" />
       <TabPane fx:id="tabPlanHorario" layoutY="248.0" prefHeight="602.0" prefWidth="1250.0" tabClosingPolicy="UNAVAILABLE" />
       <Label fx:id="labelPonderado" layoutX="14.0" layoutY="106.0" text="Ponderado" />
-      <TabPane fx:id="tabInclusiones" layoutX="613.0" layoutY="-12.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="288.0" prefWidth="637.0" style="-fx-background-color: #F39D41;" tabClosingPolicy="UNAVAILABLE" tabMaxHeight="0.0" tabMaxWidth="0.0" />
+      <TabPane fx:id="tabInclusiones" layoutX="613.0" layoutY="-12.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="288.0" prefWidth="637.0" style="-fx-background-color: #5696BC;" tabClosingPolicy="UNAVAILABLE" tabMaxHeight="0.0" tabMaxWidth="0.0" />
       <Button layoutX="571.0" layoutY="49.0" mnemonicParsing="false" onAction="#derecha" text="&gt;" />
    </children>
 </AnchorPane>

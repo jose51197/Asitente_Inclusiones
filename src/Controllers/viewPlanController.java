@@ -28,8 +28,6 @@ public class viewPlanController {
 
         int y,x,semestre;
         final int h=70;
-        gc.setFill(new Color(.55,.30,.11,1));
-        gc.fillRect(0,0,1500,1500);
         gc.setStroke(Color.WHITE);
         gc.setFont(new Font("Calibri",12));
         Map<Integer,Integer> mapSemestre = new HashMap<>();

@@ -3,7 +3,7 @@
 <?import javafx.scene.canvas.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.viewPlanController">
+<AnchorPane prefHeight="600.0" prefWidth="1200.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.viewPlanController">
    <children>
       <Canvas fx:id="canvas" height="600.0" width="1400.0" />
    </children>

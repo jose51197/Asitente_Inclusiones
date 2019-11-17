@@ -32,7 +32,7 @@
             <TextField prefHeight="25.0" prefWidth="312.0" />
         </items>
       </SplitPane>
-      <TableView fx:id="tablaInclusiones" onMouseClicked="#onSeleccionarInclusion" VBox.vgrow="ALWAYS">
+      <TableView fx:id="tablaInclusiones" onMouseClicked="#onSeleccionarInclusion" style="-fx-background-color: #555555;" VBox.vgrow="ALWAYS">
         <columns>
           <TableColumn fx:id="cNombre" prefWidth="431.0" text="Nombre" />
             <TableColumn fx:id="cMateria" minWidth="1.0" prefWidth="336.0" text="Materia" />
