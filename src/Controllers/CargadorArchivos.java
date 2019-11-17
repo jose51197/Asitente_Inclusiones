@@ -42,7 +42,7 @@ public class CargadorArchivos {
             dataHolder.setInclusiones((ArrayList<Inclusion>) serializator.deserializeObject("inclusiones"));
             for(Inclusion inclusion: dataHolder.getInclusiones()){
                 ArrayList<Inclusion> inclusionesEstudiante;
-                Map <Integer,ArrayList<Inclusion>>inclusionesEstudianteMap = dataHolder.getInclusionesMap();
+                Map <Integer,ArrayList<Inclusion>>inclusionesEstudianteMap = dataHolder.getInclusionesMapPorEstudiante();
                 if(inclusionesEstudianteMap.containsKey(inclusion.getEstudiante().getCarnet())){
                     inclusionesEstudiante=inclusionesEstudianteMap.get(inclusion.getEstudiante().getCarnet());
                     inclusionesEstudiante.add(inclusion);

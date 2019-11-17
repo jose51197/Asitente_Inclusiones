@@ -30,10 +30,9 @@ public class WindowInclusion {
     private int selected=0;
     private int total=1;
 
-    public void iniciar(int carnet, Inclusion i) {
-
-        this.carnet = carnet;
-        ArrayList<Inclusion> inclusiones = DataHolder.getInstance().getInclusionesMap().get(carnet);
+    public void iniciar(Inclusion i) {
+        this.carnet = i.getEstudiante().getCarnet();
+        ArrayList<Inclusion> inclusiones = DataHolder.getInstance().getInclusionesMapPorEstudiante().get(carnet);
         try{
             Tab tab = new Tab();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/viewInclusion.fxml"));
@@ -47,9 +46,10 @@ public class WindowInclusion {
 
         try{
             Tab tab = new Tab();
-            tab.setText("Plan ");//TODO poner el plan del estudiante
+            tab.setText(i.getEstudiante().getPlan());
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/viewPlan.fxml"));
             tab.setContent(loader.load());
+            ((viewPlanController)loader.getController()).setPlan(i.getEstudiante());
             tabPlanHorario.getTabs().add(tab);
         }catch (Exception e){
             e.printStackTrace();

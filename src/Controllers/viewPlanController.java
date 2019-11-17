@@ -2,6 +2,8 @@ package Controllers;
 
 import Model.Curso;
 import Model.DataHolder;
+import Model.Estudiante;
+import Model.Inclusion;
 import javafx.fxml.FXML;
 import javafx.geometry.VPos;
 import javafx.scene.canvas.Canvas;
@@ -17,14 +19,11 @@ import java.util.Map;
 public class viewPlanController {
     @FXML
     Canvas canvas;
-    public void initialize(){
-        setPlan(null);
-    }
-    public void setPlan(Map<String, Curso> plan){
-        plan = DataHolder.getInstance().getMalla().get("plan 2050");//temporal
+
+    public void setPlan(Estudiante e){
+        Map<String, Curso> plan  = DataHolder.getInstance().getMalla().get(e.getPlan());
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.setFill(Color.BLUE);
-
 
         int y,x,semestre;
         final int h=70;
@@ -32,8 +31,6 @@ public class viewPlanController {
         gc.setFont(new Font("Calibri",12));
         Map<Integer,Integer> mapSemestre = new HashMap<>();
         for (Map.Entry<String, Curso> curso : plan.entrySet()) {
-            System.out.println(curso.getValue().getNombre());
-
             if(mapSemestre.containsKey(curso.getValue().getSemestre())){
                 mapSemestre.put(curso.getValue().getSemestre(),mapSemestre.get(curso.getValue().getSemestre())+1);
                 semestre=curso.getValue().getSemestre();
@@ -43,11 +40,25 @@ public class viewPlanController {
                 mapSemestre.put(semestre,0);
                 y=0;
             }
-            System.out.println(semestre);
-
             x = 100*semestre+ 20;
-            //TODO tomar en cuenta si ya lo paso, por ahora azul por default
-            gc.setFill(Color.STEELBLUE);
+
+            switch (e.getCursos().get(curso.getKey())){
+                case"Aprobado":
+                    gc.setFill(Color.STEELBLUE);
+                    break;
+                case"En\tcurso":
+                    gc.setFill(Color.DARKGREEN);
+                    break;
+                case"Reprobado":
+                    gc.setFill(Color.DARKRED);
+                    break;
+                case"Cumple\trequisitos":
+                    gc.setFill(Color.GRAY);
+                    break;
+                case"Pendiente":
+                    gc.setFill(Color.SADDLEBROWN);
+                    break;
+            }
             gc.fillRoundRect(x,y*h ,85,60,15,15);
             gc.setFill(Color.GRAY);
             gc.fillRoundRect(x,y*h ,85,5,15,15);
@@ -88,10 +99,10 @@ public class viewPlanController {
 
         gc.setFill(Color.BLACK);
         gc.setFont(new Font("Calibri",20));
-        gc.fillText("En curso",x+15,y+10);
+        gc.fillText("En\tcurso",x+15,y+10);
         gc.fillText("Aprobado",x+15,y+30);
         gc.fillText("Reprobado",x+15,y+50);
-        gc.fillText("Cumple req",x+15,y+70);
+        gc.fillText("Cumple\treq",x+15,y+70);
         gc.fillText("Pendiente",x+15,y+90);
 
         gc.setFill(Color.DARKGREEN);
@@ -103,18 +114,11 @@ public class viewPlanController {
         gc.setFill(Color.DARKRED);
         gc.fillOval(x,y+40,10,10);
 
-        gc.setFill(Color.WHITE);
+        gc.setFill(Color.GRAY);
         gc.fillOval(x,y+60,10,10);
 
-        gc.setFill(Color.YELLOW);
+        gc.setFill(Color.SADDLEBROWN);
         gc.fillOval(x,y+80,10,10);
-
-
-
-
-
-
-
 
     }
     public static String[] splitByNumber(String str, int size) {
