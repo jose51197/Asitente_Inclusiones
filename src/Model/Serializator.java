@@ -5,11 +5,11 @@ import java.io.*;
 public class Serializator {
 
     public void serializeObject( Object object, String name) throws IOException {
-        FileOutputStream fileOut = new FileOutputStream(name+".ser");
+       /* FileOutputStream fileOut = new FileOutputStream(name+".ser");
         ObjectOutputStream out = new ObjectOutputStream(fileOut);
         out.writeObject(object);
         out.close();
-        fileOut.close();
+        fileOut.close();*/
     }
 
 

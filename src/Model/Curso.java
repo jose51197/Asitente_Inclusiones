@@ -3,19 +3,36 @@ package Model;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Curso implements Serializable {
+public class Curso implements Serializable{
     private String id;
     private String nombre;
     private ArrayList<Curso> requisitos = new ArrayList<>();
     private ArrayList<Curso> corequisitos = new ArrayList<>();
     private int creditos;
+    private int semestre;
 
-    public Curso(String id, String nombre, int creditos) {
+    public Curso(String id, String nombre, int creditos, int semestre) {
         this.id = id;
         this.nombre = nombre;
         this.creditos=creditos;
+        this.semestre=semestre;
     }
 
+    public int getSemestre() {
+        return semestre;
+    }
+
+    public void setSemestre(int semestre) {
+        this.semestre = semestre;
+    }
+
+    public int getCreditos() {
+        return creditos;
+    }
+
+    public void setCreditos(int creditos) {
+        this.creditos = creditos;
+    }
 
     public String getId() {
         return id;

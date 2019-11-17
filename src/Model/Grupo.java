@@ -7,7 +7,7 @@ import java.util.List;
 
 import java.util.List;
 
-public class Grupo implements Serializable {
+public class Grupo implements Serializable{
     private int numGrupo;
     private String profesor;
     private Curso curso;

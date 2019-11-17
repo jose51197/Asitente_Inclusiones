@@ -1,11 +1,12 @@
 package Model;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DataHolder {
+public class DataHolder implements Serializable {
     private Map<String, Curso> malla;
     private Map<Integer, Estudiante> estudiantes;
     private Map<String, Aula> aulas;

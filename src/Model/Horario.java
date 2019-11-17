@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-public class Horario implements Serializable {
+public class Horario implements Serializable{
     private Aula aula;
     private String dia;
     private LocalTime horaInicio;

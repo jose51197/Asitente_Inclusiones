@@ -70,7 +70,7 @@ public class CSVreader {
         Map<String, Curso> result = new HashMap<String, Curso>();
         for(ArrayList<String> row :data){
             String codigo= row.get(0);
-            actual=new Curso(codigo,row.get(1),Integer.valueOf(row.get(2)));
+            actual=new Curso(codigo,row.get(1),Integer.valueOf(row.get(2)),Integer.valueOf(row.get(5)));
             result.put(codigo,actual);
         }
         for(ArrayList<String> row :data){

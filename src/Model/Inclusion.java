@@ -8,7 +8,7 @@ import javafx.beans.value.ObservableValue;
 
 import java.io.Serializable;
 
-public class Inclusion implements Serializable {
+public class Inclusion implements Serializable{
 
     private boolean planB;
     private Grupo grupo;

@@ -59,10 +59,10 @@ public class Main extends Application {
     public static void main(String[] args) throws Exception {
 
         //descomentar lo de abajo si no hay .ser
-        //cargadorArchivos.cargarNuevosDatos("plan.csv","rn.csv","aulas.csv","grupos.csv");
-        //cargadorArchivos.cargarInclusiones("inclusiones.csv");
-        cargadorArchivos.cargarDatos();
-        dataHolder.guardar();
+        cargadorArchivos.cargarNuevosDatos("plan.csv","rn.csv","aulas.csv","grupos.csv");
+        cargadorArchivos.cargarInclusiones("inclusiones.csv");
+        //cargadorArchivos.cargarDatos();
+        //dataHolder.guardar();
         pruebasJose();
         pruebasSergie();
         //pruebasOscar();

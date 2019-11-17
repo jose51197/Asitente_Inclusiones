@@ -57,7 +57,7 @@ public class ClassroomManager {
     }
 
     public void addPane(Grupo grupo, Horario horario){
-        int span = fHoursMap.get(horario.getHoraFin()) - bHoursMap.get(horario.getHoraInicio()) + 1;
+        int span = fHoursMap.get(horario.getHoraSalida()) - bHoursMap.get(horario.getHoraInicio()) + 1;
         Accordion accordion = new Accordion();
         TitledPane pane1 = new TitledPane("Boats" , new Label("Show all boats available"));
 
@@ -65,7 +65,7 @@ public class ClassroomManager {
         VBox box = new VBox();
 
         box.getChildren().add(new Label("Profe: " + grupo.getProfesor()));
-        box.getChildren().add(new Label("Horario: " + horario.getHoras()));
+        box.getChildren().add(new Label("Horario: " +"WIP"));
 
         pane1.setContent(box);
         pane1.getWidth();
