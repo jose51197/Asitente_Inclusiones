@@ -6,12 +6,9 @@ import Model.Grupo;
 import Model.Horario;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -20,11 +17,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.Label;
 
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
-import javafx.event.EventHandler;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -40,8 +35,6 @@ public class ClassroomManager {
     @FXML
     private ComboBox combo_Aulas;
     @FXML
-    private ScrollPane scroll_horario;
-    @FXML
     private Label lCapacidad;
     @FXML
     private Canvas canvas_horarioAula;
@@ -50,10 +43,10 @@ public class ClassroomManager {
     private List<double[]> posiciones = new ArrayList<>();
     private List<Grupo> gruposEnPantalla = new ArrayList<>();
 
+    private String diasLectivos[] = {"Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"};
+
     int debugX = 0;
     int debugY = 0;
-
-    private static DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
     Map<String, Integer> bHoursMap;
     Map<String, Integer> fHoursMap;
@@ -65,27 +58,21 @@ public class ClassroomManager {
         debugY = 0;
 
         Aula aula = DataHolder.getInstance().getAulas().get( codigoAula );
-
-        lCapacidad.setText( "Capacidad: " + aula.getCapacidad() );
+        if (aula == null) return;
 
         for (String key : DataHolder.getInstance().getGrupos().keySet()){
             Grupo grupo = DataHolder.getInstance().getGrupos().get(key);
 
             for (Horario horario : grupo.getHorario()){
                 if (horario.getAula().equals(aula.getCodigo())){
-                    System.out.println("Agregando al mapa");
-                    addPane(grupo, horario);
-
-                } else {
-                    System.out.println(horario.getAula() + "   " +aula.getCodigo() );
+                    agregarLecciones(grupo, horario);
                 }
             }
+
         }
     }
 
-    public void addPane(Grupo grupo, Horario horario){
-        System.out.println(horario.toString());
-        //int span = fHoursMap.get(horario.getHoraSalida()) - bHoursMap.get(horario.getHoraInicio()) + 1;
+    public void agregarLecciones(Grupo grupo, Horario horario){
         String body = "\n  Horario: " + horario.getHoraInicio();
         body += "\n  Profesor: " + grupo.getProfesor();
         body += "\n  Aula: ";
@@ -93,8 +80,10 @@ public class ClassroomManager {
         String title = grupo.getCurso().getId()+ " Grupo: " + grupo.getNumGrupo();
         gc.setFont(new Font("Calibri", 14));
 
-        int x = 200 * debugX++ + 100;
-        int y = 100 * debugY++ + 50;
+        String hInicio = horario.getHoraInicio().toString();
+        int debugY = bHoursMap.get(hInicio);
+        int x = 200 * diasMap.get(horario.getDia()) + 100;
+        int y = 100 * debugY + 50;
 
         int width = 160;
 
@@ -112,10 +101,8 @@ public class ClassroomManager {
         gruposEnPantalla.add(grupo);
     }
 
-
-
     private void clearCanvas(){
-        gc.clearRect(0, 0, 1000, 1000);
+        gc.clearRect(0, 0, canvas_horarioAula.getWidth(), canvas_horarioAula.getHeight());
         gruposEnPantalla.clear();
         posiciones.clear();
         drawDays();
@@ -126,8 +113,7 @@ public class ClassroomManager {
         int baseX = 120;
         int baseY = 20;
 
-        String days[] = {"Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"};
-        for (String currentDay : days){
+        for (String currentDay : diasLectivos){
             gc.setFill(Color.BLACK);
             gc.fillText(currentDay,baseX,baseY,100);
             baseX+=200;
@@ -143,26 +129,26 @@ public class ClassroomManager {
         for (int i = 0; i < 15; i++){
             String hora = bHoursMap.get(i) + " - " + fHoursMap.get(i);
             gc.setFill(Color.BLACK);
-            gc.fillText(hora,baseX,baseY,100);
+            gc.fillText(hora, baseX, baseY,100);
             baseY+=100;
         }
-
         canvas_horarioAula.setHeight(baseY);
     }
-
 
     public void initialize(){
         this.gc = canvas_horarioAula.getGraphicsContext2D();
 
-        Set<String> aulas = DataHolder.getInstance().getAulas().keySet();
+        Set<String> aulas = new HashSet<>();// = DataHolder.getInstance().getAulas().keySet();
+        for (Grupo grupo : DataHolder.getInstance().getGrupos().values()){
+            for (Horario h : grupo.getHorario()){
+                aulas.add(h.getAula());
+            }
+        }
+
         combo_Aulas.getItems().addAll(aulas);
 
         combo_Aulas.getSelectionModel().selectFirst();
-        combo_Aulas.valueProperty().addListener(new ChangeListener<String>() {
-            @Override public void changed(ObservableValue ov, String t, String t1) {
-                drawOnCanvas(t1);
-            }
-        });
+        combo_Aulas.valueProperty().addListener((ChangeListener<String>) (ov, t, t1) -> drawOnCanvas(t1));
 
         //Para hacer las pruebas, antes de seguir esto lo pasare a un CSV o alguna otra alternativa, pero ocupo esto en especifico
         bHoursMap = new HashMap<>();
@@ -229,6 +215,7 @@ public class ClassroomManager {
             return coordTest[0] <= coordClick[0] && coordClick[0] <= (coordTest[0]+100) &&
                     coordTest[1] <= coordClick[1] && coordClick[1] <= (coordTest[1]+100);
         }
+
     };
 
     private void popUp(Grupo group){
@@ -243,6 +230,9 @@ public class ClassroomManager {
             stage.setTitle("Editar grupo");
             stage.setScene(new Scene(parent));
             stage.show();
+            EditGroupController controlador = fxmlLoader.getController();
+            controlador.iniciar(group);
+
         }  catch (IOException e){
             System.out.println(e.toString());
         }
