@@ -26,24 +26,28 @@ public class ViewInclusion {
         inclusion.setEstado(EstadoInclusion.RECHAZADA);
         lestado.setText("Rechazada");
         lestado.setTextFill(Color.DARKRED);
+        setInclusion(this.inclusion);
     }
 
     public void btn_aceptar(ActionEvent actionEvent) {
         inclusion.setEstado(EstadoInclusion.ACEPTADA);
         lestado.setTextFill(Color.BLUE);
         lestado.setText("Aceptada");
+        setInclusion(this.inclusion);
     }
 
     public void btn_pendiente(ActionEvent actionEvent) {
         inclusion.setEstado(EstadoInclusion.EN_PROCESO);
         lestado.setTextFill(Color.BLUEVIOLET);
         lestado.setText("Pendiente");
+        setInclusion(this.inclusion);
     }
 
     public void btn_cancelar(ActionEvent actionEvent) {
         inclusion.setEstado(EstadoInclusion.CANCELADA);
         lestado.setTextFill(Color.BLACK);
         lestado.setText("Cancelada");
+        setInclusion(this.inclusion);
     }
 
     public void setInclusion(Inclusion inclusion) {
