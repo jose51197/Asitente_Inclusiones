@@ -23,5 +23,6 @@
       <Label fx:id="lcantidad" layoutX="562.0" layoutY="150.0" text="#" />
       <TabPane fx:id="tabInclusiones" layoutX="10.0" layoutY="186.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" tabClosingPolicy="UNAVAILABLE" tabMaxHeight="0.0" tabMaxWidth="0.0" />
       <Label fx:id="lrn" layoutX="512.0" layoutY="44.0" text="RN" />
+      <Label layoutX="507.0" layoutY="90.0" text="Label" />
    </children>
 </AnchorPane>
