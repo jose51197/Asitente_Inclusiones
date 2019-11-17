@@ -14,16 +14,19 @@ public class DataHolder {
     private Map <Integer, ArrayList<Inclusion>> inclusionesMapPorEstudiante;
     private Map <String, ArrayList<Inclusion>> inclusionesMapPorMateria;
     private ArrayList<Inclusion> inclusiones;
+    private ArrayList<String> errores;
     private static DataHolder instance ;
 
     private DataHolder (){
         malla= new HashMap<>();
+        malla.put("N/A",new HashMap<>());
         estudiantes= new HashMap<>();
         aulas = new HashMap<>();
         grupos = new HashMap<>();
         inclusionesMapPorEstudiante= new HashMap<>();
         inclusionesMapPorMateria= new HashMap<>();
         inclusiones = new ArrayList<>();
+        errores = new ArrayList<>();
     }
 
     public static DataHolder getInstance(){
@@ -87,5 +90,32 @@ public class DataHolder {
 
     public void setInclusionesMapPorMateria(Map<String, ArrayList<Inclusion>> inclusionesMapPorMateria) {
         this.inclusionesMapPorMateria = inclusionesMapPorMateria;
+    }
+
+    public ArrayList<String> getErrores() {
+        return errores;
+    }
+
+    public void setErrores(ArrayList<String> errores) {
+        this.errores = errores;
+    }
+
+    public void clearErrores() {
+        this.errores = new ArrayList<>();
+    }
+
+    public void addError(String error) {
+        this.errores.add(error);
+    }
+
+    public Curso getCursoInPlanes(String nombreCurso){
+        Curso curso=null;
+        for(String plan:this.malla.keySet()){
+            curso=malla.get(plan).get(nombreCurso);
+            if(curso != null){
+                return curso;
+            }
+        }
+        return curso;
     }
 }

@@ -158,50 +158,75 @@ public class DataLoader {
         Map<String, ArrayList<Inclusion>> inclusionesMateriaMap = dataHolder.getInclusionesMapPorMateria();
         data.remove(0);
         ArrayList<Inclusion>  result = dataHolder.getInclusiones();
+        int linea=0;
+        Estudiante estudiante=null;
         for(ArrayList<String> row :data){
+            linea++;
             try{
-                Estudiante estudiante= estudiantes.get(Integer.valueOf(row.get(2)));
-                if(estudiante== null){
-                    System.out.println("estudiante no existe");
-                }
-                else{
-                    String[] datosCurso=row.get(6).split(" - ");
-                    Grupo grupo = grupos.get(datosCurso[1]+datosCurso[0]);
-                    if(grupo== null){
-                        System.out.println("grupo no existe");
-                    }
-                    else{
-                        boolean planB = (row.get(7).equals("Si"));
-                        estudiante.setNombre(row.get(4));
-                        estudiante.setEmail(row.get(1));
-                        estudiante.setPhone(Integer.valueOf(row.get(5)));
-                        Inclusion nuevaInclusion= new Inclusion(planB, grupo,estudiante,row.get(8),row.get(1));
-                        result.add(nuevaInclusion);
-                        ArrayList<Inclusion> inclusionesAux;
-                        if(inclusionesEstudianteMap.containsKey(estudiante.getCarnet())){
-                            inclusionesAux=inclusionesEstudianteMap.get(estudiante.getCarnet());
-                            inclusionesAux.add(nuevaInclusion);
-                        }
-                        else{
-                            inclusionesAux= new ArrayList<>();
-                            inclusionesAux.add(nuevaInclusion);
-                            inclusionesEstudianteMap.put(estudiante.getCarnet(),inclusionesAux);
-                        }
-                        if(inclusionesMateriaMap.containsKey(datosCurso[0])){
-                            inclusionesAux=inclusionesMateriaMap.get(datosCurso[0]);
-                            inclusionesAux.add(nuevaInclusion);
-                        }
-                        else{
-                            inclusionesAux= new ArrayList<>();
-                            inclusionesAux.add(nuevaInclusion);
-                            inclusionesMateriaMap.put(datosCurso[0],inclusionesAux);
-                        }
-                    }
-                }
+                estudiante= estudiantes.get(Integer.valueOf(row.get(2)));
             }
             catch (Exception e){
-                System.out.println("Datos Invalidos");
+                dataHolder.addError("Inclusión en la linea "+Integer.toString(linea)+" no tiene un carnet válido");
+                continue;
             }
+            if(estudiante== null){
+                try
+                {
+                    int carnet=Integer.parseInt(row.get(2));
+                    estudiante= new Estudiante(carnet,row.get(4),"N/A");
+                    estudiantes.put(carnet,estudiante);
+                    dataHolder.addError("Estudiante con carnet "+ Integer.toString(carnet)+", en la linea "+Integer.toString(linea)+" no se encontro, se creo nuevo perfil");
+                }
+                catch (NumberFormatException e)
+                {
+                    dataHolder.addError("Inclusión en la linea "+Integer.toString(linea)+" no tiene un carnet válido");
+                    continue;
+                }
+            }
+            String[] datosCurso=row.get(6).split(" - ");
+            Grupo grupo = grupos.get(datosCurso[1]+datosCurso[0]);
+            if(grupo== null){
+                try
+                {
+                    int numGrupo=Integer.parseInt(datosCurso[1]);
+                    Curso curso=dataHolder.getCursoInPlanes(datosCurso[0]);
+                    if(curso==null){
+                        curso= new Curso(datosCurso[0],datosCurso[2],-1,-1);
+                        dataHolder.getMalla().get("N/A").put(datosCurso[0],curso);
+                        dataHolder.addError("Curso código "+ datosCurso[0]+" no se encontro, se creo nuevo curso en plan N/A");
+                    }
+                    grupo = new Grupo(numGrupo,"No disponible",curso);
+
+                }
+                catch (Exception e)
+                {
+                    dataHolder.addError("Inclusión en la linea "+Integer.toString(linea)+" no tiene un grupo válido");
+                    continue;
+                }
+            }
+            boolean planB = (row.get(7).equals("Si"));
+            Inclusion nuevaInclusion= new Inclusion(planB, grupo,estudiante,row.get(8),row.get(1));
+            result.add(nuevaInclusion);
+            ArrayList<Inclusion> inclusionesAux;
+            if(inclusionesEstudianteMap.containsKey(estudiante.getCarnet())){
+                inclusionesAux=inclusionesEstudianteMap.get(estudiante.getCarnet());
+                inclusionesAux.add(nuevaInclusion);
+            }
+            else{
+                inclusionesAux= new ArrayList<>();
+                inclusionesAux.add(nuevaInclusion);
+                inclusionesEstudianteMap.put(estudiante.getCarnet(),inclusionesAux);
+            }
+            if(inclusionesMateriaMap.containsKey(datosCurso[0])){
+                inclusionesAux=inclusionesMateriaMap.get(datosCurso[0]);
+                inclusionesAux.add(nuevaInclusion);
+            }
+            else{
+                inclusionesAux= new ArrayList<>();
+                inclusionesAux.add(nuevaInclusion);
+                inclusionesMateriaMap.put(datosCurso[0],inclusionesAux);
+            }
+
         }
     }
 }

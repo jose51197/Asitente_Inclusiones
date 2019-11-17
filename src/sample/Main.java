@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 import org.apache.pdfbox.exceptions.COSVisitorException;
 
 import java.io.*;
+import java.util.ArrayList;
 
 
 public class Main extends Application {
@@ -42,7 +43,10 @@ public class Main extends Application {
     }
 
     public static void pruebasSergie() throws IOException {
-
+        ArrayList<String> errores = dataHolder.getErrores();
+        for(String error: errores){
+            System.out.println(error);
+        }
     }
 
     public static void main(String[] args) throws Exception {
