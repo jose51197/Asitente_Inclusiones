@@ -10,6 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
 import javax.swing.plaf.TabbedPaneUI;
@@ -22,6 +23,8 @@ public class WindowInclusion {
     @FXML Label lcarnet;
     @FXML Label lnombre;
     @FXML TabPane tabInclusiones;
+    @FXML TabPane tabPlanHorario;
+    @FXML Pane plan;
     private int carnet;
     private int selected=0;
     private int total=1;
@@ -37,7 +40,18 @@ public class WindowInclusion {
             tabInclusiones.getTabs().add(tab);
         }catch (Exception e){
             e.printStackTrace();
-            System.out.println("error anadiendo tab");
+            System.out.println("error anadiendo inclusion a tab");
+        }
+
+        try{
+            Tab tab = new Tab();
+            tab.setText("Plan ");//TODO poner el plan del estudiante
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/viewPlan.fxml"));
+            tab.setContent(loader.load());
+            tabPlanHorario.getTabs().add(tab);
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("error anadiendo horario/plan");
         }
 
         for(Inclusion inclusion: inclusiones){

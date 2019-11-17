@@ -1,6 +1,7 @@
 package sample;
 
 import Controllers.CargadorArchivos;
+import Controllers.WindowInclusion;
 import Model.*;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -9,7 +10,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.*;
 import java.time.LocalTime;
@@ -28,7 +31,7 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-    public static void pruebasJose(){
+    public void pruebasJose(){
 
 
     }
@@ -52,7 +55,7 @@ public class Main extends Application {
         dataHolder.setInclusiones(r.getInclusiones("inclusiones.csv",dataHolder.getGrupos(),dataHolder.getEstudiantes(),dataHolder.getInclusionesMap()));
     }
 
-    public static void pruebasSergie() throws IOException {
+    public  void pruebasSergie() throws IOException {
 
     }
 
@@ -63,8 +66,7 @@ public class Main extends Application {
         cargadorArchivos.cargarInclusiones("inclusiones.csv");
         //cargadorArchivos.cargarDatos();
         //dataHolder.guardar();
-        pruebasJose();
-        pruebasSergie();
+        //pruebasSergie();
         //pruebasOscar();
 
         //ResultPDF resultPDF = new ResultPDF();

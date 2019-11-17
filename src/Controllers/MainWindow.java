@@ -129,6 +129,11 @@ public class MainWindow {
 
     public void initialize(){
         cargarInclusiones();
+        pruebasJose();
+    }
+
+    public void pruebasJose(){
+
     }
 
     public void onSeleccionarInclusion(MouseEvent mouseEvent) {
