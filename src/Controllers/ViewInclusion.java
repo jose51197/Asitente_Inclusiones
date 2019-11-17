@@ -17,6 +17,7 @@ public class ViewInclusion {
     @FXML Label lmateria;
     @FXML Label lrequisitos;
     @FXML Label lcorrequisitos;
+    @FXML Label labelEstadisticas;
     private Inclusion inclusion;
 
     public void btn_rechazar(ActionEvent actionEvent) {

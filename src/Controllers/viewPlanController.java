@@ -26,14 +26,16 @@ public class viewPlanController {
         gc.setFill(Color.BLUE);
 
 
-        int y;
-        final int h=80;
-        int semestre;
+        int y,x,semestre;
+        final int h=70;
+        gc.setFill(new Color(.55,.30,.11,1));
+        gc.fillRect(0,0,1500,1500);
         gc.setStroke(Color.WHITE);
         gc.setFont(new Font("Calibri",12));
         Map<Integer,Integer> mapSemestre = new HashMap<>();
         for (Map.Entry<String, Curso> curso : plan.entrySet()) {
             System.out.println(curso.getValue().getNombre());
+
             if(mapSemestre.containsKey(curso.getValue().getSemestre())){
                 mapSemestre.put(curso.getValue().getSemestre(),mapSemestre.get(curso.getValue().getSemestre())+1);
                 semestre=curso.getValue().getSemestre();
@@ -43,14 +45,15 @@ public class viewPlanController {
                 mapSemestre.put(semestre,0);
                 y=0;
             }
+            System.out.println(semestre);
 
-            int x = 100*semestre+ 20;
+            x = 100*semestre+ 20;
             //TODO tomar en cuenta si ya lo paso, por ahora azul por default
-            gc.setFill(Color.BLUE);
-            gc.fillRoundRect(x,y*h ,80,60,15,15);
+            gc.setFill(Color.STEELBLUE);
+            gc.fillRoundRect(x,y*h ,85,60,15,15);
             gc.setFill(Color.GRAY);
-            gc.fillRoundRect(x,y*h ,80,5,15,15);
-            gc.fillRect(x,y*h +2,80,8);
+            gc.fillRoundRect(x,y*h ,85,5,15,15);
+            gc.fillRect(x,y*h +2,85,8);
             gc.setFill(Color.BLACK);
             gc.fillText(curso.getKey(),x+25,y*h +10,80);
             gc.setFill(Color.WHITE);
@@ -67,16 +70,50 @@ public class viewPlanController {
             }
             gc.fillText("Creditos: "+curso.getValue().getCreditos(),x,y*h +50,80);
         }
-        int mayor=0;
+        int yMayor=0;
+        int semestreMayor=0;
         for (Map.Entry<Integer,Integer> numSemestre : mapSemestre.entrySet()) {
-            if(numSemestre.getValue()>mayor){
-                mayor=numSemestre.getValue();
+            if(numSemestre.getValue()>yMayor){
+                yMayor=numSemestre.getValue();
+            }
+            if(numSemestre.getKey()>semestreMayor){
+                semestreMayor=numSemestre.getKey();
             }
         }
         gc.setFill(Color.BLACK);
         for (Map.Entry<Integer,Integer> numSemestre : mapSemestre.entrySet()) {
-            gc.fillText("Semestre "+ numSemestre.getKey(),numSemestre.getKey()*100 + 32,(mayor+1)*h,80);
+            gc.fillText("Semestre "+ numSemestre.getKey(),numSemestre.getKey()*100 + 32,(yMayor+1)*h+50,80);
         }
+
+        y=(int)canvas.getHeight()/2;
+        x=(semestreMayor+1) * 100 +20;
+
+        gc.setFill(Color.BLACK);
+        gc.setFont(new Font("Calibri",20));
+        gc.fillText("En curso",x+15,y+10);
+        gc.fillText("Aprobado",x+15,y+30);
+        gc.fillText("Reprobado",x+15,y+50);
+        gc.fillText("Cumple req",x+15,y+70);
+        gc.fillText("Pendiente",x+15,y+90);
+
+        gc.setFill(Color.DARKGREEN);
+        gc.fillOval(x,y,10,10);
+
+        gc.setFill(Color.STEELBLUE);
+        gc.fillOval(x,y+20,10,10);
+
+        gc.setFill(Color.DARKRED);
+        gc.fillOval(x,y+40,10,10);
+
+        gc.setFill(Color.WHITE);
+        gc.fillOval(x,y+60,10,10);
+
+        gc.setFill(Color.YELLOW);
+        gc.fillOval(x,y+80,10,10);
+
+
+
+
 
 
 

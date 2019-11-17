@@ -25,11 +25,13 @@ public class WindowInclusion {
     @FXML TabPane tabInclusiones;
     @FXML TabPane tabPlanHorario;
     @FXML Pane plan;
+
     private int carnet;
     private int selected=0;
     private int total=1;
 
     public void iniciar(int carnet, Inclusion i) {
+
         this.carnet = carnet;
         ArrayList<Inclusion> inclusiones = DataHolder.getInstance().getInclusionesMap().get(carnet);
         try{
