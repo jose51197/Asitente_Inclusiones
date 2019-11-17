@@ -42,7 +42,7 @@ public class WindowInclusion {
 
         for(Inclusion inclusion: inclusiones){
             try{
-                if (inclusion==i){
+                if (inclusion==i){//es la ya mostrada
                     continue;
                 }
                 this.total+=1;

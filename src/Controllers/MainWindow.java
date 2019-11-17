@@ -167,10 +167,6 @@ public class MainWindow {
                 }
             }
         };
-
         thread.start();
-
-
-
     }
 }
