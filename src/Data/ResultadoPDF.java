@@ -160,7 +160,30 @@ public class ResultadoPDF {
             nexty-= 25f;
         }
 
-        xPositions = new float[] {inicioTabla+5, inicioTabla+105, inicioTabla+360, inicioTabla+425};
+        nextx = inicioTabla;
+        nexty+= 25f;
+        float baseY = page.getMediaBox().getHeight() - 200;
+        xPositions = new float[] {nextx, nextx+100, nextx+350, nextx+387.5f, nextx+425, nextx+462.5f};
+
+        contentStream.drawLine(nextx,nexty,inicioTabla,nexty+125); //Izquierda
+        contentStream.drawLine(nextx+100,nexty,nextx+100,baseY);
+        contentStream.drawLine(nextx+350,nexty,nextx+350,baseY);
+
+        contentStream.drawLine(nextx+387.5f,nexty,nextx+387.5f,baseY);
+        contentStream.drawLine(nextx+425,nexty+50,nextx+425,baseY);
+        contentStream.drawLine(nextx+462.5f,nexty+50,nextx+462.5f,baseY);
+        contentStream.drawLine(nextx+500,nexty+50,nextx+500,baseY);
+
+
+        contentStream.drawLine(anchoTabla,nexty,anchoTabla,baseY); //Derecha
+
+        baseY-= 15.5f;
+        for (int index = 0; index < xPositions.length; index++) {
+            escribirLinea(contentStream, xPositions[index] + 5, baseY,body[index]);
+
+            //contentStream.drawLine(xPositions[index],nexty,anchoTabla,baseY);
+            //baseY-= 25f;
+        }
 
 
 
