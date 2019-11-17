@@ -4,6 +4,8 @@ import Model.Aula;
 import Model.DataHolder;
 import Model.Grupo;
 import Model.Horario;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -34,11 +36,12 @@ public class ClassroomManager {
     Map<String, Integer> fHoursMap;
     Map<String, Integer> diasMap;
 
-    private void fillGrid(){
+    private void fillGrid(String codigoAula){
         //Aula aula = DataHolder.getInstance().getAulas().get( (String) combo_Aulas.getValue());
-        Aula aula = DataHolder.getInstance().getAulas().get( "B3-1");
+        Aula aula = DataHolder.getInstance().getAulas().get( codigoAula );
         lAula.setText( "Aula: " + aula.getCodigo() );
         lCapacidad.setText( "Capacidad: " + aula.getCapacidad() );
+        //gridHorario.getChildren().clear();
 
         for (String key : DataHolder.getInstance().getGrupos().keySet()){
             Grupo grupo = DataHolder.getInstance().getGrupos().get(key);
@@ -81,7 +84,16 @@ public class ClassroomManager {
         combo_Aulas.getItems().addAll(aulas);
 
         combo_Aulas.getSelectionModel().selectFirst();
+        combo_Aulas.valueProperty().addListener(new ChangeListener<String>() {
+            @Override public void changed(ObservableValue ov, String t, String t1) {
+                fillGrid(t1);
+                System.out.println(ov);
+                System.out.println(t);
+                System.out.println(t1);
+            }
+        });
 
+        //Para hacer las pruebas, antes de seguir esto lo pasare a un CSV o alguna otra alternativa, pero ocupo esto en especifico
         bHoursMap = new HashMap<>();
         bHoursMap.put("7:30", 1);
         bHoursMap.put("8:30", 2);
@@ -96,7 +108,7 @@ public class ClassroomManager {
         bHoursMap.put("18:00", 11);
         bHoursMap.put("19:00", 12);
         bHoursMap.put("20:00", 13);
-        bHoursMap.put("11:00", 14);
+        bHoursMap.put("21:00", 14);
 
         fHoursMap = new HashMap<>();
         fHoursMap.put("8:20", 1);
@@ -133,6 +145,6 @@ public class ClassroomManager {
             column.setMinWidth(60);
         }
 
-        fillGrid();
+        //fillGrid("");
     }
 }

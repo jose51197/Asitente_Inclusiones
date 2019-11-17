@@ -1,5 +1,7 @@
 package Model;
 
+import sun.awt.windows.WPrinterJob;
+
 import java.awt.*;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -10,6 +12,7 @@ import java.util.*;
 public class CSVreader {
 
     public ArrayList<ArrayList<String>>  readFiles(String filepath) throws IOException {
+        System.out.println(filepath);
         BufferedReader reader = new BufferedReader(new FileReader(filepath));
         String row;
         String data="";
@@ -123,7 +126,6 @@ public class CSVreader {
         ArrayList<ArrayList<String>> data = readFiles(filepath);
         data.remove(0);
         Map<String, Grupo>  result = new HashMap<String, Grupo> ();
-
         for(ArrayList<String> row :data){
             Curso curso = malla.get(row.get(0));
             Grupo grupo = result.get("GR"+row.get(1)+curso.getId());
