@@ -33,17 +33,8 @@ public class WindowInclusion {
         labelPonderado.setText("Ponderado: " + String.valueOf(i.getEstudiante().getPonderado()));
 
         ArrayList<Inclusion> inclusiones = DataHolder.getInstance().getInclusionesMapPorEstudiante().get(carnet);
-        try{
-            Tab tab = new Tab();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/viewInclusion.fxml"));
-            tab.setContent(loader.load());
-            ((ViewInclusion)loader.getController()).setInclusion(i);
-            tabInclusiones.getTabs().add(tab);
-        }catch (Exception e){
-            e.printStackTrace();
-            System.out.println("error anadiendo inclusion a tab");
-        }
 
+        //PLAN SELECCIONADO
         try{
             Tab tab = new Tab();
             tab.setText(i.getEstudiante().getPlan());
@@ -54,6 +45,29 @@ public class WindowInclusion {
         }catch (Exception e){
             e.printStackTrace();
             System.out.println("error anadiendo horario/plan");
+        }
+        //HORARIO SELECCIONADO
+        try{
+            Tab tab = new Tab();
+            tab.setText("Horario");
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/viewHorario.fxml"));
+            tab.setContent(loader.load());
+            ((viewHorarioController)loader.getController()).setDias(i);
+            tabPlanHorario.getTabs().add(tab);
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("error anadiendo horario/plan");
+        }
+        //INCLUSION SELECCIONADA
+        try{
+            Tab tab = new Tab();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/viewInclusion.fxml"));
+            tab.setContent(loader.load());
+            ((ViewInclusion)loader.getController()).setInclusion(i);
+            tabInclusiones.getTabs().add(tab);
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("error anadiendo inclusion a tab");
         }
 
         for(Inclusion inclusion: inclusiones){
