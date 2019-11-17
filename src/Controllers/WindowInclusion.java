@@ -9,15 +9,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-
-import javax.swing.plaf.TabbedPaneUI;
 import java.util.ArrayList;
 
 public class WindowInclusion {
     public Label lrn;
+    @FXML Label labelPonderado;
     @FXML Tab tab1;
     @FXML Label lcantidad;
     @FXML Label lcarnet;
@@ -32,6 +30,8 @@ public class WindowInclusion {
 
     public void iniciar(Inclusion i) {
         this.carnet = i.getEstudiante().getCarnet();
+        labelPonderado.setText("Ponderado: " + String.valueOf(i.getEstudiante().getPonderado()));
+
         ArrayList<Inclusion> inclusiones = DataHolder.getInstance().getInclusionesMapPorEstudiante().get(carnet);
         try{
             Tab tab = new Tab();
@@ -100,7 +100,7 @@ public class WindowInclusion {
     }
 
     public void derecha(ActionEvent actionEvent) {
-        if(selected<total){
+        if(selected<total-1){
             selected+=1;
             tabInclusiones.getSelectionModel().select(selected);
         }

@@ -35,15 +35,15 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="250.0" layoutY="79.0" text="Correquisitos">
+      <Label layoutX="214.0" layoutY="79.0" text="Correquisitos">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
       <Label fx:id="lrequisitos" layoutX="8.0" layoutY="106.0" text="Ninguno" />
-      <Label fx:id="lcorrequistos" layoutX="250.0" layoutY="106.0" text="Ninguno" />
+      <Label fx:id="lcorrequistos" layoutX="214.0" layoutY="106.0" text="Ninguno" />
       <TextArea fx:id="lcomentario" layoutX="7.0" layoutY="209.0" prefHeight="70.0" prefWidth="609.0" />
       <Label layoutX="6.0" layoutY="193.0" text="Comentario:" />
-      <Label fx:id="labelEstadisticas" layoutX="7.0" layoutY="50.0" text="LabelEstadicitcasInclusion" />
+      <Label fx:id="labelEstadisticas" layoutX="3.0" layoutY="24.0" text="LabelEstadicitcasInclusion" />
    </children>
 </AnchorPane>
