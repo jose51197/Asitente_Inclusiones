@@ -24,8 +24,6 @@ import java.util.List;
 public class ClassroomManager {
 
     @FXML
-    private GridPane gridHorario;
-    @FXML
     private ComboBox combo_Aulas;
     @FXML
     private Label lAula;
@@ -39,7 +37,7 @@ public class ClassroomManager {
     private void fillGrid(String codigoAula){
         //Aula aula = DataHolder.getInstance().getAulas().get( (String) combo_Aulas.getValue());
         Aula aula = DataHolder.getInstance().getAulas().get( codigoAula );
-        lAula.setText( "Aula: " + aula.getCodigo() );
+        //lAula.setText( "Aula: " + aula.getCodigo() );
         lCapacidad.setText( "Capacidad: " + aula.getCapacidad() );
         //gridHorario.getChildren().clear();
 
@@ -75,7 +73,7 @@ public class ClassroomManager {
         accordion.getPanes().add(pane1);
 
         accordion.setExpandedPane(pane1);
-        gridHorario.add(accordion, diasMap.get(horario.getDia()), bHoursMap.get(horario.getHoraInicio()), 1, span);
+
     }
 
 
@@ -87,9 +85,6 @@ public class ClassroomManager {
         combo_Aulas.valueProperty().addListener(new ChangeListener<String>() {
             @Override public void changed(ObservableValue ov, String t, String t1) {
                 fillGrid(t1);
-                System.out.println(ov);
-                System.out.println(t);
-                System.out.println(t1);
             }
         });
 
@@ -133,17 +128,6 @@ public class ClassroomManager {
         diasMap.put("J", 4);
         diasMap.put("V", 5);
         diasMap.put("S", 6);
-
-        ObservableList<RowConstraints> rows = gridHorario.getRowConstraints();
-        for (RowConstraints row : rows){
-            //row.setPrefHeight(200);
-            row.setMinHeight(40);
-        }
-
-        for (ColumnConstraints column : gridHorario.getColumnConstraints()){
-            column.setPrefWidth(200);
-            column.setMinWidth(60);
-        }
 
         //fillGrid("");
     }

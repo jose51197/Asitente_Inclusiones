@@ -82,8 +82,8 @@ public class MainWindow {
             stage.initStyle(StageStyle.UNIFIED);
             stage.setTitle("Administrador  de aula");
             stage.setScene(new Scene(root1));
-            stage.setMaxHeight(800);
-            stage.setMaxWidth(1000);
+            stage.setMinHeight(800);
+            stage.setMinWidth(1000);
             stage.show();
         }  catch (IOException e){
             System.out.println(e.toString());
