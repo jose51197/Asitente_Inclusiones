@@ -81,12 +81,17 @@ public class DataLoader {
         Map<String, Grupo> gruposEstudiante=null;
         for(int i=1; i <sheet.size();i++){
             ArrayList<String> dataRow= sheet.get(i);
-            int carnetAux= new BigDecimal(dataRow.get(0)).setScale(0, RoundingMode.HALF_UP).intValue();
-            if(carnetAux!=carnet){
-                carnet=carnetAux;
-                estudiante=estudiantes.get(carnet);
-
+            try{
+                int carnetAux= new BigDecimal(dataRow.get(0)).setScale(0, RoundingMode.HALF_UP).intValue();
+                if(carnetAux!=carnet){
+                    carnet=carnetAux;
+                    estudiante=estudiantes.get(carnet);
+                }
             }
+            catch (Exception e){
+                System.out.println("Se detecto estudiante invalido");
+            }
+
             String idGrupo="GR"+String.valueOf(Double.valueOf(dataRow.get(3)).intValue())+dataRow.get(1);
             Grupo grupo=grupos.get(idGrupo);
             if(grupo==null){
