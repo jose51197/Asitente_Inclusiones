@@ -12,6 +12,7 @@ import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
 import java.io.*;
+import java.time.LocalTime;
 
 
 public class Main extends Application {
@@ -58,9 +59,10 @@ public class Main extends Application {
     public static void main(String[] args) throws Exception {
 
         //descomentar lo de abajo si no hay .ser
-        cargadorArchivos.cargarNuevosDatos("plan.csv","rn.csv","aulas.csv","grupos-horario-fixed.csv");
-        cargadorArchivos.cargarInclusiones("inclusiones.csv");
-        //cargadorArchivos.cargarDatos();
+        //cargadorArchivos.cargarNuevosDatos("plan.csv","rn.csv","aulas.csv","grupos.csv");
+        //cargadorArchivos.cargarInclusiones("inclusiones.csv");
+        cargadorArchivos.cargarDatos();
+        dataHolder.guardar();
         pruebasJose();
         pruebasSergie();
         //pruebasOscar();

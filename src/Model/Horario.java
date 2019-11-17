@@ -1,14 +1,14 @@
 package Model;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class Horario implements Serializable {
     private Aula aula;
     private String dia;
-    private String horas;
-    private int lecciones;
-    private String horaInicio;
-    private String horaFin;
+    private LocalTime horaInicio;
+    private  LocalTime horaSalida;
 
     public Aula getAula() {
         return aula;
@@ -26,37 +26,28 @@ public class Horario implements Serializable {
         this.dia = dia;
     }
 
-    public String getHoras() {
-        return horas;
-    }
-
-    public void setHoras(String horas) {
-        this.horas = horas;
-    }
-
-    public String getHoraInicio() {
+    public LocalTime getHoraInicio() {
         return horaInicio;
     }
 
-    public void setHoraInicio(String horaInicio) {
+    public void setHoraInicio(LocalTime horaInicio) {
         this.horaInicio = horaInicio;
     }
 
-    public String getHoraFin() {
-        return horaFin;
+    public LocalTime getHoraSalida() {
+        return horaSalida;
     }
 
-    public void setHoraFin(String horaFin) {
-        this.horaFin = horaFin;
+    public void setHoraSalida(LocalTime horaSalida) {
+        this.horaSalida = horaSalida;
     }
 
     public Horario(Aula aula, String dia, String horas) {
         this.aula = aula;
         this.dia = dia;
-        this.horas = horas;
-        System.out.println(horas);
-        horaInicio = horas.split("-")[0];
-        horaFin = horas.split("-")[1];
+        String [] hora = horas.split("-");
+        horaInicio= LocalTime.parse(hora[0]);
+        horaSalida= LocalTime.parse(hora[1]);
     }
 
     @Override
@@ -64,7 +55,7 @@ public class Horario implements Serializable {
         return "Horario{" +
                 "aula=" + aula +
                 ", dia='" + dia + '\'' +
-                ", horas='" + horas + '\'' +
+                ", horas='" + horaInicio.toString()+" - "+ horaSalida.toString() + '\'' +
                 '}';
     }
 }
