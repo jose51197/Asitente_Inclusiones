@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DataHolder implements Serializable {
-    private Map<String, Curso> malla;
+public class DataHolder {
+    private Map<String,Map<String, Curso>> malla;
     private Map<Integer, Estudiante> estudiantes;
     private Map<String, Aula> aulas;
     private Map<String, Grupo> grupos;
@@ -31,11 +31,11 @@ public class DataHolder implements Serializable {
         return instance;
     }
 
-    public Map<String, Curso> getMalla() {
+    public Map<String,Map<String, Curso>> getMalla() {
         return malla;
     }
 
-    public void setMalla(Map<String, Curso> malla) {
+    public void setMalla(Map<String,Map<String, Curso>> malla) {
         this.malla = malla;
     }
 

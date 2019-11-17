@@ -2,7 +2,7 @@ package Model;
 
 import java.io.Serializable;
 
-public class Aula implements Serializable{
+public class Aula {
     private String codigo;
     private int capacidad;
     private int camposDisponibles;

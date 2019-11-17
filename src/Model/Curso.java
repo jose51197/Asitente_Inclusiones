@@ -3,7 +3,7 @@ package Model;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Curso implements Serializable{
+public class Curso {
     private String id;
     private String nombre;
     private ArrayList<Curso> requisitos = new ArrayList<>();

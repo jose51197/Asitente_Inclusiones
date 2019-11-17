@@ -21,7 +21,7 @@ public class viewPlanController {
         setPlan(null);
     }
     public void setPlan(Map<String, Curso> plan){
-        plan = DataHolder.getInstance().getMalla();//temporal
+        plan = DataHolder.getInstance().getMalla().get("plan 2050");//temporal
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.setFill(Color.BLUE);
 
