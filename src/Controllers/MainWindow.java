@@ -24,11 +24,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class MainWindow {
+    @FXML TextField textSearch;
     @FXML Menu btn_abrirConfig;
     @FXML TableView tablaInclusiones;
-    @FXML TableColumn cNombre;
-    @FXML TableColumn cMateria;
-    @FXML TableColumn cEstado;
+    @FXML TableColumn cNombre,cCarne,cMateria,cEstado,cPonderado;
+    private ObservableList<Inclusion> inclusiones = FXCollections.observableArrayList(DataHolder.getInstance().getInclusiones());
 
     public void abrirConfiguracion()  {
 
@@ -95,10 +95,9 @@ public class MainWindow {
         cNombre.setCellValueFactory(new PropertyValueFactory<>("Nombre"));
         cMateria.setCellValueFactory(new PropertyValueFactory<>("Materia"));
         cEstado.setCellValueFactory(new PropertyValueFactory<>("EstadoString"));
+        cPonderado.setCellValueFactory(new PropertyValueFactory<>("Ponderado"));
+        cCarne.setCellValueFactory(new PropertyValueFactory<>("Carne"));
 
-
-        ObservableList<Inclusion> inclusiones = FXCollections.observableArrayList(DataHolder.getInstance().getInclusiones());
-        System.out.println(inclusiones.size());
 
 
         cEstado.setCellFactory(new Callback<TableColumn, TableCell>() {
@@ -173,5 +172,20 @@ public class MainWindow {
             }
         };
         thread.start();
+    }
+
+    public void btn_enter(ActionEvent actionEvent) {
+        //TODO definir bien las busquedas
+        String query = textSearch.getText().toLowerCase();
+        String[] querys = query.split(":");
+        for(String q:querys){
+            switch (q){
+                case ("nombre"):
+
+                    break;
+
+
+            }
+        }
     }
 }

@@ -90,5 +90,7 @@ public class Inclusion {
     public String getEstadoString(){
         return estado.toString();
     }
+    public String getPonderado(){return String.valueOf(estudiante.getPonderado());};
+    public String getCarne(){return String.valueOf(estudiante.getCarnet());}
 
 }
