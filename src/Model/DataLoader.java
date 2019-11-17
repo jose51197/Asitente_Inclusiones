@@ -85,7 +85,7 @@ public class DataLoader {
             if(carnetAux!=carnet){
                 carnet=carnetAux;
                 estudiante=estudiantes.get(carnet);
-                gruposEstudiante = estudiante.getGrupos();
+
             }
             String idGrupo="GR"+String.valueOf(Double.valueOf(dataRow.get(3)).intValue())+dataRow.get(1);
             Grupo grupo=grupos.get(idGrupo);
@@ -99,7 +99,10 @@ public class DataLoader {
             if(grupo.notContainsHorario(horario.getDia())){
                 grupo.addHorario(horario);
             }
-            gruposEstudiante.put(idGrupo,grupo);
+            if(estudiante!=null){
+                gruposEstudiante = estudiante.getGrupos();
+                gruposEstudiante.put(idGrupo,grupo);
+            }
         }
     }
 

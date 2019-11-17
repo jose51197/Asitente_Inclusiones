@@ -45,7 +45,7 @@ public class Main extends Application {
         DataLoader dataLoader = new DataLoader();
         dataLoader.getPlanes("plan.xlsx");
         //cambiar a las direcciones de cada uno
-        dataLoader.getEstudiantes("..\\PROYINCLUSIONES\\ATI.xlsx","..\\PROYINCLUSIONES\\rn.csv");
+        dataLoader.getEstudiantes("..\\PROYINCLUSIONES\\ATI_Oscar.xlsx","..\\PROYINCLUSIONES\\rn.csv");
         dataLoader.getInclusiones("inclusiones.csv");
         //cargadorArchivos.cargarDatos();
         //dataHolder.guardar();
