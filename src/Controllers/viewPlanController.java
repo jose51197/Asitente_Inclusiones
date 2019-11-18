@@ -41,8 +41,11 @@ public class viewPlanController {
                 y=0;
             }
             x = 100*semestre+ 20;
-
-            switch (e.getCursos().get(curso.getKey())){
+            String estado = e.getCursos().get(curso.getKey());
+            if(estado ==null){
+                continue;
+            }
+            switch (estado){
                 case"Aprobado":
                     gc.setFill(Color.STEELBLUE);
                     break;
