@@ -23,9 +23,13 @@ public class ResultadoPDF {
     final float anchoTabla = 550;
 
     public void write() throws IOException, COSVisitorException {
+
         document = new PDDocument();
+
         Map<String, List<Grupo>> cursos = new HashMap<>(); //Necesito un query de esto :/
+
         for (String codCurso : DataHolder.getInstance().getGrupos().keySet()){
+            System.out.println();
 
             Grupo grupo = DataHolder.getInstance().getGrupos().get(codCurso);
             List<Grupo> gruposGuardados = cursos.get(grupo.getCurso().getId());
@@ -46,7 +50,7 @@ public class ResultadoPDF {
 
         pruebas();
 
-        document.save("BlankPage.pdf");
+        document.save("../BlankPage.pdf");
         document.close();
 
     }

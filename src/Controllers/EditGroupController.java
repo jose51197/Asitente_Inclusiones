@@ -15,6 +15,8 @@ import java.util.*;
 public class EditGroupController {
     @FXML
     GridPane grid_horarios;
+
+
     int filasGrid;
     Map<Integer, ComboBox[]> datosHorario;
 
@@ -42,7 +44,7 @@ public class EditGroupController {
             datosHorario.put(revisados, fila);
 
             box.getChildren().addAll(comboBoxAulas, combDia, horaInicio, horaFin, eliminar);
-            grid_horarios.addRow(filasGrid++, box);
+            //grid_horarios.addRow(filasGrid++, box);
         }
     }
 

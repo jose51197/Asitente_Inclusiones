@@ -1,11 +1,9 @@
 package Controllers;
 
-import Model.Aula;
 import Model.DataHolder;
 import Model.Grupo;
 import Model.Horario;
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -25,8 +23,6 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -40,25 +36,22 @@ public class ClassroomManager {
     private Canvas canvas_horarioAula;
     private GraphicsContext gc;
 
-    private final double anchoCelda = 160;
+    private final double anchoCelda = 190;
     private List<double[]> posiciones = new ArrayList<>();
     private List<Grupo> gruposEnPantalla = new ArrayList<>();
     Map<String, Integer> diasMap;
+    Map<Integer, String> lecciones;
 
     private String diasLectivos[] = {"Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"};
 
     private void drawOnCanvas(String codigoAula){
         clearCanvas();
 
-        Aula aula = DataHolder.getInstance().getAulas().get( codigoAula );
-        if (aula == null) return;
-
         for (String key : DataHolder.getInstance().getGrupos().keySet()){
             Grupo grupo = DataHolder.getInstance().getGrupos().get(key);
 
             for (Horario horario : grupo.getHorario()){
-                System.out.println(horario.getHoraInicio().toString());
-                if (horario.getAula().equals(aula.getCodigo())){
+                if (horario.getAula().equals(codigoAula)){
                     agregarLecciones(grupo, horario);
                 }
             }
@@ -66,18 +59,18 @@ public class ClassroomManager {
     }
 
     public void agregarLecciones(Grupo grupo, Horario horario){
-        String body = "\n  Horario: " + horario.getHoraInicio();
-        body += "\n  Profesor: " + grupo.getProfesor();
-        body += "\n  Aula: ";
+        String body = "\n  Hora: " + horario.getHoraInicio() + "-" + horario.getHoraSalida();
+        body += "\n  Curso: "+ grupo.getCurso().getNombre();
+        body += "\n  Día: "+ horario.getDia();
+        body += "\n  Profesor:\n";// + grupo.getProfesor();
 
-        String title = grupo.getCurso().getId()+ " Grupo: " + grupo.getNumGrupo();
+        String title = grupo.getCurso().getId()+ " GR: " + grupo.getNumGrupo();
         gc.setFont(new Font("Calibri", 14));
 
-
-
         double x = diasMap.get(horario.getDia());
-        double y = (horario.getHoraInicio().toSecondOfDay()/60) - 420;
-        double height=(horario.getHoraSalida().toSecondOfDay()/60) - 420 - y;
+        double y = (horario.getHoraInicio().toSecondOfDay()/60) - 400;
+        System.out.println(x + ", " + y);
+        double height=(horario.getHoraSalida().toSecondOfDay()/60) - 400 - y;
 
         gc.setFill(Color.WHITE);
         gc.fillRoundRect(x,y , anchoCelda, height,15,15);
@@ -95,6 +88,7 @@ public class ClassroomManager {
 
     private void clearCanvas(){
         gc.clearRect(0, 0, canvas_horarioAula.getWidth(), canvas_horarioAula.getHeight());
+        drawLines();
         gruposEnPantalla.clear();
         posiciones.clear();
         drawDays();
@@ -105,17 +99,19 @@ public class ClassroomManager {
         int baseY = 50;
         double HEIGHT = 200;
         for (int row = 0; row < 15; row++){
-            gc.setFill(row%2==0? Color.GRAY : Color.WHITE);
-            gc.fillRect(0,baseY, anchoCelda,HEIGHT);
-            baseY+=200;
+            //
+            //gc.setFill(row%2==0? Color.GRAY);
+            //gc.fillRect(0,baseY, canvas_horarioAula.getWidth(),HEIGHT);
+            //baseY+=200;
         }
     }
 
     private void drawDays(){
-        int baseX = 160;
+        int baseX = 150;
 
+        gc.setFont(new Font("Roboto", 16));
+        gc.setFill(Color.BLACK);
         for (String currentDay : diasLectivos){
-            gc.setFill(Color.BLACK);
             gc.fillText(currentDay, baseX, 20 ,60);
             baseX+=200;
         }
@@ -124,12 +120,14 @@ public class ClassroomManager {
     }
 
     private void drawHours(){
-        int baseY = 120;
+        int baseY = 70;
 
+        gc.setFont(new Font("Roboto", 16));
+        gc.setFill(Color.BLACK);
         for (int i = 0; i < 15; i++){
-            //String hora = bHoursMap.get(i) + " - " + fHoursMap.get(i);
+            String hora = lecciones.get(i);
             gc.setFill(Color.BLACK);
-            //gc.fillText(hora, 20, baseY,100);
+            gc.fillText(hora, 15, baseY,100);
             baseY+=100;
         }
     }
@@ -143,6 +141,7 @@ public class ClassroomManager {
                 aulas.add(h.getAula());
             }
         }
+
         combo_Aulas.getItems().addAll(aulas);
         combo_Aulas.getSelectionModel().selectFirst();
         combo_Aulas.valueProperty().addListener((ChangeListener<String>) (ov, t, t1) -> drawOnCanvas(t1));
@@ -150,19 +149,35 @@ public class ClassroomManager {
         //Para hacer las pruebas, antes de seguir esto lo pasare a un CSV o alguna otra alternativa, pero ocupo esto en especifico
 
         diasMap = new HashMap<>();
-        diasMap.put("LUNES",50);
-        diasMap.put("MARTES",250);
-        diasMap.put("MIERCOLES",450);
-        diasMap.put("JUEVES",650);
-        diasMap.put("VIERNES",850);
-        diasMap.put("SABADO",1150);
+        diasMap.put("LUNES",90);
+        diasMap.put("MARTES",290);
+        diasMap.put("MIERCOLES",490);
+        diasMap.put("JUEVES",690);
+        diasMap.put("VIERNES",890);
+        diasMap.put("SABADO",1190);
+
+        lecciones = new HashMap<>();
+        lecciones.put(0, "7:30-8:20");
+        lecciones.put(1, "8:30-9:20");
+        lecciones.put(2, "9:30-10:20");
+        lecciones.put(3, "10:30-11:20");
+        lecciones.put(4, "11:30-12:20");
+        lecciones.put(5, "13:00-13:50");
+        lecciones.put(6, "14:00-14:50");
+        lecciones.put(7, "15:00-15:50");
+        lecciones.put(8, "16:00-16:50");
+        lecciones.put(9, "17:00-17:50");
+        lecciones.put(10, "18:00-18:50");
+        lecciones.put(11, "19:00-19:50");
+        lecciones.put(12, "20:00-20:50");
+        lecciones.put(13, "21:00-21:50");
+
 
         drawOnCanvas("B3-8");
         canvas_horarioAula.setOnMouseClicked(seleccionGrupo);
     }
 
     private EventHandler<MouseEvent> seleccionGrupo = new EventHandler<MouseEvent>() {
-
         @Override
         public void handle(MouseEvent event) {
             if (!(event.getEventType() == MouseEvent.MOUSE_CLICKED)) return;
@@ -171,7 +186,7 @@ public class ClassroomManager {
             for (int i = 0; i < posiciones.size(); i++){
                 double[] coord = posiciones.get(i);
                 if (isInRange(coordClick, coord)){
-                    popUp(gruposEnPantalla.get(i));
+                    abrirEdicionGrupo(gruposEnPantalla.get(i));
                 }
             }
         }
@@ -182,7 +197,7 @@ public class ClassroomManager {
         }
     };
 
-    private void popUp(Grupo group){
+    private void abrirEdicionGrupo(Grupo group){
         System.out.println(group.toString());
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../View/editgroup.fxml"));
@@ -191,7 +206,7 @@ public class ClassroomManager {
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initStyle(StageStyle.UNIFIED);
 
-            stage.setTitle("Editar grupo");
+            stage.setTitle(group.getCurso().getNombre() + " GR" + group.getNumGrupo());
             stage.setScene(new Scene(parent));
             stage.show();
             EditGroupController controlador = fxmlLoader.getController();

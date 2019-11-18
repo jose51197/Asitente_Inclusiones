@@ -3,6 +3,7 @@ package Model;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Map;
 
 public class Horario {
     private String aula;
