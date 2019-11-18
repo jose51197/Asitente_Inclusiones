@@ -47,6 +47,8 @@ public class Main extends Application {
         for(String error: errores){
             System.out.println(error);
         }
+        System.out.println(dataHolder.getMalla().get("plan 2050").get("TI8509").getNombre());
+
     }
 
     public static void main(String[] args) throws Exception {

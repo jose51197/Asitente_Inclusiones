@@ -95,7 +95,12 @@ public class DataLoader {
             String idGrupo="GR"+String.valueOf(Double.valueOf(dataRow.get(3)).intValue())+dataRow.get(1);
             Grupo grupo=grupos.get(idGrupo);
             if(grupo==null){
-                grupo= new Grupo(Double.valueOf(dataRow.get(3)).intValue(),dataRow.get(4),plan.get(dataRow.get(1)));
+                Curso curso= plan.get(dataRow.get(1));
+                if (curso==null){
+                    curso= new Curso(dataRow.get(1),dataRow.get(2),-1,-1);
+                    plan.put(dataRow.get(1),curso);
+                }
+                grupo= new Grupo(Double.valueOf(dataRow.get(3)).intValue(),dataRow.get(4),curso);
                 grupos.put(idGrupo,grupo);
             }
             LocalTime horaInicio= LocalTime.ofSecondOfDay(Double.valueOf(86401*Double.valueOf(dataRow.get(7))).longValue());
@@ -188,7 +193,7 @@ public class DataLoader {
             if(grupo== null){
                 try
                 {
-                    int numGrupo=Integer.parseInt(datosCurso[1]);
+                    int numGrupo=Integer.parseInt(datosCurso[1].replace("GR",""));
                     Curso curso=dataHolder.getCursoInPlanes(datosCurso[0]);
                     if(curso==null){
                         curso= new Curso(datosCurso[0],datosCurso[2],-1,-1);
