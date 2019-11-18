@@ -8,6 +8,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
+import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,25 +23,51 @@ public class viewHorarioController {
         //600 pixeles
         Map<String,Integer> mapDias = new HashMap<>();
         mapDias.put("LUNES",50);
+
         mapDias.put("MARTES",250);
         mapDias.put("MIERCOLES",450);
         mapDias.put("JUEVES",650);
         mapDias.put("VIERNES",850);
         int y,x,height;
+        final int maxWidth = 150;
+        final double ratio = 0.6;
+        final int offset =420;
+        LocalTime hora = LocalTime.of(7,30);
+        //Lineas de horas, etc
+        for(int j=0;j<30;j++){
+            gr.fillText(hora.toString(),5,ratio*(hora.toSecondOfDay()/60 -offset));
+            gr.fillRect(0,ratio*(hora.toSecondOfDay()/60 -offset),1500,1);
+            hora = hora.plusMinutes(30);
+        }
+        //dias
+        gr.setFill(Color.BLACK);
+        gr.fillText("LUNES",100,10);
+        gr.fillText("MARTES",300,10);
+        gr.fillText("MIERCOLES",500,10);
+        gr.fillText("JUEVES",700,10);
+        gr.fillText("VIERNES",900,10);
 
         for (Map.Entry<String,Grupo> materia : materias.entrySet()) {
-            //TODO terminar de implementar horario, ya que hay un null
             System.out.println(i.getEstudiante().getCarnet());
             System.out.println(materia.getValue());
             for(Horario h:materia.getValue().getHorario()){
-                y=(h.getHoraInicio().toSecondOfDay()/60) -420;
-                height=(h.getHoraSalida().toSecondOfDay()/60)-420 -y;
+                y=(int)(ratio*(h.getHoraInicio().toSecondOfDay()/60 -offset));
+                System.out.println(y);
+                height=(int)(ratio*(h.getHoraSalida().toSecondOfDay()/60 -offset) -y);
                 x=mapDias.get(h.getDia());
 
                 gr.setFill(Color.STEELBLUE);
-                gr.fillRect(x,y,100,height);
+                gr.fillRect(x,y,maxWidth,height);
                 gr.setFill(Color.WHITE);
-                gr.fillText(materia.getValue().getProfesor().replace("\t"," "),x,y,100);
+
+                String[] strings = GenericFunctions.splitByNumber(materia.getValue().getCurso().getNombre(), materia.getValue().getCurso().getNombre().length() / 2);
+                gr.fillText(strings[0],x,y+20,maxWidth);
+                gr.fillText(strings[1],x,y+30,maxWidth);//TODO mostrar bonito, hacer generic function
+                gr.fillText(materia.getValue().getProfesor().replace("\t"," " ),x,y+0.4*height,maxWidth);
+                gr.fillText(h.getAula(),x,y+0.6*height,maxWidth);
+                gr.fillText(h.getHoraInicio().toString() + " " + h.getHoraSalida(),x,y+0.8*height,maxWidth);
+
+
             }
         }
     }
