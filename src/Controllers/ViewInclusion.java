@@ -16,6 +16,7 @@ import java.util.ArrayList;
 public class ViewInclusion {
     public Label lcorrequistos;
     public Label labelProfe;
+    public Label labelPlanB;
     @FXML TextArea lcomentario;
     @FXML Label lestado;
     @FXML Label lmateria;
@@ -27,7 +28,7 @@ public class ViewInclusion {
         inclusion.setEstado(EstadoInclusion.RECHAZADA);
         lestado.setText("Rechazada");
         lestado.setTextFill(Color.DARKRED);
-        setInclusion(this.inclusion);
+        setInclusion(this.inclusion);//TODO llamar a un dialogo que ingrese la razon de cancelacion
     }
 
     public void btn_aceptar(ActionEvent actionEvent) {
@@ -56,6 +57,13 @@ public class ViewInclusion {
         lestado.setText(inclusion.getEstado().toString());
         lmateria.setText(inclusion.getGrupo().getCurso().getNombre()+ " GR "+ inclusion.getGrupo().getNumGrupo());
         labelProfe.setText(inclusion.getGrupo().getProfesor());
+        if(inclusion.isPlanB()){
+            labelPlanB.setTextFill(Color.RED);
+            labelPlanB.setText("PIDE PLAN B");
+        }else{
+            labelPlanB.setText("Inclusion normal");
+        }
+
         String requisitos="";
         for (Curso curso: inclusion.getGrupo().getCurso().getRequisitos()) {
             if(curso.getNombre().length()>20){
