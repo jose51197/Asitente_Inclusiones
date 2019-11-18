@@ -22,7 +22,7 @@
          <font>
             <Font size="18.0" />
          </font></Button>
-      <Label fx:id="lmateria" layoutX="7.0" layoutY="5.0" text="Materia">
+      <Label fx:id="lmateria" layoutX="-1.0" layoutY="4.0" prefHeight="20.0" prefWidth="621.0" text="Materia" textAlignment="CENTER">
          <font>
             <Font size="14.0" />
          </font></Label>
@@ -30,20 +30,21 @@
          <font>
             <Font size="24.0" />
          </font></Label>
-      <Label layoutX="6.0" layoutY="79.0" text="Requisitos">
+      <Label layoutX="7.0" layoutY="101.0" text="Requisitos">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="214.0" layoutY="79.0" text="Correquisitos">
+      <Label layoutX="208.0" layoutY="101.0" text="Correquisitos">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label fx:id="lrequisitos" layoutX="8.0" layoutY="106.0" text="Ninguno" />
-      <Label fx:id="lcorrequistos" layoutX="214.0" layoutY="106.0" text="Ninguno" />
+      <Label fx:id="lrequisitos" layoutX="8.0" layoutY="125.0" text="Ninguno" />
+      <Label fx:id="lcorrequistos" layoutX="208.0" layoutY="131.0" text="Ninguno" />
       <TextArea fx:id="lcomentario" layoutX="7.0" layoutY="209.0" prefHeight="70.0" prefWidth="609.0" />
       <Label layoutX="6.0" layoutY="193.0" text="Comentario:" />
       <Label fx:id="labelEstadisticas" layoutX="3.0" layoutY="24.0" text="LabelEstadicitcasInclusion" />
+      <Label fx:id="labelProfe" layoutX="245.0" layoutY="84.0" prefHeight="17.0" prefWidth="150.0" text="Profe" />
    </children>
 </AnchorPane>

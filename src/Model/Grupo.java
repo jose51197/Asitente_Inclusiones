@@ -55,6 +55,14 @@ public class Grupo {
         return horarios;
     }
 
+    public String getHorariotext(){
+        String r ="\n";
+        for(Horario h:horarios){
+            r+=h.getDia() + " " +h.getAula() + " "+h.getHoraInicio() + " " +h.getHoraSalida()+"\n";
+        }
+        return r;
+    }
+
     public void setHorario(List<Horario> horarios) {
         this.horarios = horarios;
     }

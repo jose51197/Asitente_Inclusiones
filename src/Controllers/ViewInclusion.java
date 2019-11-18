@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 public class ViewInclusion {
     public Label lcorrequistos;
+    public Label labelProfe;
     @FXML TextArea lcomentario;
     @FXML Label lestado;
     @FXML Label lmateria;
@@ -54,10 +55,15 @@ public class ViewInclusion {
         this.inclusion = inclusion;
         lestado.setText(inclusion.getEstado().toString());
         lmateria.setText(inclusion.getGrupo().getCurso().getNombre()+ " GR "+ inclusion.getGrupo().getNumGrupo());
+        labelProfe.setText(inclusion.getGrupo().getProfesor());
         String requisitos="";
         for (Curso curso: inclusion.getGrupo().getCurso().getRequisitos()) {
             if(curso.getNombre().length()>20){
-                requisitos+=GenericFunctions.splitByNumber(curso.getNombre(),30)[0];
+                String estado = inclusion.getEstudiante().getCursos().get((curso.getId()));
+                if (estado==null){
+                    estado="Sin info";
+                }
+                requisitos+=GenericFunctions.splitByNumber(curso.getNombre(),20)[0] + "-"+estado;
                 continue;
             }
             requisitos+=curso.getNombre() + "\n";
@@ -66,7 +72,11 @@ public class ViewInclusion {
         String corequisitos="";
         for (Curso curso: inclusion.getGrupo().getCurso().getCorequisitos()) {
             if(curso.getNombre().length()>20){
-                corequisitos+=GenericFunctions.splitByNumber(curso.getNombre(),30)[0];
+                String estado = inclusion.getEstudiante().getCursos().get((curso.getId()));
+                if (estado==null){
+                    estado="Sin info";
+                }
+                corequisitos+=GenericFunctions.splitByNumber(curso.getNombre(),20)[0] +"-" + estado;
                 continue;
             }
             corequisitos+=curso.getNombre()+"\n";
@@ -94,6 +104,7 @@ public class ViewInclusion {
         estadisticas+="Pendientes: "+ pendientes+'\t';
         estadisticas+="Aceptadas: "+ aceptadas+'\t';
         estadisticas+="Rechazadas: "+ rechazadas;
+        estadisticas+=inclusion.getGrupo().getHorariotext();
         labelEstadisticas.setText(estadisticas);
 
     }
