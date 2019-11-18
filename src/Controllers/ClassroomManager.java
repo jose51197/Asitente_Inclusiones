@@ -36,6 +36,7 @@ public class ClassroomManager {
     private Canvas canvas_horarioAula;
     private GraphicsContext gc;
 
+    private Set<String> aulas;
     private final double anchoCelda = 190;
     private List<double[]> posiciones = new ArrayList<>();
     private List<Grupo> gruposEnPantalla = new ArrayList<>();
@@ -59,35 +60,62 @@ public class ClassroomManager {
     }
 
     public void agregarLecciones(Grupo grupo, Horario horario){
-        String body = "\n  Hora: " + horario.getHoraInicio() + "-" + horario.getHoraSalida();
-        body += "\n  Curso: "+ grupo.getCurso().getNombre();
-        body += "\n  Día: "+ horario.getDia();
-        body += "\n  Profesor:\n";// + grupo.getProfesor();
+        gc.setFont(new Font("Calibri", 15));
 
-        String title = grupo.getCurso().getId()+ " GR: " + grupo.getNumGrupo();
-        gc.setFont(new Font("Calibri", 14));
+        String body = textoDeCelda(grupo, horario);
 
         double x = diasMap.get(horario.getDia());
-        double y = (horario.getHoraInicio().toSecondOfDay()/60) - 400;
-        System.out.println(x + ", " + y);
-        double height=(horario.getHoraSalida().toSecondOfDay()/60) - 400 - y;
+        double y = (horario.getHoraInicio().toSecondOfDay()/60) - 410;
+        double height= (horario.getHoraSalida().toSecondOfDay()/60) - 410 -  y;
+        int span = ((int) height / 55) - 2;
+
+        System.out.println(x + ", " + y + " - " + height + ", "+ span);
+
+        gc.setFill(Color.GRAY);
+        gc.fillRect( x, y , anchoCelda, height);
 
         gc.setFill(Color.WHITE);
-        gc.fillRoundRect(x,y , anchoCelda, height,15,15);
-        gc.setFill(Color.GRAY);
-        gc.fillRoundRect(x,y ,anchoCelda,15,15,15);
-        gc.fillRect(x,y+2, anchoCelda,20);
-        gc.setFill(Color.WHITE);
-        gc.fillText(title,x+10,y+15, anchoCelda);
-        gc.setFill(Color.BLACK);
-        gc.fillText(body,x+5,y+25,anchoCelda-10);
+        gc.fillText(body,x+7.5,y + 33*span,anchoCelda-10);
 
         posiciones.add(new double[]{x,y});
         gruposEnPantalla.add(grupo);
     }
 
+    private String textoDeCelda(Grupo grupo, Horario horario){
+        String nombreCurso = grupo.getCurso().getNombre() + " GR " + grupo.getNumGrupo();
+        String nombreProfesor = "Profesor: " + grupo.getProfesor().replace('\t', ' ');
+
+        nombreCurso = ajustarTextoLargo(nombreCurso);
+        nombreProfesor = ajustarTextoLargo(nombreProfesor);
+
+        String body = "\n"+ nombreCurso;
+        body += "\n Hora: " + horario.getHoraInicio() + "-" + horario.getHoraSalida();
+        body += "\n " +  nombreProfesor;
+
+        return body;
+    }
+
+    private String ajustarTextoLargo(String texto){
+        StringBuilder textoAjustado = new StringBuilder();
+
+        String parte = "";
+        for (String splitString :  texto.split(" |\t") ) {
+            if (parte.length() + splitString.length() > 25){
+                textoAjustado.append(" ").append(parte).append("\n");
+                parte = splitString  + " ";
+            } else
+                parte += splitString + " ";
+        }
+        textoAjustado.append(" ").append(parte);
+
+        return textoAjustado.toString();
+    }
+
     private void clearCanvas(){
         gc.clearRect(0, 0, canvas_horarioAula.getWidth(), canvas_horarioAula.getHeight());
+        gc.setFill(Color.WHITE);
+        gc.fillRect(0,0, canvas_horarioAula.getWidth(), canvas_horarioAula.getHeight());
+
         drawLines();
         gruposEnPantalla.clear();
         posiciones.clear();
@@ -96,13 +124,12 @@ public class ClassroomManager {
     }
 
     private void drawLines(){
-        int baseY = 50;
-        double HEIGHT = 200;
+        int baseY = 40;
+        double HEIGHT = 110;
         for (int row = 0; row < 15; row++){
-            //
-            //gc.setFill(row%2==0? Color.GRAY);
-            //gc.fillRect(0,baseY, canvas_horarioAula.getWidth(),HEIGHT);
-            //baseY+=200;
+            gc.setFill(row%2==0? Color.LIGHTGRAY : Color.WHITE);
+            gc.fillRect(0,baseY, canvas_horarioAula.getWidth(),HEIGHT);
+            baseY+=55;
         }
     }
 
@@ -112,7 +139,7 @@ public class ClassroomManager {
         gc.setFont(new Font("Roboto", 16));
         gc.setFill(Color.BLACK);
         for (String currentDay : diasLectivos){
-            gc.fillText(currentDay, baseX, 20 ,60);
+            gc.fillText(currentDay, baseX, 25 );
             baseX+=200;
         }
 
@@ -126,16 +153,17 @@ public class ClassroomManager {
         gc.setFill(Color.BLACK);
         for (int i = 0; i < 15; i++){
             String hora = lecciones.get(i);
-            gc.setFill(Color.BLACK);
             gc.fillText(hora, 15, baseY,100);
-            baseY+=100;
+            baseY+=55;
         }
+
+        canvas_horarioAula.setHeight(baseY-45);
     }
 
     public void initialize(){
         this.gc = canvas_horarioAula.getGraphicsContext2D();
 
-        Set<String> aulas = new HashSet<>();// = DataHolder.getInstance().getAulas().keySet();
+        aulas = new HashSet<>();// = DataHolder.getInstance().getAulas().keySet();
         for (Grupo grupo : DataHolder.getInstance().getGrupos().values()){
             for (Horario h : grupo.getHorario()){
                 aulas.add(h.getAula());
@@ -149,12 +177,12 @@ public class ClassroomManager {
         //Para hacer las pruebas, antes de seguir esto lo pasare a un CSV o alguna otra alternativa, pero ocupo esto en especifico
 
         diasMap = new HashMap<>();
-        diasMap.put("LUNES",90);
-        diasMap.put("MARTES",290);
-        diasMap.put("MIERCOLES",490);
-        diasMap.put("JUEVES",690);
-        diasMap.put("VIERNES",890);
-        diasMap.put("SABADO",1190);
+        diasMap.put("LUNES",115);
+        diasMap.put("MARTES",315);
+        diasMap.put("MIERCOLES",515);
+        diasMap.put("JUEVES",715);
+        diasMap.put("VIERNES",915);
+        diasMap.put("SABADO",1215);
 
         lecciones = new HashMap<>();
         lecciones.put(0, "7:30-8:20");
@@ -162,15 +190,16 @@ public class ClassroomManager {
         lecciones.put(2, "9:30-10:20");
         lecciones.put(3, "10:30-11:20");
         lecciones.put(4, "11:30-12:20");
-        lecciones.put(5, "13:00-13:50");
-        lecciones.put(6, "14:00-14:50");
-        lecciones.put(7, "15:00-15:50");
-        lecciones.put(8, "16:00-16:50");
-        lecciones.put(9, "17:00-17:50");
-        lecciones.put(10, "18:00-18:50");
-        lecciones.put(11, "19:00-19:50");
-        lecciones.put(12, "20:00-20:50");
-        lecciones.put(13, "21:00-21:50");
+        lecciones.put(5, "12:30-12:50");
+        lecciones.put(6, "13:00-13:50");
+        lecciones.put(7, "14:00-14:50");
+        lecciones.put(8, "15:00-15:50");
+        lecciones.put(9, "16:00-16:50");
+        lecciones.put(10, "17:00-17:50");
+        lecciones.put(11, "18:00-18:50");
+        lecciones.put(12, "19:00-19:50");
+        lecciones.put(13, "20:00-20:50");
+        lecciones.put(14, "21:00-21:50");
 
 
         drawOnCanvas("B3-8");
@@ -208,9 +237,12 @@ public class ClassroomManager {
 
             stage.setTitle(group.getCurso().getNombre() + " GR" + group.getNumGrupo());
             stage.setScene(new Scene(parent));
+            stage.setMaxWidth(500);
+            stage.setMinWidth(500);
             stage.show();
+
             EditGroupController controlador = fxmlLoader.getController();
-            controlador.iniciar(group);
+            controlador.iniciar(group, aulas, lecciones, diasLectivos);
 
         }  catch (IOException e){
             System.out.println(e.toString());

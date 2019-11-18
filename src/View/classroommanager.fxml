@@ -58,7 +58,7 @@
             </SplitPane>
          <ScrollPane fx:id="scroll_horario" prefHeight="50.0" prefWidth="50.0" VBox.vgrow="ALWAYS">
            <content>
-               <Canvas fx:id="canvas_horarioAula" height="1500.0" width="1400.0" VBox.vgrow="ALWAYS" />
+               <Canvas fx:id="canvas_horarioAula" height="900.0" width="1400.0" VBox.vgrow="ALWAYS" />
            </content>
          </ScrollPane>
 
