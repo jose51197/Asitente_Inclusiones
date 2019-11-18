@@ -52,7 +52,6 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) throws Exception {
-
         pruebasOscar();
 
 
@@ -64,9 +63,6 @@ public class Main extends Application {
         pruebasJose();
         pruebasSergie();
 
-
-        //ResultadoPDF resultPDF = new ResultadoPDF();
-        //resultPDF.write();
         launch(args);
     }
 

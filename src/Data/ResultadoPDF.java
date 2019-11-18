@@ -26,27 +26,36 @@ public class ResultadoPDF {
 
         document = new PDDocument();
 
-        Map<String, List<Grupo>> cursos = new HashMap<>(); //Necesito un query de esto :/
+        for (String codCurso : DataHolder.getInstance().getInclusionesMapPorMateria().keySet()){
+            ArrayList<Inclusion> inclusionesCurso = DataHolder.getInstance().getInclusionesMapPorMateria().get(codCurso);
+            //CodCurso + Grupo
+            Map<Integer, List<Inclusion>> inclusionesPorGrupo = new HashMap<>();
 
-        for (String codCurso : DataHolder.getInstance().getGrupos().keySet()){
-            System.out.println();
+            for (Inclusion inclusion : inclusionesCurso){ //Separando por grupos para trabajar cada lista por seprado
+                int numeroGrupo = inclusion.getGrupo().getNumGrupo();
+                List<Inclusion> inclusionesDelGrupo = inclusionesPorGrupo.get(numeroGrupo);
 
-            Grupo grupo = DataHolder.getInstance().getGrupos().get(codCurso);
-            List<Grupo> gruposGuardados = cursos.get(grupo.getCurso().getId());
+                if ( inclusionesDelGrupo == null ){
+                    inclusionesDelGrupo = new ArrayList<>();
+                }
 
-            if ( gruposGuardados == null ){
-                gruposGuardados = new ArrayList<>();
+                if (inclusion.getEstado() == EstadoInclusion.ACEPTADA){ //Solo importan las aceptadas :p
+                    inclusionesDelGrupo.add(inclusion);
+                    inclusionesPorGrupo.put(numeroGrupo, inclusionesDelGrupo);
+                }
+
             }
 
-            gruposGuardados.add(grupo);
-            cursos.put(grupo.getCurso().getId(), gruposGuardados);
+            //Con los datos debidamente separados
+
+            for (int numeroGrupo : inclusionesPorGrupo.keySet()){
+                List<Inclusion> inclusionesDelGrupo = inclusionesPorGrupo.get(numeroGrupo);
+                //crear pagina de
+
+                crearPaginaResultados(inclusionesCurso, inclusionesDelGrupo.get(0).getGrupo());
+            }
         }
 
-        ///Fin de funcion para pruebas
-
-        for (String codCurso : cursos.keySet()){
-            escribirCurso(cursos.get(codCurso));
-        }
 
         pruebas();
 
@@ -63,9 +72,15 @@ public class ResultadoPDF {
         System.out.println("Pruebas");
         escribirDatosGrupo(page, cos);
         cos.close();
-
     }
 
+    private void crearPaginaResultados(List<Inclusion> inclusions, Grupo grupo) throws IOException {
+        PDPage page = new PDPage(PDPage.PAGE_SIZE_A4);
+        PDPageContentStream cos = new PDPageContentStream(document, page);
+
+        //Create header
+        //Create body
+    }
 
 
     public void escribirCurso(List<Grupo> grupos) throws IOException {
@@ -84,9 +99,9 @@ public class ResultadoPDF {
 
     ///DE PRUEBA
     public void escribirDatosGrupo(PDPage page, PDPageContentStream contentStream) throws IOException {
-        //draw the rows
-        float nexty = page.getMediaBox().getHeight() - 200; //Inicio de la tabla
 
+
+        //Test values
         ArrayList<String[]> headerContent = new ArrayList<>();
         headerContent.add( new String[]{"SEDE", "CA", "Año "} );
         headerContent.add( new String[]{"Código", "Descripción", "Periodo", "Modalidad"} );
@@ -94,18 +109,30 @@ public class ResultadoPDF {
         headerContent.add( new String[]{"Grupo", "2"} );
         headerContent.add( new String[]{"Profesor", "Uno de ATI", "Se autoriza inclusión con"} );
 
+
+        float cellSize = 25f;
+        float headerTop = page.getMediaBox().getHeight() - 75; //Inicio de la tabla
+        float headerBottom = page.getMediaBox().getHeight() - 225;
+        float headerStart = inicioTabla;
+        float headerEnd = anchoTabla;
+
+        //draw the rows
+        float nexty = headerTop; //Inicio de la tabla
         //Filas
         for (int i = 0; i <= 5; i++) {
-            contentStream.drawLine(inicioTabla,nexty,anchoTabla,nexty);
-            nexty+= 25f;
+            contentStream.drawLine(headerStart,nexty,headerEnd,nexty);
+            nexty-= 25f;
         }
 
         nexty = page.getMediaBox().getHeight() - 200; //Inicio de la tabla
 
+        /*
+
+
         //draw the columns
         //Columnas
         float nextx = inicioTabla;
-        contentStream.drawLine(nextx,nexty,inicioTabla,nexty+125); //Izquierda
+        contentStream.drawLine(nextx, headerTop, inicioTabla, headerBottom); //Izquierda
         contentStream.drawLine(nextx+100,nexty,nextx+100,nexty+125);
         contentStream.drawLine(nextx+350,nexty,nextx+350,nexty+125);
         contentStream.drawLine(nextx+415,nexty+50,nextx+415,nexty+100);
@@ -115,13 +142,17 @@ public class ResultadoPDF {
 
         float xPositions[] = {inicioTabla+10, inicioTabla+110, inicioTabla+360};
         contentStream.setFont(PDType1Font.HELVETICA,12);
+
         for (int index = 0; index < 3; index++){
-            escribirLinea(contentStream, xPositions[index], nexty, headerContent.get(0)[index]);
+            contentStream.beginText();
+            contentStream.moveTextPositionByAmount(xPositions[index], nexty);
+            contentStream.drawString(headerContent.get(0)[index]);
+            contentStream.endText();
         }
 
+        contentStream.setFont(PDType1Font.HELVETICA_BOLD,12);
         xPositions = new float[] {inicioTabla+5, inicioTabla+105, inicioTabla+360, inicioTabla+425};
         for (int index = 0; index < 4; index++){
-            contentStream.setFont(PDType1Font.HELVETICA_BOLD,12);
             contentStream.beginText();
             contentStream.moveTextPositionByAmount(xPositions[index], nexty-25);
             contentStream.drawString(headerContent.get(1)[index]);
@@ -130,16 +161,15 @@ public class ResultadoPDF {
 
         xPositions = new float[] {inicioTabla+5, inicioTabla+105, inicioTabla+360, inicioTabla+425};
         for (int index = 0; index < 4; index++){
-            contentStream.setFont(PDType1Font.HELVETICA,12);
             contentStream.beginText();
             contentStream.moveTextPositionByAmount(xPositions[index], nexty-50);
             contentStream.drawString(headerContent.get(2)[index]);
             contentStream.endText();
         }
 
+        contentStream.setFont(PDType1Font.HELVETICA,12);
         xPositions = new float[] {inicioTabla+5, inicioTabla+105};
         for (int index = 0; index < 2; index++){
-            contentStream.setFont(PDType1Font.HELVETICA,12);
             contentStream.beginText();
             contentStream.moveTextPositionByAmount(xPositions[index], nexty-75);
             contentStream.drawString(headerContent.get(3)[index]);
@@ -147,13 +177,14 @@ public class ResultadoPDF {
         }
 
         xPositions = new float[] {inicioTabla+5, inicioTabla+105, inicioTabla+360};
+        contentStream.setFont(PDType1Font.HELVETICA,12);
         for (int index = 0; index < 3; index++){
-            contentStream.setFont(PDType1Font.HELVETICA,12);
             contentStream.beginText();
             contentStream.moveTextPositionByAmount(xPositions[index], nexty-100);
             contentStream.drawString(headerContent.get(4)[index]);
             contentStream.endText();
         }
+
 
         String body[] = {"Carné", "Nombre del estudiante", "RN", "LR", "LC", "CH"};
 
@@ -164,19 +195,22 @@ public class ResultadoPDF {
             nexty-= 25f;
         }
 
+
         nextx = inicioTabla;
-        nexty+= 25f;
+        nexty-= 25f;
         float baseY = page.getMediaBox().getHeight() - 200;
         xPositions = new float[] {nextx, nextx+100, nextx+350, nextx+387.5f, nextx+425, nextx+462.5f};
 
+
+        //Columnas
         contentStream.drawLine(nextx,nexty,inicioTabla,nexty+125); //Izquierda
         contentStream.drawLine(nextx+100,nexty,nextx+100,baseY);
         contentStream.drawLine(nextx+350,nexty,nextx+350,baseY);
 
         contentStream.drawLine(nextx+387.5f,nexty,nextx+387.5f,baseY);
-        contentStream.drawLine(nextx+425,nexty+50,nextx+425,baseY);
-        contentStream.drawLine(nextx+462.5f,nexty+50,nextx+462.5f,baseY);
-        contentStream.drawLine(nextx+500,nexty+50,nextx+500,baseY);
+        contentStream.drawLine(nextx+425,nexty,nextx+425,baseY);
+        contentStream.drawLine(nextx+462.5f,nexty,nextx+462.5f,baseY);
+        contentStream.drawLine(nextx+500,nexty,nextx+500,baseY);
 
 
         contentStream.drawLine(anchoTabla,nexty,anchoTabla,baseY); //Derecha
@@ -184,11 +218,9 @@ public class ResultadoPDF {
         baseY-= 15.5f;
         for (int index = 0; index < xPositions.length; index++) {
             escribirLinea(contentStream, xPositions[index] + 5, baseY,body[index]);
-
-            //contentStream.drawLine(xPositions[index],nexty,anchoTabla,baseY);
-            //baseY-= 25f;
         }
 
+         */
 
 
 
