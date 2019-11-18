@@ -30,7 +30,6 @@ public class Main extends Application {
 
     public static void pruebasJose(){
 
-
     }
 
     public static void pruebasOscar() throws IOException {
@@ -60,6 +59,7 @@ public class Main extends Application {
 
         dataLoader.getEstudiantes("..\\PROYINCLUSIONES\\ATI.xlsx","..\\PROYINCLUSIONES\\rn.csv");
         dataLoader.getInclusiones("inclusiones.csv");
+        setUserAgentStylesheet(STYLESHEET_CASPIAN);
         pruebasJose();
         pruebasSergie();
 
