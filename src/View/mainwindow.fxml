@@ -35,7 +35,7 @@
       </SplitPane>
       <TableView fx:id="tablaInclusiones" onMouseClicked="#onSeleccionarInclusion" prefHeight="573.0" prefWidth="1035.0" style="-fx-background-color: #555555;" VBox.vgrow="ALWAYS">
         <columns>
-            <TableColumn fx:id="cCarne" prefWidth="75.0" text="Carne" />
+            <TableColumn fx:id="cCarne" prefWidth="75.0" text="Carné" />
           <TableColumn fx:id="cNombre" prefWidth="431.0" text="Nombre" />
             <TableColumn fx:id="cMateria" minWidth="1.0" prefWidth="319.0" text="Materia" />
           <TableColumn fx:id="cEstado" minWidth="0.0" prefWidth="82.0" text="Estado" />

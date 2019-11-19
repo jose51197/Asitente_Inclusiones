@@ -43,7 +43,7 @@ public class ClassroomManager {
     Map<String, Integer> diasMap;
     Map<Integer, String> lecciones;
 
-    private String diasLectivos[] = {"Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"};
+    private String diasLectivos[] = {"Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"};
 
     private void drawOnCanvas(String codigoAula){
         clearCanvas();
@@ -52,7 +52,7 @@ public class ClassroomManager {
             Grupo grupo = DataHolder.getInstance().getGrupos().get(key);
 
             for (Horario horario : grupo.getHorario()){
-                if (horario.getAula().equals(codigoAula)){
+                if (horario.getAula().getCodigo().equals(codigoAula)){
                     agregarLecciones(grupo, horario);
                 }
             }

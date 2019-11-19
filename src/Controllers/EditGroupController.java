@@ -55,7 +55,7 @@ public class EditGroupController {
             ComboBox comboBoxAulas = new ComboBox();
             comboBoxAulas.getItems().addAll(aulas);
             comboBoxAulas.setMinWidth(50);
-            comboBoxAulas.getSelectionModel().select(h.getAula());
+            comboBoxAulas.getSelectionModel().select(h.getAula().getCodigo());
 
             ComboBox combDia = new ComboBox();
             combDia.getItems().addAll(dias);
@@ -94,6 +94,9 @@ public class EditGroupController {
         ComboBox horaInicio = new ComboBox();
         ComboBox horaFin = new ComboBox();
         Button eliminar = new Button("Eliminar");
+
+        final int parameter = filasGrid;
+        eliminar.setOnMouseClicked( e -> eliminarFila(parameter) );
 
         box.getChildren().addAll(comboBoxAulas, horaInicio, horaFin, eliminar);
         grid_horarios.addRow(filasGrid++, box);
