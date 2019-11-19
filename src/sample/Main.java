@@ -51,7 +51,7 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) throws Exception {
-        pruebasOscar();
+
 
 
         DataLoader dataLoader = new DataLoader();
@@ -63,6 +63,7 @@ public class Main extends Application {
 
         pruebasJose();
         pruebasSergie();
+        pruebasOscar();
 
         launch(args);
     }

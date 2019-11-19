@@ -28,6 +28,7 @@ public class ResultadoPDF {
         System.out.println("Escribiendo PDF");
 
         for (String codCurso : DataHolder.getInstance().getInclusionesMapPorMateria().keySet()){
+            System.out.println("Parsenado datos por materia");
             ArrayList<Inclusion> inclusionesCurso = DataHolder.getInstance().getInclusionesMapPorMateria().get(codCurso);
             Map<Integer, List<Inclusion>> inclusionesPorGrupo = new HashMap<>();
 
@@ -51,8 +52,7 @@ public class ResultadoPDF {
 
             for (int numeroGrupo : inclusionesPorGrupo.keySet()){
                 List<Inclusion> inclusionesDelGrupo = inclusionesPorGrupo.get(numeroGrupo);
-                //crear pagina de
-
+                System.out.println("Escribir grupo");
                 crearPaginaResultados(inclusionesCurso, inclusionesDelGrupo.get(0).getGrupo());
             }
         }
@@ -85,6 +85,7 @@ public class ResultadoPDF {
         document.addPage( page );
         escribirHeader(page, cos, grupo);
         escribirAprobados(page, cos, inclusions);
+        cos.close();
         //Create header
         //Create body
     }
@@ -274,6 +275,15 @@ public class ResultadoPDF {
             rowYIndex-= cellSize; //Move down on the canvas
         }
 
+
+        cs.drawLine(contentStart, contentTop, contentStart, contentBottom); //Izquierda
+        cs.drawLine(contentStart+100,contentTop,contentStart+100,contentBottom);
+        cs.drawLine(contentStart+350,contentTop,contentStart+350,contentBottom);
+        cs.drawLine(contentStart+387.5f, contentTop + 25,contentStart+387.5f,contentBottom);
+        cs.drawLine(contentStart+425, contentTop + 25,contentStart+425,contentBottom);
+        cs.drawLine(contentStart+462.5f, contentTop + 25,contentStart+462.5f,contentBottom);
+        cs.drawLine(contentStart+500, contentTop + 25,contentStart+500,contentBottom);
+
         rowYIndex = contentTop;
         float xPositions[] = new float[] {contentStart+5, contentStart+105, contentStart+355, contentStart+392.5f, contentStart+430, contentStart+467.5f};
 
@@ -286,7 +296,7 @@ public class ResultadoPDF {
             textos[4] = "";
             textos[5] = "";
 
-            escribirFila(cs, xPositions, rowYIndex, textos);
+            escribirFila(cs, xPositions, rowYIndex-15f, textos);
             rowYIndex-=cellSize;
         }
     }
