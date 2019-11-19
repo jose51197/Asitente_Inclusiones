@@ -166,7 +166,7 @@ public class ClassroomManager {
         aulas = new HashSet<>();// = DataHolder.getInstance().getAulas().keySet();
         for (Grupo grupo : DataHolder.getInstance().getGrupos().values()){
             for (Horario h : grupo.getHorario()){
-                aulas.add(h.getAula());
+                aulas.add(h.getAula().getCodigo());
             }
         }
 

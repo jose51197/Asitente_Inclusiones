@@ -1,21 +1,19 @@
 package Model;
 
-import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Map;
 
 public class Horario {
-    private String aula;
+    private Aula aula;
     private String dia;
     private LocalTime horaInicio;
     private  LocalTime horaSalida;
 
-    public String getAula() {
+    public Aula getAula() {
         return aula;
     }
 
-    public void setAula(String aula) {
+    public void setAula(Aula aula) {
         this.aula = aula;
     }
 
@@ -43,7 +41,7 @@ public class Horario {
         this.horaSalida = horaSalida;
     }
 
-    public Horario(String aula, String dia, LocalTime horaInicio, LocalTime horaSalida) {
+    public Horario(Aula aula, String dia, LocalTime horaInicio, LocalTime horaSalida) {
         this.aula = aula;
         this.dia = dia;
         this.horaInicio= horaInicio;

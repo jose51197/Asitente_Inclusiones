@@ -46,8 +46,8 @@ public class Main extends Application {
         for(String error: errores){
             System.out.println(error);
         }
-        System.out.println(dataHolder.getMalla().get("plan 2050").get("TI8509").getNombre());
-
+        System.out.println(dataHolder.getAulas().get("F9-03").getCapacidad());
+        System.out.printf(String.valueOf(dataHolder.getGrupos().get("GR1TI3600").getCantEstudiantes()));
     }
 
     public static void main(String[] args) throws Exception {
@@ -56,10 +56,11 @@ public class Main extends Application {
 
         DataLoader dataLoader = new DataLoader();
         dataLoader.getPlanes("plan.xlsx");
-
+        dataLoader.addAulas("aulas.xlsx");
         dataLoader.getEstudiantes("..\\PROYINCLUSIONES\\ATI.xlsx","..\\PROYINCLUSIONES\\rn.csv");
         dataLoader.getInclusiones("inclusiones.csv");
         setUserAgentStylesheet(STYLESHEET_CASPIAN);
+
         pruebasJose();
         pruebasSergie();
 

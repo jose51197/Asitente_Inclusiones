@@ -12,6 +12,7 @@ public class Grupo {
     private String profesor;
     private Curso curso;
     private List<Horario> horarios;
+    private int cantEstudiantes;
 
     public boolean notContainsHorario(String dia){
         for (Horario horario: horarios){
@@ -20,6 +21,30 @@ public class Grupo {
             }
         }
         return true;
+    }
+
+    public void aumentarEstudiantes(){
+        this.cantEstudiantes++;
+    }
+
+    public void disminuirEstudiantes(){
+        this.cantEstudiantes--;
+    }
+
+    public List<Horario> getHorarios() {
+        return horarios;
+    }
+
+    public void setHorarios(List<Horario> horarios) {
+        this.horarios = horarios;
+    }
+
+    public int getCantEstudiantes() {
+        return cantEstudiantes;
+    }
+
+    public void setCantEstudiantes(int cantEstudiantes) {
+        this.cantEstudiantes = cantEstudiantes;
     }
 
     public int getNumGrupo() {

@@ -1,8 +1,10 @@
 package Model;
 
+import javax.sound.midi.Soundbank;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.sql.SQLOutput;
 import java.time.LocalTime;
 import java.util.*;
 
@@ -72,8 +74,31 @@ public class DataLoader {
         }
     }
 
+    public void addAulas(String filepath) throws IOException {
+        Map<String, ArrayList<ArrayList<String>>> data= excelreader.readXlsxFile(filepath);
+        Map<String, Aula> aulas = dataHolder.getAulas();
+        for(String sheetName: data.keySet()){
+            int linea=0;
+            ArrayList<ArrayList<String>> sheet = data.get(sheetName);
+            for(ArrayList<String> row:sheet){
+                linea++;
+
+                try{
+                    Aula aula= new Aula(row.get(1),row.get(2),Double.valueOf(row.get(3)).intValue(),row.get(4),row.get(5),row.get(6),row.get(7));
+                    aulas.put(row.get(1),aula);
+                }
+                catch(Exception e){
+                    dataHolder.addError("Error creando el aula "+ row.get(0)+" en la linea "+ String.valueOf(linea)+" de la hoja "+ sheetName);
+                }
+
+            }
+        }
+    }
+
+
     private void addHorario(ArrayList<ArrayList<String>> sheet,String sheetName){
         Map<String, Grupo> grupos = dataHolder.getGrupos();
+        Map<String, Aula> aulas = dataHolder.getAulas();
         Map<Integer, Estudiante> estudiantes= DataHolder.getInstance().getEstudiantes();
         Map<String, Curso> plan= dataHolder.getMalla().get(sheetName.replace("horarios","plan"));
         int carnet=-1;
@@ -105,13 +130,20 @@ public class DataLoader {
             }
             LocalTime horaInicio= LocalTime.ofSecondOfDay(Double.valueOf(86401*Double.valueOf(dataRow.get(7))).longValue());
             LocalTime horaFinal= LocalTime.ofSecondOfDay(Double.valueOf(86401*Double.valueOf(dataRow.get(8))).longValue());
-            Horario horario= new Horario(dataRow.get(6),dataRow.get(5),horaInicio,horaFinal);
+            Aula aula= aulas.get(dataRow.get(6));
+            if(aula==null){
+                aula=new Aula(dataRow.get(6),"N/A",-1,"N/A","N/A","N/A","N/A");
+                dataHolder.addError("Aula codigo: "+dataRow.get(6)+" no se encontro en la lista de aulas, creando perfil nuevo");
+                aulas.put(dataRow.get(6),aula);
+            }
+            Horario horario= new Horario(aula,dataRow.get(5),horaInicio,horaFinal);
             if(grupo.notContainsHorario(horario.getDia())){
                 grupo.addHorario(horario);
             }
             if(estudiante!=null){
                 gruposEstudiante = estudiante.getGrupos();
                 gruposEstudiante.put(idGrupo,grupo);
+                grupo.aumentarEstudiantes();
             }
         }
     }

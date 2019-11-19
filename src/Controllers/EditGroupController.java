@@ -1,6 +1,7 @@
 package Controllers;
 
 import Model.Aula;
+import Model.DataHolder;
 import Model.Grupo;
 import Model.Horario;
 import javafx.fxml.FXML;
@@ -114,8 +115,8 @@ public class EditGroupController {
 
             String horaInicio = fila[2].getValue().toString();
             String horaFin = fila[3].getValue().toString();
-
-            Horario horario = new Horario(codAula, dia, LocalTime.parse(horaInicio), LocalTime.parse(horaFin));
+            Aula aula= DataHolder.getInstance().getAulas().get(codAula);
+            Horario horario = new Horario(aula, dia, LocalTime.parse(horaInicio), LocalTime.parse(horaFin));
             horarios.add(horario);
         }
 

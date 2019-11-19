@@ -64,7 +64,7 @@ public class viewHorarioController {
                 gr.fillText(strings[0],x,y+20,maxWidth);
                 gr.fillText(strings[1],x,y+30,maxWidth);//TODO mostrar bonito, hacer generic function
                 gr.fillText(materia.getValue().getProfesor().replace("\t"," " ),x,y+0.4*height,maxWidth);
-                gr.fillText(h.getAula(),x,y+0.6*height,maxWidth);
+                gr.fillText(h.getAula().getCodigo(),x,y+0.6*height,maxWidth);
                 gr.fillText(h.getHoraInicio().toString() + " " + h.getHoraSalida(),x,y+0.8*height,maxWidth);
 
 
