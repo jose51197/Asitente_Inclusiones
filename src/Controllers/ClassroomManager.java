@@ -50,13 +50,17 @@ public class ClassroomManager {
         clearCanvas();
 
         Aula aula = DataHolder.getInstance().getAulas().get(codigoAula);
-        System.out.println(aula == null);
+        //System.out.println(aula == null);
         //lCapacidad.setText( Integer.toString(aula.getCapacidad()) );
 
         for (String key : DataHolder.getInstance().getGrupos().keySet()){
             Grupo grupo = DataHolder.getInstance().getGrupos().get(key);
 
+
+
             for (Horario horario : grupo.getHorario()){
+                System.out.println(horario == null);
+                System.out.println(horario.getAula() == null);
                 if (horario.getAula().getCodigo().equals(codigoAula)){
                     agregarLecciones(grupo, horario);
                 }

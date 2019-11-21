@@ -13,6 +13,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import jdk.nashorn.internal.runtime.logging.Logger;
 
 import java.time.LocalTime;
@@ -23,6 +25,8 @@ public class EditGroupController {
     GridPane grid_horarios;
     @FXML
     TextField label_profesor;
+    @FXML
+    VBox horariosGrupo;
 
     int filasGrid;
     Map<Integer, ComboBox[]> datosHorario;
@@ -38,7 +42,7 @@ public class EditGroupController {
     }
 
     public void iniciar(Grupo grupo, Set<String> aulas, Map<Integer, String> lecciones, String _dias[]){
-        dias = _dias;
+        dias = new String[]{"LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO"};
         label_profesor.setText(grupo.getProfesor().replace('\t', ' '));
         miGrupo = grupo;
         for (int i = 0; i < 15; i++){
@@ -50,7 +54,8 @@ public class EditGroupController {
         for (int revisados = 0; revisados < grupo.getHorario().size(); revisados++){
             Horario h = grupo.getHorario().get(revisados);
             HBox box = new HBox();
-            box.setMinWidth(500);
+            box.setMinWidth(400);
+            box.setMinHeight(50);
 
             ComboBox comboBoxAulas = new ComboBox();
             comboBoxAulas.getItems().addAll(aulas);
@@ -106,7 +111,7 @@ public class EditGroupController {
         grid_horarios.getChildren().removeIf(node -> GridPane.getRowIndex(node) == index);
     }
 
-    private void guardarDatos(){
+    public void guardarDatos(){
         Set<Integer> llaves = datosHorario.keySet();
         //Usar un mapa, int indice y valores de widgets
         List<Horario> horarios = new ArrayList<>();
@@ -119,11 +124,19 @@ public class EditGroupController {
             String horaInicio = fila[2].getValue().toString();
             String horaFin = fila[3].getValue().toString();
             Aula aula= DataHolder.getInstance().getAulas().get(codAula);
+            System.out.println(aula.toString());
             Horario horario = new Horario(aula, dia, LocalTime.parse(horaInicio), LocalTime.parse(horaFin));
             horarios.add(horario);
         }
-
         //Setear el grupo
-        //miGrupo.setHorario(horarios);
+        //
+       // miGrupo.setHorario(horarios);
+        closeWindow();
+    }
+
+
+    public void closeWindow(){
+        Stage stage = (Stage) label_profesor.getScene().getWindow();
+        stage.close();
     }
 }

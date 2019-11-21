@@ -1,5 +1,6 @@
 package Data;
 
+import Controllers.GenericFunctions;
 import Model.*;
 import org.apache.pdfbox.exceptions.COSVisitorException;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -67,7 +68,6 @@ public class ReportePDF {
         document.save(path);
         //document.save("../BlankPage.pdf");
         document.close();
-
     }
 
     private void pruebas() throws IOException {
@@ -80,6 +80,23 @@ public class ReportePDF {
 
         escribirAprobados(page, cos, new ArrayList<Inclusion>());
         cos.close();
+    }
+
+
+    private boolean hasRn(Inclusion inclusion){
+        String requisitos="";
+        for (Curso curso: inclusion.getGrupo().getCurso().getRequisitos()) {
+            if(curso.getNombre().length()>20){
+                String estado = inclusion.getEstudiante().getCursos().get((curso.getId()));
+                if (estado==null){
+                    estado="Sin info";
+                }
+                requisitos+= GenericFunctions.splitByNumber(curso.getNombre(),20)[0] + "-"+estado;
+                continue;
+            }
+            requisitos+=curso.getNombre() + "\n";
+        }
+        return true;
     }
 
     private void crearPaginaResultados(List<Inclusion> inclusions, Grupo grupo) throws IOException {

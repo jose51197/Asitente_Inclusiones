@@ -66,12 +66,12 @@
 
       <HBox alignment="CENTER" layoutY="100.0" prefHeight="45.0" prefWidth="250.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-             <Button mnemonicParsing="false" text="Cancelar">
+             <Button mnemonicParsing="false" onAction="#closeWindow" text="Cancelar">
                <HBox.margin>
                   <Insets />
                </HBox.margin></Button>
             <Separator prefWidth="20.0" visible="false" />
-             <Button mnemonicParsing="false" text="Guardar" />
+             <Button mnemonicParsing="false" onAction="#guardarDatos" text="Guardar" />
          </children></HBox>
 
 
