@@ -1,7 +1,7 @@
 package sample;
 
 import Controllers.CargadorArchivos;
-import Data.ResultadoPDF;
+import Data.ReportePDF;
 import Model.*;
 import Model.DataLoader;
 import javafx.application.Application;
@@ -33,7 +33,7 @@ public class Main extends Application {
     }
 
     public static void pruebasOscar() throws IOException {
-        ResultadoPDF pdf = new ResultadoPDF();
+        ReportePDF pdf = new ReportePDF("../BlankPage.pdf");
         try {
             pdf.write();
         } catch (COSVisitorException e) {
@@ -51,9 +51,6 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) throws Exception {
-
-
-
         DataLoader dataLoader = new DataLoader();
         dataLoader.getPlanes("plan.xlsx");
         dataLoader.addAulas("aulas.xlsx");

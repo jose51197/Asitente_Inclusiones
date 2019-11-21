@@ -4,7 +4,6 @@ import Model.*;
 import org.apache.pdfbox.exceptions.COSVisitorException;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.edit.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
@@ -15,15 +14,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ResultadoPDF {
+public class ReportePDF {
 
-    PDDocument document;
-    PDPage page;
-    final float inicioTabla = 50;
-    final float anchoTabla = 550;
+    private PDDocument document;
+    private PDPage page;
+    private String path;
+    final float tableStart = 50;
+    final float tableEnd = 550;
+
+    public ReportePDF(String path){
+        this.path = path;
+    }
+
 
     public void write() throws IOException, COSVisitorException {
-
         document = new PDDocument();
         System.out.println("Escribiendo PDF");
 
@@ -41,10 +45,10 @@ public class ResultadoPDF {
                     inclusionesDelGrupo = new ArrayList<>();
                 }
 
-                if (inclusion.getEstado() == EstadoInclusion.ACEPTADA){ //Solo importan las aceptadas :p
+                //if (inclusion.getEstado() == EstadoInclusion.ACEPTADA){ //Solo importan las aceptadas :p
                     inclusionesDelGrupo.add(inclusion);
                     inclusionesPorGrupo.put(numeroGrupo, inclusionesDelGrupo);
-                }
+                //}
 
             }
 
@@ -60,7 +64,8 @@ public class ResultadoPDF {
 
         //pruebas();
 
-        document.save("../BlankPage.pdf");
+        document.save(path);
+        //document.save("../BlankPage.pdf");
         document.close();
 
     }
@@ -104,8 +109,8 @@ public class ResultadoPDF {
         float cellSize = 25f;
         float headerTop = page.getMediaBox().getHeight() - 75; //Inicio de la tabla
         float headerBottom = page.getMediaBox().getHeight() - 225;
-        float headerStart = inicioTabla;
-        float headerEnd = anchoTabla;
+        float headerStart = tableStart;
+        float headerEnd = tableEnd;
 
         //headerTop - 25; //Inicio de la tabla
         //Escribir columna --> Metodo que seria util para estos casos
@@ -137,7 +142,7 @@ public class ResultadoPDF {
 
         //draw the columns
         //Columnas
-        //float nextx = inicioTabla;
+        //float nextx = tableStart;
         cs.drawLine(headerStart, headerTop, headerStart, headerBottom); //Izquierda
         cs.drawLine(headerStart+100,nexty,headerStart+100,headerBottom);
         cs.drawLine(headerStart+350,nexty,headerStart+350,headerBottom);
@@ -155,13 +160,13 @@ public class ResultadoPDF {
         cs.drawLine(headerEnd,nexty,headerEnd,headerBottom); //Derecha
 
 
-        float xPositions[] = {inicioTabla+10, inicioTabla+110, inicioTabla+360};
+        float xPositions[] = {tableStart +10, tableStart +110, tableStart +360};
         cs.setFont(PDType1Font.HELVETICA,12);
         escribirFila(cs, xPositions, headerTop - 17.5f,headerContent.get(0) );
 
         //Segunda fila
         cs.setFont(PDType1Font.HELVETICA_BOLD,12);
-        xPositions = new float[] {inicioTabla+5, inicioTabla+105, inicioTabla+360, inicioTabla+425};
+        xPositions = new float[] {tableStart +5, tableStart +105, tableStart +360, tableStart +425};
         escribirFila(cs, xPositions, headerTop - 44.5f,headerContent.get(1) );
 
         //Tercera fila -- contenido de la anterior, por eso el mismo xPositions
@@ -170,16 +175,16 @@ public class ResultadoPDF {
 
         //Cuarta Fila
         cs.setFont(PDType1Font.HELVETICA_BOLD,12);
-        xPositions = new float[] {inicioTabla+5, inicioTabla+105};
+        xPositions = new float[] {tableStart +5, tableStart +105};
         escribirFila(cs, xPositions, headerTop - 44.5f - 50f,headerContent.get(3) );
 
         //Quinta fila
         cs.setFont(PDType1Font.HELVETICA,12);
-        xPositions = new float[] {inicioTabla+5, inicioTabla+105, inicioTabla+360};
+        xPositions = new float[] {tableStart +5, tableStart +105, tableStart +360};
         escribirFila(cs, xPositions, headerTop - 44.5f - 75f,headerContent.get(4) );
 
         //Sexta fila
-        xPositions = new float[] {inicioTabla+5, inicioTabla+105, inicioTabla+360};
+        xPositions = new float[] {tableStart +5, tableStart +105, tableStart +360};
         escribirFila(cs, xPositions, headerTop - 44.5f - 75f,headerContent.get(4) );
 
         xPositions = new float[] {headerStart+5, headerStart+105, headerStart+355, headerStart+392.5f, headerStart+430, headerStart+467.5f};
@@ -203,8 +208,8 @@ public class ResultadoPDF {
         float cellSize = 25f;
         float contentTop = page.getMediaBox().getHeight() - 225; //Inicio de la tabla
         float contentBottom = contentTop - cellSize * cantidadFilas;
-        float contentStart = inicioTabla;
-        float contentEnd = anchoTabla;
+        float contentStart = tableStart;
+        float contentEnd = tableEnd;
 
         float rowYIndex = contentTop;
         for (int i = 0; i <= cantidadFilas; i++) {
@@ -239,8 +244,8 @@ public class ResultadoPDF {
 
     private void escribirFooter(PDPage page, PDPageContentStream cs) throws IOException {
         float footerTop = 115; //Inicio de la tabla
-        float footerStart = inicioTabla + 15;
-        float footerEnd = anchoTabla;
+        float footerStart = tableStart + 15;
+        float footerEnd = tableEnd;
 
 
         cs.setLineWidth(2);

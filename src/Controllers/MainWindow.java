@@ -1,5 +1,6 @@
 package Controllers;
 
+import Data.ReportePDF;
 import Model.DataHolder;
 import Model.Email;
 import Model.EstadoInclusion;
@@ -19,6 +20,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
+import org.apache.pdfbox.exceptions.COSVisitorException;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -133,6 +135,17 @@ public class MainWindow {
 
     public void pruebasJose(){
 
+    }
+
+    public void imprimirAprobados(){
+        ReportePDF pdf = new ReportePDF("../ReporteDAR.pdf");
+        try {
+            pdf.write();
+        } catch (COSVisitorException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void onSeleccionarInclusion(MouseEvent mouseEvent) {

@@ -1,5 +1,6 @@
 package Controllers;
 
+import Model.Aula;
 import Model.DataHolder;
 import Model.Grupo;
 import Model.Horario;
@@ -47,6 +48,10 @@ public class ClassroomManager {
 
     private void drawOnCanvas(String codigoAula){
         clearCanvas();
+
+        Aula aula = DataHolder.getInstance().getAulas().get(codigoAula);
+        System.out.println(aula == null);
+        //lCapacidad.setText( Integer.toString(aula.getCapacidad()) );
 
         for (String key : DataHolder.getInstance().getGrupos().keySet()){
             Grupo grupo = DataHolder.getInstance().getGrupos().get(key);
@@ -164,11 +169,16 @@ public class ClassroomManager {
         this.gc = canvas_horarioAula.getGraphicsContext2D();
 
         aulas = new HashSet<>();// = DataHolder.getInstance().getAulas().keySet();
+        aulas = DataHolder.getInstance().getAulas().keySet();
+
+        /*
         for (Grupo grupo : DataHolder.getInstance().getGrupos().values()){
             for (Horario h : grupo.getHorario()){
                 aulas.add(h.getAula().getCodigo());
             }
         }
+
+         */
 
         combo_Aulas.getItems().addAll(aulas);
         combo_Aulas.getSelectionModel().selectFirst();
