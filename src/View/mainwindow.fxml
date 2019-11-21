@@ -18,7 +18,7 @@
               <menus>
                 <Menu mnemonicParsing="false" text="Inicio">
                   <items>
-                    <MenuItem mnemonicParsing="false" text="Imprimir aprobados" />
+                    <MenuItem mnemonicParsing="false" onAction="#imprimirAprobados" text="Imprimir aprobados" />
                         <MenuItem mnemonicParsing="false" onAction="#enviarCorreos" text="Enviar Correos" />
                   </items>
                 </Menu>

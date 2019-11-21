@@ -1,6 +1,8 @@
 package sample;
 
 import Controllers.CargadorArchivos;
+import Controllers.EditGroupController;
+import Controllers.MainWindow;
 import Data.ReportePDF;
 import Model.*;
 import Model.DataLoader;
@@ -16,16 +18,22 @@ import java.util.ArrayList;
 
 
 public class Main extends Application {
-    private static DataHolder dataHolder= DataHolder.getInstance();
+    private static DataHolder dataHolder = DataHolder.getInstance();
     private static CargadorArchivos cargadorArchivos= new CargadorArchivos();
     Email email = Email.getInstance();
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("../View/mainwindow.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../View/mainwindow.fxml"));
+        Parent root = fxmlLoader.load();
         primaryStage.setTitle("Asistente Inclusiones ATI");
         primaryStage.setScene(new Scene(root, 1000, 800));
+
+
         primaryStage.show();
+
+        MainWindow controlador = fxmlLoader.getController();
+        controlador.mostrarErroresDeCarga();
     }
 
     public static void pruebasJose(){

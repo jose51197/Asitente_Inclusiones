@@ -131,6 +131,7 @@ public class MainWindow {
     public void initialize(){
         cargarInclusiones();
         pruebasJose();
+
     }
 
     public void pruebasJose(){
@@ -146,6 +147,29 @@ public class MainWindow {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void mostrarErroresDeCarga(){
+        ArrayList<String> errores = DataHolder.getInstance().getErrores();
+        String listadoErrores = "";
+        for(String error: errores){
+            listadoErrores += error + '\n';
+            System.out.println(error);
+        }
+
+        if (listadoErrores.equals("")) return;
+
+        TextArea area = new TextArea(listadoErrores);
+        area.setWrapText(true);
+        area.setEditable(false);
+
+        Alert a = new Alert(Alert.AlertType.NONE);
+        a.setAlertType(Alert.AlertType.ERROR);
+        a.getDialogPane().setContent(area);
+        a.setTitle("Errores de carga de datos");
+        //a.setContentText("Se presentaron los siguientes errores al cargar los datos.");
+        // show the dialog
+        a.show();
     }
 
     public void onSeleccionarInclusion(MouseEvent mouseEvent) {
