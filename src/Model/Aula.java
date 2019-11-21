@@ -80,4 +80,14 @@ public class Aula {
         this.capacidad = capacidad;
     }
 
+    @Override
+    public String toString(){
+        if(capacidad==-1){
+            return codigo;
+        }else{
+            return codigo + " Capacidad: "  +capacidad;
+        }
+
+    }
+
 }

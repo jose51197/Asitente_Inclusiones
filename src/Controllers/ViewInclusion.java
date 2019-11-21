@@ -91,9 +91,8 @@ public class ViewInclusion {
         }
         lcorrequistos.setText(corequisitos);
         lcomentario.setText(inclusion.getDetalle());
-        labelEstadisticas.setText("Holi");
         ArrayList<Inclusion> inclusiones = DataHolder.getInstance().getInclusionesMapPorMateria().get(inclusion.getGrupo().getCurso().getId());
-        String estadisticas="Total recibidas: "+ inclusiones.size()+"\n";
+        String estadisticas="Total recibidas: "+ inclusiones.size()+" Matriculados: "+inclusion.getGrupo().getCantEstudiantes() +"\n";
         int pendientes=0;
         int aceptadas=0;
         int rechazadas=0;
@@ -114,6 +113,5 @@ public class ViewInclusion {
         estadisticas+="Rechazadas: "+ rechazadas;
         estadisticas+=inclusion.getGrupo().getHorariotext();
         labelEstadisticas.setText(estadisticas);
-
     }
 }
