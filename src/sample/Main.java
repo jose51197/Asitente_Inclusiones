@@ -50,12 +50,6 @@ public class Main extends Application {
     }
 
     public static void pruebasSergie() throws IOException {
-        ArrayList<String> errores = dataHolder.getErrores();
-        for(String error: errores){
-            System.out.println(error);
-        }
-        System.out.println(dataHolder.getAulas().get("F9-03").getCapacidad());
-        System.out.printf(String.valueOf(dataHolder.getGrupos().get("GR1TI3600").getCantEstudiantes()));
     }
 
     public static void main(String[] args) throws Exception {
@@ -65,7 +59,7 @@ public class Main extends Application {
         dataLoader.getEstudiantes("..\\PROYINCLUSIONES\\ATI.xlsx","..\\PROYINCLUSIONES\\rn.csv");
         dataLoader.getInclusiones("inclusiones.csv");
         setUserAgentStylesheet(STYLESHEET_CASPIAN);
-
+        dataHolder.saveStatus();
         pruebasJose();
         pruebasSergie();
         pruebasOscar();

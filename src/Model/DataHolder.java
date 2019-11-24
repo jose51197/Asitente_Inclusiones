@@ -1,5 +1,6 @@
 package Model;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -117,5 +118,23 @@ public class DataHolder {
             }
         }
         return curso;
+    }
+
+    public void saveStatus() throws IOException {
+        FileWriter csvWriter = new FileWriter("inclusionesResult.csv");
+        csvWriter.append("Email,Carnet,Nombre,Grupo,Plan B,Detalle,Estado,Comentario");
+        csvWriter.append("\n");
+        String planB;
+        for (Inclusion inclusion: inclusiones){
+            if(inclusion.isPlanB()){
+                planB="Si";
+            }
+            else{
+                planB="No";
+            }
+            csvWriter.append(inclusion.getCorreo()+","+inclusion.getCarne()+","+inclusion.getEstudiante().getNombre()+","+inclusion.getCodGrupo()+","+planB+","+inclusion.getDetalle()+","+inclusion.getEstado().toString()+","+inclusion.getComentarioAdmin()+"\n");
+        }
+        csvWriter.flush();
+        csvWriter.close();
     }
 }

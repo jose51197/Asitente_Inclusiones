@@ -82,7 +82,9 @@ public class DataLoader {
             ArrayList<ArrayList<String>> sheet = data.get(sheetName);
             for(ArrayList<String> row:sheet){
                 linea++;
-
+                if(row.get(0).equals("") || row.get(0).equals("0.0")){
+                    continue;
+                }
                 try{
                     Aula aula= new Aula(row.get(1),row.get(2),Double.valueOf(row.get(3)).intValue(),row.get(4),row.get(5),row.get(6),row.get(7));
                     aulas.put(row.get(1),aula);
@@ -183,11 +185,105 @@ public class DataLoader {
         }
 
     }
+    public void getInclusiones(String filepath) throws IOException {
+        try{
+            getInclusionesExistentes();
+        }
+        catch (IOException e){
+            getInclusionesNuevas(filepath);
+        }
+    }
+
+    public void getInclusionesExistentes() throws IOException {
+        ArrayList<ArrayList<String>> data= excelreader.readCsvFiles("inclusionesResult.csv");
+        Map<Integer, Estudiante> estudiantes = dataHolder.getEstudiantes();
+        Map<String, Grupo> grupos = dataHolder.getGrupos();
+        Map<Integer, ArrayList<Inclusion>> inclusionesEstudianteMap = dataHolder.getInclusionesMapPorEstudiante();
+        Map<String, ArrayList<Inclusion>> inclusionesMateriaMap = dataHolder.getInclusionesMapPorMateria();
+        data.remove(0);
+        ArrayList<Inclusion>  result = dataHolder.getInclusiones();
+        int linea=0;
+        Estudiante estudiante=null;
+        for(ArrayList<String> row :data){
+            linea++;
+            try{
+                estudiante= estudiantes.get(Integer.valueOf(row.get(1)));
+            }
+            catch (Exception e){
+                dataHolder.addError("Inclusión en la linea "+Integer.toString(linea)+" no tiene un carnet válido");
+                continue;
+            }
+            if(estudiante== null){
+                try
+                {
+                    int carnet=Integer.parseInt(row.get(1));
+                    estudiante= new Estudiante(carnet,row.get(2),"N/A");
+                    estudiantes.put(carnet,estudiante);
+                    dataHolder.addError("Estudiante con carnet "+ Integer.toString(carnet)+", en la linea "+Integer.toString(linea)+" no se encontro, se creo nuevo perfil");
+                }
+                catch (NumberFormatException e)
+                {
+                    dataHolder.addError("Inclusión en la linea "+Integer.toString(linea)+" no tiene un carnet válido");
+                    continue;
+                }
+            }
+            String[] datosCurso=row.get(3).split(" - ");
+            Grupo grupo = grupos.get(datosCurso[1]+datosCurso[0]);
+
+            if(grupo== null){
+                System.out.println(datosCurso[1]+datosCurso[0]+"Aqui esta el problema1");
+                try
+                {
+                    int numGrupo=Integer.parseInt(datosCurso[1].replace("GR",""));
+                    Curso curso=dataHolder.getCursoInPlanes(datosCurso[0]);
+                    if(curso==null){
+                        System.out.println("llegue a curso");
+                        curso= new Curso(datosCurso[0],datosCurso[2],-1,-1);
+                        dataHolder.getMalla().get("N/A").put(datosCurso[0],curso);
+                        dataHolder.addError("Curso código "+ datosCurso[0]+" no se encontro, se creo nuevo curso en plan N/A");
+                    }
+                    System.out.println("llegue a grupo");
+                    grupo = new Grupo(numGrupo,"No disponible",curso);
+                    System.out.println("llegue a anadir grupo");
+                    grupos.put(datosCurso[1]+datosCurso[0],grupo);
+                    dataHolder.addError("Grupo código "+ datosCurso[1]+" - "+datosCurso[0]+" no se encontro, se creo nuevo grupo");
+                }
+                catch (Exception e)
+                {
+                    dataHolder.addError("Inclusión en la linea "+Integer.toString(linea)+" no tiene un grupo válido");
+                    continue;
+                }
+            }
+            boolean planB = (row.get(4).equals("Si"));
+            Inclusion nuevaInclusion= new Inclusion(planB, grupo,estudiante,row.get(5),row.get(0));
+            nuevaInclusion.setEstado(EstadoInclusion.valueOf(row.get(6)));
+            nuevaInclusion.setComentarioAdmin(row.get(7));
+            result.add(nuevaInclusion);
+            ArrayList<Inclusion> inclusionesAux;
+            if(inclusionesEstudianteMap.containsKey(estudiante.getCarnet())){
+                inclusionesAux=inclusionesEstudianteMap.get(estudiante.getCarnet());
+                inclusionesAux.add(nuevaInclusion);
+            }
+            else{
+                inclusionesAux= new ArrayList<>();
+                inclusionesAux.add(nuevaInclusion);
+                inclusionesEstudianteMap.put(estudiante.getCarnet(),inclusionesAux);
+            }
+            if(inclusionesMateriaMap.containsKey(datosCurso[0])){
+                inclusionesAux=inclusionesMateriaMap.get(datosCurso[0]);
+                inclusionesAux.add(nuevaInclusion);
+            }
+            else{
+                inclusionesAux= new ArrayList<>();
+                inclusionesAux.add(nuevaInclusion);
+                inclusionesMateriaMap.put(datosCurso[0],inclusionesAux);
+            }
+
+        }
+    }
 
 
-
-
-    public void getInclusiones(String filepath ) throws IOException {
+    public void getInclusionesNuevas(String filepath ) throws IOException {
         ArrayList<ArrayList<String>> data= excelreader.readCsvFiles(filepath);
         Map<Integer, Estudiante> estudiantes = dataHolder.getEstudiantes();
         Map<String, Grupo> grupos = dataHolder.getGrupos();
@@ -233,6 +329,8 @@ public class DataLoader {
                         dataHolder.addError("Curso código "+ datosCurso[0]+" no se encontro, se creo nuevo curso en plan N/A");
                     }
                     grupo = new Grupo(numGrupo,"No disponible",curso);
+                    grupos.put(datosCurso[1]+datosCurso[0],grupo);
+                    dataHolder.addError("Grupo código "+ datosCurso[1]+" - "+datosCurso[0]+" no se encontro, se creo nuevo grupo");
 
                 }
                 catch (Exception e)

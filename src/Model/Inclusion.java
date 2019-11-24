@@ -9,7 +9,6 @@ import javafx.beans.value.ObservableValue;
 import java.io.Serializable;
 
 public class Inclusion {
-
     private boolean planB;
     private Grupo grupo;
     private EstadoInclusion estado;
@@ -85,7 +84,10 @@ public class Inclusion {
         return estudiante.getNombre();
     }
     public String getMateria(){
-        return grupo.getCurso().getNombre() + " GR "+grupo.getNumGrupo();
+        return grupo.getCurso().getNombre() + " - GR "+grupo.getNumGrupo();
+    }
+    public String getCodGrupo(){
+        return grupo.getCurso().getId() + " - GR"+grupo.getNumGrupo()+" - "+grupo.getCurso().getNombre();
     }
     public String getEstadoString(){
         return estado.toString();

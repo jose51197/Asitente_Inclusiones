@@ -11,6 +11,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.paint.Color;
 
 import javax.swing.*;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class ViewInclusion {
@@ -29,6 +30,11 @@ public class ViewInclusion {
         lestado.setText("Rechazada");
         lestado.setTextFill(Color.DARKRED);
         setInclusion(this.inclusion);//TODO llamar a un dialogo que ingrese la razon de cancelacion
+        try {
+            DataHolder.getInstance().saveStatus();
+        } catch (IOException e) {
+            e.printStackTrace();// TODO anadir error
+        }
     }
 
     public void btn_aceptar(ActionEvent actionEvent) {
@@ -36,6 +42,11 @@ public class ViewInclusion {
         lestado.setTextFill(Color.BLUE);
         lestado.setText("Aceptada");
         setInclusion(this.inclusion);
+        try {
+            DataHolder.getInstance().saveStatus();
+        } catch (IOException e) {
+            e.printStackTrace();// TODO anadir error
+        }
     }
 
     public void btn_pendiente(ActionEvent actionEvent) {
@@ -43,6 +54,11 @@ public class ViewInclusion {
         lestado.setTextFill(Color.BLUEVIOLET);
         lestado.setText("Pendiente");
         setInclusion(this.inclusion);
+        try {
+            DataHolder.getInstance().saveStatus();
+        } catch (IOException e) {
+            e.printStackTrace();// TODO anadir error
+        }
     }
 
     public void btn_cancelar(ActionEvent actionEvent) {
@@ -50,6 +66,11 @@ public class ViewInclusion {
         lestado.setTextFill(Color.BLACK);
         lestado.setText("Cancelada");
         setInclusion(this.inclusion);
+        try {
+            DataHolder.getInstance().saveStatus();
+        } catch (IOException e) {
+            e.printStackTrace();// TODO anadir error
+        }
     }
 
     public void setInclusion(Inclusion inclusion) {
