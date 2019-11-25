@@ -1,5 +1,7 @@
 package Model;
 
+import javafx.scene.layout.GridPane;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -114,5 +116,16 @@ public class Grupo {
                 ", curso=" + curso +
                 ", horario=" + horarios.toString() +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        if (!(obj instanceof Grupo)) return false;
+
+        Grupo other = (Grupo) obj;
+        String thisCode = this.getCurso().getId() + this.getNumGrupo();
+        String otherCode = other.getCurso().getId() + other.getNumGrupo();
+
+        return thisCode.equals(otherCode);
     }
 }
