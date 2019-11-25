@@ -209,7 +209,12 @@ public class MainWindow {
         ArrayList<Inclusion> actuales;
         if(query.length==1 || query.length%2!=0){
             tablaInclusiones.setItems(FXCollections.observableArrayList(DataHolder.getInstance().getInclusiones()));
-            textSearch.setText("Query invalido/sin query");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("El query no es valido");
+
+            alert.showAndWait();
             return;
         }
         ArrayList<Inclusion> seleccionadas = DataHolder.getInstance().getInclusiones();
@@ -242,7 +247,12 @@ public class MainWindow {
                                 seleccionadas.add(inclusion);
                             }
                         }catch (Exception e){
-                            textSearch.setText("Ingrese un numero valido en ponderado");
+                            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                            alert.setTitle("Error");
+                            alert.setHeaderText(null);
+                            alert.setContentText("Ingrese un numero valido en ponderado");
+
+                            alert.showAndWait();
                         }
 
                     }
@@ -256,11 +266,24 @@ public class MainWindow {
                                 seleccionadas.add(inclusion);
                             }
                         }catch (Exception e){
-                            textSearch.setText("Ingrese un numero valido en ponderado");
+                            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                            alert.setTitle("Error");
+                            alert.setHeaderText(null);
+                            alert.setContentText("Ingrese un numero valido en ponderado");
+
+                            alert.showAndWait();
                         }
 
                     }
                     break;
+                default:
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Error");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Query invalido");
+
+                    alert.showAndWait();
+                    return;
 
             }
         }
