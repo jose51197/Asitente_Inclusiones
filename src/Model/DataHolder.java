@@ -30,6 +30,24 @@ public class DataHolder {
         errores = new ArrayList<>();
     }
 
+    public void resetDataHolder(){
+        malla= new HashMap<>();
+        malla.put("N/A",new HashMap<>());
+        estudiantes= new HashMap<>();
+        aulas = new HashMap<>();
+        grupos = new HashMap<>();
+        inclusionesMapPorEstudiante= new HashMap<>();
+        inclusionesMapPorMateria= new HashMap<>();
+        inclusiones = new ArrayList<>();
+        errores = new ArrayList<>();
+    }
+
+    public void resetInclusiones(){
+        inclusionesMapPorEstudiante= new HashMap<>();
+        inclusionesMapPorMateria= new HashMap<>();
+        inclusiones = new ArrayList<>();
+    }
+
     public static DataHolder getInstance(){
         if (instance==null){
             instance= new DataHolder();
