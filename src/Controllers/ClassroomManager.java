@@ -50,6 +50,7 @@ public class ClassroomManager {
         clearCanvas();
 
         Aula aula = DataHolder.getInstance().getAulas().get(codigoAula);
+        System.out.println(aula == null);
         System.out.println(aula.toString());
 
         lCapacidad.setText( "Capacidad:" + Integer.toString(aula.getCapacidad()) );

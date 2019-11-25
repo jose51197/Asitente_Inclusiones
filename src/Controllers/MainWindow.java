@@ -136,13 +136,20 @@ public class MainWindow {
 
 
     public void imprimirAprobados(){
-        ReportePDF pdf = new ReportePDF("../ReporteDAR.pdf");
+
         try {
-            pdf.write();
-        } catch (COSVisitorException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("dialogDatosPDF.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initStyle(StageStyle.UNIFIED);
+            stage.setTitle("Datos Reporte Resultado");
+            stage.setScene(new Scene(root1));
+            stage.setMinHeight(400);
+            stage.setMinWidth(200);
+            stage.show();
+        }  catch (IOException e){
+            System.out.println(e.toString());
         }
     }
 

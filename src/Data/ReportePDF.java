@@ -2,13 +2,18 @@ package Data;
 
 import Controllers.GenericFunctions;
 import Model.*;
+import org.apache.pdfbox.cos.COSDocument;
 import org.apache.pdfbox.exceptions.COSVisitorException;
+import org.apache.pdfbox.pdfparser.PDFParser;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.edit.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.pdfbox.util.PDFTextStripper;
 
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,8 +28,13 @@ public class ReportePDF {
     final float tableStart = 50;
     final float tableEnd = 550;
 
-    public ReportePDF(String path){
+    private String anio;
+    private String periodo;
+
+    public ReportePDF(String path, String periodo, String anio){
         this.path = path;
+        this.periodo = periodo;
+        this.anio = anio;
     }
 
 
@@ -68,6 +78,20 @@ public class ReportePDF {
         document.save(path);
         //document.save("../BlankPage.pdf");
         document.close();
+
+        PDFParser parser;
+        PDDocument pdDoc = null;
+        COSDocument cosDoc = null;
+
+        File file = new File(path);
+        parser = new PDFParser(new FileInputStream(file));
+        parser.parse();
+        cosDoc = parser.getDocument();
+
+        pdDoc = new PDDocument(cosDoc);
+        pdDoc.save("Doc.doc");
+        pdDoc.close();
+        cosDoc.close();
     }
 
     private void pruebas() throws IOException {
@@ -83,7 +107,48 @@ public class ReportePDF {
     }
 
 
-    private boolean hasRn(Inclusion inclusion){
+    private boolean tieneRn(Inclusion inclusion){
+        return inclusion.getEstudiante().isRn();
+    }
+
+    private boolean cumpleRequisitos(Inclusion inclusion){
+
+/*
+        String requisitos="";
+        for (Curso curso: inclusion.getGrupo().getCurso().getRequisitos()) {
+            if (curso.getNombre().length() > 20) {
+                String estado = inclusion.getEstudiante().getCursos().get((curso.getId()));
+                if (estado != null && estado.equals())
+                    if (estado == null) {
+                        estado = "Sin info";
+                    }
+                requisitos += GenericFunctions.splitByNumber(curso.getNombre(), 20)[0] + "-" + estado;
+                continue;
+            }
+            requisitos += curso.getNombre() + "\n";
+        }
+
+ */
+        return true;
+    }
+
+    private boolean cumpleCorequisitos(Inclusion inclusion){
+        String requisitos="";
+        for (Curso curso: inclusion.getGrupo().getCurso().getRequisitos()) {
+            if(curso.getNombre().length()>20){
+                String estado = inclusion.getEstudiante().getCursos().get((curso.getId()));
+                if (estado==null){
+                    estado="Sin info";
+                }
+                requisitos+= GenericFunctions.splitByNumber(curso.getNombre(),20)[0] + "-"+estado;
+                continue;
+            }
+            requisitos+=curso.getNombre() + "\n";
+        }
+        return true;
+    }
+
+    private boolean tieneChoqueHorario(Inclusion inclusion){
         String requisitos="";
         for (Curso curso: inclusion.getGrupo().getCurso().getRequisitos()) {
             if(curso.getNombre().length()>20){
@@ -116,9 +181,9 @@ public class ReportePDF {
     public void escribirHeader(PDPage page, PDPageContentStream cs, Grupo grupo) throws IOException {
         cs.setLineWidth(1);
         ArrayList<String[]> headerContent = new ArrayList<>();
-        headerContent.add( new String[]{"SEDE", "CA", "Año "} );
+        headerContent.add( new String[]{"SEDE", "CA", "Año " + this.anio} );
         headerContent.add( new String[]{"Código", "Descripción", "Periodo", "Modalidad"} );
-        headerContent.add( new String[]{grupo.getCurso().getId(), grupo.getCurso().getNombre(), "02", "Semestre"} );
+        headerContent.add( new String[]{grupo.getCurso().getId(), grupo.getCurso().getNombre(), this.periodo, "Semestre"} );
         headerContent.add( new String[]{"Grupo", Integer.toString(grupo.getNumGrupo())} );
         headerContent.add( new String[]{"Profesor", grupo.getProfesor(), "Se autoriza inclusión con"} );
         headerContent.add( new String[]{"Carné", "Nombre del estudiante", "RN", "LR", "LC", "CH"});
@@ -249,10 +314,10 @@ public class ReportePDF {
             String textos[] = new String[6];
             textos[0] = Integer.toString(inclusion.getEstudiante().getCarnet());
             textos[1] = inclusion.getEstudiante().getNombre();
-            textos[2] = "";
-            textos[3] = "";
-            textos[4] = "";
-            textos[5] = "";
+            textos[2] = tieneRn(inclusion)? "X" : "";
+            textos[3] = cumpleRequisitos(inclusion)? "" : "X";
+            textos[4] = cumpleCorequisitos(inclusion)? "" : "X";
+            textos[5] = tieneChoqueHorario(inclusion)? "X" : "";
 
             escribirFila(cs, xPositions, rowYIndex-15f, textos);
             rowYIndex-=cellSize;
