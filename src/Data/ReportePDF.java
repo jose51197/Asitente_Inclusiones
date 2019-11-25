@@ -56,10 +56,10 @@ public class ReportePDF {
                     inclusionesDelGrupo = new ArrayList<>();
                 }
 
-                //if (inclusion.getEstado() == EstadoInclusion.ACEPTADA){ //Solo importan las aceptadas :p
+                if (inclusion.getEstado() == EstadoInclusion.ACEPTADA){ //Solo importan las aceptadas :p
                     inclusionesDelGrupo.add(inclusion);
                     inclusionesPorGrupo.put(numeroGrupo, inclusionesDelGrupo);
-                //}
+                }
 
             }
 
@@ -78,6 +78,7 @@ public class ReportePDF {
         document.save(path);
         //document.save("../BlankPage.pdf");
         document.close();
+        /*
 
         PDFParser parser;
         PDDocument pdDoc = null;
@@ -92,6 +93,8 @@ public class ReportePDF {
         pdDoc.save("Doc.doc");
         pdDoc.close();
         cosDoc.close();
+
+         */
     }
 
     private void pruebas() throws IOException {
@@ -112,40 +115,46 @@ public class ReportePDF {
     }
 
     private boolean cumpleRequisitos(Inclusion inclusion){
+        boolean cumple = true;
 
-/*
-        String requisitos="";
         for (Curso curso: inclusion.getGrupo().getCurso().getRequisitos()) {
             if (curso.getNombre().length() > 20) {
                 String estado = inclusion.getEstudiante().getCursos().get((curso.getId()));
-                if (estado != null && estado.equals())
-                    if (estado == null) {
-                        estado = "Sin info";
-                    }
-                requisitos += GenericFunctions.splitByNumber(curso.getNombre(), 20)[0] + "-" + estado;
-                continue;
+                if (estado == null) return true;
+
+                estado = estado.toLowerCase();
+
+                if (estado.equals("aprobado") || estado.equals("en curso")){
+                    continue;
+                }
+                cumple = false;
             }
-            requisitos += curso.getNombre() + "\n";
+
         }
 
- */
-        return true;
+
+        return cumple;
     }
 
     private boolean cumpleCorequisitos(Inclusion inclusion){
-        String requisitos="";
-        for (Curso curso: inclusion.getGrupo().getCurso().getRequisitos()) {
-            if(curso.getNombre().length()>20){
+        boolean cumple = true;
+
+        for (Curso curso: inclusion.getGrupo().getCurso().getCorequisitos()) {
+            if (curso.getNombre().length() > 20) {
                 String estado = inclusion.getEstudiante().getCursos().get((curso.getId()));
-                if (estado==null){
-                    estado="Sin info";
+                if (estado == null) return true;
+
+                estado = estado.toLowerCase();
+
+                if (estado.equals("aprobado") || estado.equals("en curso")){
+                    continue;
                 }
-                requisitos+= GenericFunctions.splitByNumber(curso.getNombre(),20)[0] + "-"+estado;
-                continue;
+                cumple = false;
             }
-            requisitos+=curso.getNombre() + "\n";
+
         }
-        return true;
+
+        return cumple;
     }
 
     private boolean tieneChoqueHorario(Inclusion inclusion){
@@ -161,7 +170,7 @@ public class ReportePDF {
             }
             requisitos+=curso.getNombre() + "\n";
         }
-        return true;
+        return false;
     }
 
     private void crearPaginaResultados(List<Inclusion> inclusions, Grupo grupo) throws IOException {
