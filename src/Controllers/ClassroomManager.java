@@ -50,10 +50,9 @@ public class ClassroomManager {
         clearCanvas();
 
         Aula aula = DataHolder.getInstance().getAulas().get(codigoAula);
+        System.out.println(aula.toString());
 
-        //System.out.println(aula == null);
         lCapacidad.setText( "Capacidad:" + Integer.toString(aula.getCapacidad()) );
-
         for (String key : DataHolder.getInstance().getGrupos().keySet()){
             Grupo grupo = DataHolder.getInstance().getGrupos().get(key);
 
@@ -197,9 +196,9 @@ public class ClassroomManager {
         diasMap.put("SABADO",1215);
 
         lecciones = new HashMap<>();
-        lecciones.put(0, "7:30-8:20");
-        lecciones.put(1, "8:30-9:20");
-        lecciones.put(2, "9:30-10:20");
+        lecciones.put(0, "07:30-08:20");
+        lecciones.put(1, "08:30-09:20");
+        lecciones.put(2, "09:30-10:20");
         lecciones.put(3, "10:30-11:20");
         lecciones.put(4, "11:30-12:20");
         lecciones.put(5, "12:30-12:50");
