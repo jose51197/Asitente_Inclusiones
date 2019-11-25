@@ -220,6 +220,7 @@ public class MainWindow {
         ArrayList<Inclusion> actuales;
         if(query.length==1 || query.length%2!=0){
             tablaInclusiones.setItems(FXCollections.observableArrayList(DataHolder.getInstance().getInclusiones()));
+            textSearch.setText("Query invalido/sin query");
             return;
         }
         ArrayList<Inclusion> seleccionadas = DataHolder.getInstance().getInclusiones();
@@ -247,24 +248,35 @@ public class MainWindow {
                     actuales=seleccionadas;
                     seleccionadas = new ArrayList<Inclusion>();
                     for(Inclusion inclusion: actuales){
-                        if(inclusion.getEstudiante().getPonderado() > Double.valueOf(query[i+1])){
-                            seleccionadas.add(inclusion);
+                        try{
+                            if(inclusion.getEstudiante().getPonderado() > Double.valueOf(query[i+1])){
+                                seleccionadas.add(inclusion);
+                            }
+                        }catch (Exception e){
+                            textSearch.setText("Ingrese un numero valido en ponderado");
                         }
+
                     }
                     break;
                 case "p<":
                     actuales=seleccionadas;
                     seleccionadas = new ArrayList<Inclusion>();
                     for(Inclusion inclusion: actuales){
-                        if(inclusion.getEstudiante().getPonderado() < Double.valueOf(query[i+1])){
-                            seleccionadas.add(inclusion);
+                        try{
+                            if(inclusion.getEstudiante().getPonderado() < Double.valueOf(query[i+1])){
+                                seleccionadas.add(inclusion);
+                            }
+                        }catch (Exception e){
+                            textSearch.setText("Ingrese un numero valido en ponderado");
                         }
+
                     }
                     break;
 
             }
         }
         tablaInclusiones.setItems(FXCollections.observableArrayList(seleccionadas));
+        tablaInclusiones.refresh();
 
     }
 }
