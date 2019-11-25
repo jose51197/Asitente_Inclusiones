@@ -65,6 +65,7 @@ public class Main extends Application {
         catch (Exception e){
 
         }
+        System.out.printf(String.valueOf(dataHolder.getEstudiantes().get(2019199045).getGrupos().get("GR1CI1403").getCantEstudiantes()));
         setUserAgentStylesheet(STYLESHEET_CASPIAN);
         pruebasJose();
         pruebasSergie();

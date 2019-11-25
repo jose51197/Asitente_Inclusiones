@@ -49,7 +49,7 @@ public class DataLoader {
                 estudiantes.put(carnet, estudiante);
             }
             catch (Exception e){
-                System.out.println("estudiante invalido");
+
             }
         }
     }
@@ -82,10 +82,16 @@ public class DataLoader {
             ArrayList<ArrayList<String>> sheet = data.get(sheetName);
             for(ArrayList<String> row:sheet){
                 linea++;
-                if(row.get(1).equals("") || row.get(1).equals("0.0")|| row.get(1).equals("Aula/ Lab")){
+                if(row.get(1).split("-").length<2){
                     continue;
                 }
                 try{
+                    if(row.get(3)==""){
+                        row.set(3,"0");
+                    }
+                    while(row.size()<8){
+                        row.add(" ");
+                    }
                     Aula aula= new Aula(row.get(1),row.get(2),Double.valueOf(row.get(3)).intValue(),row.get(4),row.get(5),row.get(6),row.get(7));
                     aulas.put(row.get(1),aula);
                 }
@@ -144,8 +150,11 @@ public class DataLoader {
             }
             if(estudiante!=null){
                 gruposEstudiante = estudiante.getGrupos();
-                gruposEstudiante.put(idGrupo,grupo);
-                grupo.aumentarEstudiantes();
+                if(!gruposEstudiante.containsKey(idGrupo)){
+                    gruposEstudiante.put(idGrupo,grupo);
+                    grupo.aumentarEstudiantes();
+                }
+
             }
         }
     }
@@ -184,14 +193,6 @@ public class DataLoader {
             dataHolder.getMalla().put(sheetName.toLowerCase(),result);
         }
 
-    }
-    public void getInclusiones(String filepath) throws IOException {
-        try{
-            getInclusionesExistentes();
-        }
-        catch (IOException e){
-            getInclusionesNuevas(filepath);
-        }
     }
 
     public void getInclusionesExistentes() throws IOException {

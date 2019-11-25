@@ -167,6 +167,7 @@ public class MainWindow {
         //a.setContentText("Se presentaron los siguientes errores al cargar los datos.");
         // show the dialog
         a.show();
+        DataHolder.getInstance().clearErrores();
     }
 
     public void onSeleccionarInclusion(MouseEvent mouseEvent) {

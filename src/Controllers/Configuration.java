@@ -140,6 +140,9 @@ public class Configuration {
             } catch (IOException e) {
                 controllerMain.alertMe("Error alguno de los archivos seleccionados, esta siendo usado por otra aplicación");
             }
+            catch (Exception e){
+                controllerMain.alertMe("Error en los archivos");
+            }
 
         }
         else{
@@ -165,6 +168,9 @@ public class Configuration {
                 alert.showAndWait();
             } catch (IOException e) {
                 controllerMain.alertMe("Error alguno de los archivos seleccionados, esta siendo usado por otra aplicación");
+            }
+            catch (Exception e){
+                controllerMain.alertMe("Error en los archivos");
             }
 
         }

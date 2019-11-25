@@ -36,7 +36,7 @@ public class Excelreader {
                             rowArray.add(String.valueOf(cell.getNumericCellValue()));
                         }
                         else{
-                            rowArray.add(cell.toString());
+                            rowArray.add(cell.toString().replace("\t"," "));
                         }
                     }
 
