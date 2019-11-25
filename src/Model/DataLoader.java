@@ -82,7 +82,7 @@ public class DataLoader {
             ArrayList<ArrayList<String>> sheet = data.get(sheetName);
             for(ArrayList<String> row:sheet){
                 linea++;
-                if(row.get(0).equals("") || row.get(0).equals("0.0")){
+                if(row.get(1).equals("") || row.get(1).equals("0.0")|| row.get(1).equals("Aula/ Lab")){
                     continue;
                 }
                 try{
@@ -90,7 +90,7 @@ public class DataLoader {
                     aulas.put(row.get(1),aula);
                 }
                 catch(Exception e){
-                    dataHolder.addError("Error creando el aula "+ row.get(0)+" en la linea "+ String.valueOf(linea)+" de la hoja "+ sheetName);
+                    dataHolder.addError("Error creando el aula "+ row.get(1)+" en la linea "+ String.valueOf(linea)+" de la hoja "+ sheetName);
                 }
 
             }
