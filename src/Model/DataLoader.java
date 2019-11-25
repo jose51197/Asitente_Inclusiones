@@ -307,7 +307,7 @@ public class DataLoader {
                 try
                 {
                     int carnet=Integer.parseInt(row.get(2));
-                    estudiante= new Estudiante(carnet,row.get(4),"N/A");
+                    estudiante= new Estudiante(carnet,row.get(3),"N/A");
                     estudiantes.put(carnet,estudiante);
                     dataHolder.addError("Estudiante con carnet "+ Integer.toString(carnet)+", en la linea "+Integer.toString(linea)+" no se encontro, se creo nuevo perfil");
                 }
@@ -317,21 +317,21 @@ public class DataLoader {
                     continue;
                 }
             }
-            String[] datosCurso=row.get(6).split(" - ");
-            Grupo grupo = grupos.get(datosCurso[1]+datosCurso[0]);
+            String[] datosCurso=row.get(5).split(" - ");
+            Grupo grupo = grupos.get(datosCurso[2]+datosCurso[0]);
             if(grupo== null){
                 try
                 {
-                    int numGrupo=Integer.parseInt(datosCurso[1].replace("GR",""));
+                    int numGrupo=Integer.parseInt(datosCurso[2].replace("GR",""));
                     Curso curso=dataHolder.getCursoInPlanes(datosCurso[0]);
                     if(curso==null){
-                        curso= new Curso(datosCurso[0],datosCurso[2],-1,-1);
+                        curso= new Curso(datosCurso[0],datosCurso[1],-1,-1);
                         dataHolder.getMalla().get("N/A").put(datosCurso[0],curso);
                         dataHolder.addError("Curso código "+ datosCurso[0]+" no se encontro, se creo nuevo curso en plan N/A");
                     }
                     grupo = new Grupo(numGrupo,"No disponible",curso);
-                    grupos.put(datosCurso[1]+datosCurso[0],grupo);
-                    dataHolder.addError("Grupo código "+ datosCurso[1]+" - "+datosCurso[0]+" no se encontro, se creo nuevo grupo");
+                    grupos.put(datosCurso[2]+datosCurso[0],grupo);
+                    dataHolder.addError("Grupo código "+ datosCurso[2]+" - "+datosCurso[0]+" no se encontro, se creo nuevo grupo");
 
                 }
                 catch (Exception e)
@@ -340,8 +340,8 @@ public class DataLoader {
                     continue;
                 }
             }
-            boolean planB = (row.get(7).equals("Si"));
-            Inclusion nuevaInclusion= new Inclusion(planB, grupo,estudiante,row.get(8),row.get(1));
+            boolean planB = (!row.get(6).equals("No"));
+            Inclusion nuevaInclusion= new Inclusion(planB, grupo,estudiante,row.get(7),row.get(1));
             result.add(nuevaInclusion);
             ArrayList<Inclusion> inclusionesAux;
             if(inclusionesEstudianteMap.containsKey(estudiante.getCarnet())){
