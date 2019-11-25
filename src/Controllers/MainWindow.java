@@ -189,6 +189,7 @@ public class MainWindow {
         }  catch (IOException e){
             System.out.println(e.toString());
         }
+        tablaInclusiones.refresh();
     }
 
     public void enviarCorreos(ActionEvent actionEvent) {
@@ -209,26 +210,20 @@ public class MainWindow {
     }
 
     public void btn_enter(ActionEvent actionEvent) {
-        //TODO definir bien las busquedas
-        String query = textSearch.getText().toLowerCase();
-        String[] querys = query.split(":");
-        for(String q:querys){
-            switch (q){
-                case ("nombre"):
-
-                    break;
-
-
-            }
-        }
+       search(actionEvent);
     }
 
     public void search(ActionEvent actionEvent) {
         String[] query = textSearch.getText().split("-");
-        System.out.println(query.length);
         ArrayList<Inclusion> actuales;
         if(query.length==1 || query.length%2!=0){
             tablaInclusiones.setItems(FXCollections.observableArrayList(DataHolder.getInstance().getInclusiones()));
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("El query no es valido");
+
+            alert.showAndWait();
             return;
         }
         ArrayList<Inclusion> seleccionadas = DataHolder.getInstance().getInclusiones();
@@ -256,24 +251,53 @@ public class MainWindow {
                     actuales=seleccionadas;
                     seleccionadas = new ArrayList<Inclusion>();
                     for(Inclusion inclusion: actuales){
-                        if(inclusion.getEstudiante().getPonderado() > Double.valueOf(query[i+1])){
-                            seleccionadas.add(inclusion);
+                        try{
+                            if(inclusion.getEstudiante().getPonderado() > Double.valueOf(query[i+1])){
+                                seleccionadas.add(inclusion);
+                            }
+                        }catch (Exception e){
+                            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                            alert.setTitle("Error");
+                            alert.setHeaderText(null);
+                            alert.setContentText("Ingrese un numero valido en ponderado");
+
+                            alert.showAndWait();
                         }
+
                     }
                     break;
                 case "p<":
                     actuales=seleccionadas;
                     seleccionadas = new ArrayList<Inclusion>();
                     for(Inclusion inclusion: actuales){
-                        if(inclusion.getEstudiante().getPonderado() < Double.valueOf(query[i+1])){
-                            seleccionadas.add(inclusion);
+                        try{
+                            if(inclusion.getEstudiante().getPonderado() < Double.valueOf(query[i+1])){
+                                seleccionadas.add(inclusion);
+                            }
+                        }catch (Exception e){
+                            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                            alert.setTitle("Error");
+                            alert.setHeaderText(null);
+                            alert.setContentText("Ingrese un numero valido en ponderado");
+
+                            alert.showAndWait();
                         }
+
                     }
                     break;
+                default:
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Error");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Query invalido");
+
+                    alert.showAndWait();
+                    return;
 
             }
         }
         tablaInclusiones.setItems(FXCollections.observableArrayList(seleccionadas));
+        tablaInclusiones.refresh();
 
     }
 }

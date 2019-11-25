@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
@@ -15,6 +16,7 @@ import javafx.scene.text.TextFlow;
 import javax.swing.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class ViewInclusion {
     public Label lcorrequistos;
@@ -28,14 +30,23 @@ public class ViewInclusion {
     private Inclusion inclusion;
 
     public void btn_rechazar(ActionEvent actionEvent) {
-        inclusion.setEstado(EstadoInclusion.RECHAZADA);
-        lestado.setText("Rechazada");
-        lestado.setTextFill(Color.DARKRED);
-        setInclusion(this.inclusion);//TODO llamar a un dialogo que ingrese la razon de cancelacion
-        try {
-            DataHolder.getInstance().saveStatus();
-        } catch (IOException e) {
-            e.printStackTrace();// TODO anadir error
+        String razon=inclusion.getComentarioAdmin();
+        TextInputDialog dialog = new TextInputDialog(razon);
+        dialog.setTitle("Rechazo");
+        dialog.setHeaderText("Razón de rechazo");
+        dialog.setContentText("Razón:");
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()) {
+            inclusion.setEstado(EstadoInclusion.RECHAZADA);
+            inclusion.setComentarioAdmin(result.get());
+            lestado.setText("Rechazada");
+            lestado.setTextFill(Color.DARKRED);
+            setInclusion(this.inclusion);
+            try {
+                DataHolder.getInstance().saveStatus();
+            } catch (IOException e) {
+                e.printStackTrace();// TODO anadir error
+            }
         }
     }
 
@@ -112,6 +123,7 @@ public class ViewInclusion {
             corequisitos+=curso.getNombre()+"\n";
         }
         lcorrequistos.setText(corequisitos);
+        lcomentario.getChildren().clear();
         lcomentario.getChildren().add(new Text(inclusion.getDetalle()));
         ArrayList<Inclusion> inclusiones = DataHolder.getInstance().getInclusionesMapPorMateria().get(inclusion.getGrupo().getCurso().getId());
         String estadisticas="Total recibidas: "+ inclusiones.size()+" Matriculados: "+inclusion.getGrupo().getCantEstudiantes() +"\n";
