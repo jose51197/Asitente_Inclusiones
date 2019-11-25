@@ -53,12 +53,21 @@ public class Main extends Application {
 
     public static void main(String[] args) throws Exception {
         DataLoader dataLoader = new DataLoader();
-        dataLoader.getPlanes("plan.xlsx");
-        dataLoader.addAulas("aulas.xlsx");
-        dataLoader.getEstudiantes("..\\PROYINCLUSIONES\\ATI.xlsx","..\\PROYINCLUSIONES\\rn.csv");
-        dataLoader.getInclusiones("inclusiones.csv");
+        try{
+            dataLoader.getPlanes("plan.xlsx");
+            dataLoader.addAulas("aulas.xlsx");
+            dataLoader.getEstudiantes("infoEstudiantes.xlsx","rn.csv");
+        }
+        catch (Exception e){
+
+        }
+        try{
+            dataLoader.getInclusionesExistentes();
+        }
+        catch (Exception e){
+
+        }
         setUserAgentStylesheet(STYLESHEET_CASPIAN);
-        dataHolder.saveStatus();
         pruebasJose();
         pruebasSergie();
         pruebasOscar();

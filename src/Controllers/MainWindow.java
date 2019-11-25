@@ -29,7 +29,7 @@ public class MainWindow {
     @FXML TextField textSearch;
     @FXML TableView tablaInclusiones;
     @FXML TableColumn cNombre,cCarne,cMateria,cEstado,cPonderado;
-    private ObservableList<Inclusion> inclusiones = FXCollections.observableArrayList(DataHolder.getInstance().getInclusiones());
+    private ObservableList<Inclusion> inclusiones;
 
     public void abrirConfiguracion()  {
 
@@ -41,18 +41,25 @@ public class MainWindow {
             stage.initStyle(StageStyle.UNIFIED);
             stage.setTitle("Configuración");
             stage.setScene(new Scene(root1));
+            ((Configuration) fxmlLoader.getController()).setControllerMain(this);
             stage.show();
         }  catch (IOException e){
             System.out.println(e.toString());
         }
     }
 
-    public void alertMe(){
+
+
+    public void alertMe(String mensaje){
         Alert a = new Alert(Alert.AlertType.NONE);
         a.setAlertType(Alert.AlertType.ERROR);
-        a.setContentText("La 4t temporada de Rick and Morty pinta bien.");
+        a.setContentText(mensaje);
         // show the dialog
         a.show();
+    }
+
+    public void ayuda(){
+        alertMe("Ayuda");
     }
 
     public void abrirSolicitud()  {
@@ -121,6 +128,8 @@ public class MainWindow {
                 };
             }
         });
+        inclusiones = FXCollections.observableArrayList(DataHolder.getInstance().getInclusiones());
+        System.out.println(inclusiones.size());
         tablaInclusiones.setItems(inclusiones);
 
     }

@@ -16,7 +16,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import jdk.nashorn.internal.runtime.logging.Logger;
+//import jdk.nashorn.internal.runtime.logging.Logger;
 
 import java.time.LocalTime;
 import java.util.*;
