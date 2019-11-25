@@ -5,6 +5,7 @@ import Model.DataHolder;
 import Model.Grupo;
 import Model.Horario;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -28,23 +29,26 @@ public class EditGroupController {
     @FXML
     VBox horariosGrupo;
 
-    int filasGrid;
+    int filasGrid = 0;
     Map<Integer, ComboBox[]> datosHorario;
     List<String> horasInicio = new ArrayList<>();
     List<String> horasSalida = new ArrayList<>();
     String dias[];
+    Set<String> aulas;
 
     Grupo miGrupo;
 
     public void initialize(){
-        filasGrid = 0;
+        filasGrid = 1;
         datosHorario = new HashMap<>();
     }
 
     public void iniciar(Grupo grupo, Set<String> aulas, Map<Integer, String> lecciones, String _dias[]){
+        this.aulas = aulas;
         dias = new String[]{"LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO"};
         label_profesor.setText(grupo.getProfesor().replace('\t', ' '));
         miGrupo = grupo;
+
         for (int i = 0; i < 15; i++){
             String horas[] = lecciones.get(i).split("-");
             horasInicio.add(horas[0]);
@@ -55,12 +59,14 @@ public class EditGroupController {
             Horario h = grupo.getHorario().get(revisados);
             HBox box = new HBox();
             box.setMinWidth(400);
-            box.setMinHeight(50);
+            box.setMinHeight(35);
+            box.setAlignment(Pos.CENTER);
 
             ComboBox comboBoxAulas = new ComboBox();
             comboBoxAulas.getItems().addAll(aulas);
             comboBoxAulas.setMinWidth(50);
             comboBoxAulas.getSelectionModel().select(h.getAula().getCodigo());
+
 
             ComboBox combDia = new ComboBox();
             combDia.getItems().addAll(dias);
@@ -68,11 +74,13 @@ public class EditGroupController {
             combDia.setMaxWidth(100);
             combDia.getSelectionModel().select(h.getDia());
 
+
             ComboBox horaInicio = new ComboBox();
             horaInicio.getItems().addAll(horasInicio);
             horaInicio.setMinWidth(50);
             horaInicio.setMaxWidth(75);
             horaInicio.getSelectionModel().select(h.getHoraInicio());
+
 
             ComboBox horaFin = new ComboBox();
             horaFin.getItems().addAll(horasSalida);
@@ -80,7 +88,9 @@ public class EditGroupController {
             horaFin.setMaxWidth(75);
             horaFin.getSelectionModel().select(h.getHoraSalida());
 
+
             Button eliminar = new Button("Eliminar");
+
 
             final int parameter = revisados;
             eliminar.setOnMouseClicked( e -> eliminarFila(parameter) );
@@ -89,26 +99,74 @@ public class EditGroupController {
             datosHorario.put(revisados, fila);
 
             box.getChildren().addAll(comboBoxAulas, combDia, horaInicio, horaFin, eliminar);
-            grid_horarios.addRow(filasGrid++, box);
+            grid_horarios.addRow(filasGrid++, comboBoxAulas, combDia, horaInicio, horaFin, eliminar);
+            //grid_horarios
+
         }
     }
 
     public void agregarFila(){
+        System.out.println("Total de filas " + filasGrid);
         HBox box = new HBox();
-        ComboBox comboBoxAulas = new ComboBox();
-        ComboBox horaInicio = new ComboBox();
-        ComboBox horaFin = new ComboBox();
-        Button eliminar = new Button("Eliminar");
+        box.setMinWidth(400);
+        box.setMinHeight(35);
+        box.setAlignment(Pos.CENTER);
 
+        ComboBox comboBoxAulas = new ComboBox();
+        comboBoxAulas.getItems().addAll(aulas);
+        comboBoxAulas.setMinWidth(50);
+        comboBoxAulas.getSelectionModel().selectFirst();
+
+        ComboBox combDia = new ComboBox();
+        combDia.getItems().addAll(dias);
+        combDia.setMinWidth(50);
+        combDia.setMaxWidth(100);
+        combDia.getSelectionModel().selectFirst();
+
+        ComboBox horaInicio = new ComboBox();
+        horaInicio.getItems().addAll(horasInicio);
+        horaInicio.setMinWidth(50);
+        horaInicio.setMaxWidth(75);
+        horaInicio.getSelectionModel().selectFirst();
+
+        ComboBox horaFin = new ComboBox();
+        horaFin.getItems().addAll(horasSalida);
+        horaFin.setMinWidth(50);
+        horaFin.setMaxWidth(75);
+        horaFin.getSelectionModel().selectFirst();
+
+        Button eliminar = new Button("Eliminar");
         final int parameter = filasGrid;
         eliminar.setOnMouseClicked( e -> eliminarFila(parameter) );
 
-        box.getChildren().addAll(comboBoxAulas, horaInicio, horaFin, eliminar);
-        grid_horarios.addRow(filasGrid++, box);
+        ComboBox fila[] = {combDia, comboBoxAulas, horaInicio, horaFin};
+        datosHorario.put(filasGrid, fila);
+
+        box.getChildren().addAll(comboBoxAulas, combDia, horaInicio, horaFin, eliminar);
+        //grid_horarios.addRow(filasGrid++, box);
+        grid_horarios.addRow(filasGrid++, comboBoxAulas, combDia, horaInicio, horaFin, eliminar);
     }
 
     private void eliminarFila(int index){
-        grid_horarios.getChildren().removeIf(node -> GridPane.getRowIndex(node) == index);
+        System.out.println("Eliminando: " + index);
+        System.out.println(grid_horarios.getChildren() == null);
+        List<Node> toRemove = new ArrayList<>();
+
+        for (Node node : grid_horarios.getChildren()){
+            System.out.println( GridPane.getRowIndex(node) );
+            if (GridPane.getRowIndex(node) != null && GridPane.getRowIndex(node) == index)
+                toRemove.add(node);
+        }
+
+        if (toRemove.size() > 0){
+            for (Node node : toRemove){
+                grid_horarios.getChildren().remove(node);
+            }
+            //grid_horarios.getChildren().removeIf(node -> GridPane.getRowIndex(node) == index);
+            //filasGrid--;
+        }
+
+
     }
 
     public void guardarDatos(){

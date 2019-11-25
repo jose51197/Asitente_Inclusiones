@@ -29,7 +29,6 @@ public class Main extends Application {
         primaryStage.setTitle("Asistente Inclusiones ATI");
         primaryStage.setScene(new Scene(root, 1000, 800));
 
-
         primaryStage.show();
 
         MainWindow controlador = fxmlLoader.getController();

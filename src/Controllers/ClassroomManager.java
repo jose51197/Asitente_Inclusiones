@@ -50,17 +50,15 @@ public class ClassroomManager {
         clearCanvas();
 
         Aula aula = DataHolder.getInstance().getAulas().get(codigoAula);
+
         //System.out.println(aula == null);
-        //lCapacidad.setText( Integer.toString(aula.getCapacidad()) );
+        lCapacidad.setText( "Capacidad:" + Integer.toString(aula.getCapacidad()) );
 
         for (String key : DataHolder.getInstance().getGrupos().keySet()){
             Grupo grupo = DataHolder.getInstance().getGrupos().get(key);
 
-
-
             for (Horario horario : grupo.getHorario()){
-                System.out.println(horario == null);
-                System.out.println(horario.getAula() == null);
+
                 if (horario.getAula().getCodigo().equals(codigoAula)){
                     agregarLecciones(grupo, horario);
                 }
@@ -216,8 +214,8 @@ public class ClassroomManager {
         lecciones.put(14, "21:00-21:50");
 
 
-        drawOnCanvas("B3-8");
         canvas_horarioAula.setOnMouseClicked(seleccionGrupo);
+        drawOnCanvas(combo_Aulas.getSelectionModel().getSelectedItem().toString());
     }
 
     private EventHandler<MouseEvent> seleccionGrupo = new EventHandler<MouseEvent>() {
