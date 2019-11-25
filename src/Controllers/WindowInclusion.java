@@ -7,14 +7,20 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+
 import java.util.ArrayList;
 
 public class WindowInclusion {
     public Label lrn;
+    public ScrollPane scroll;
+    public AnchorPane ap;
     @FXML Label labelPonderado;
     @FXML Tab tab1;
     @FXML Label lcantidad;
@@ -29,6 +35,7 @@ public class WindowInclusion {
     private int total=1;
 
     public void iniciar(Inclusion i) {
+
         this.carnet = i.getEstudiante().getCarnet();
         labelPonderado.setText("Ponderado: " + String.valueOf(i.getEstudiante().getPonderado()));
 
@@ -98,7 +105,11 @@ public class WindowInclusion {
         }
         lcantidad.setText(String.valueOf(selected+1)+"/"+ String.valueOf(total));
 
-
+        Stage stage = (Stage) ap.getScene().getWindow();
+        scroll.setPrefHeight(stage.getHeight()-276);
+        stage.heightProperty().addListener((obs, oldVal, newVal) -> {
+            scroll.setPrefHeight(newVal.intValue()-276);
+        });
     }
 
     public void initialize(){

@@ -18,6 +18,7 @@ public class ViewInclusion {
     public Label lcorrequistos;
     public Label labelProfe;
     public Label labelPlanB;
+    public Label labelHorario;
     @FXML TextArea lcomentario;
     @FXML Label lestado;
     @FXML Label lmateria;
@@ -76,8 +77,7 @@ public class ViewInclusion {
     public void setInclusion(Inclusion inclusion) {
         this.inclusion = inclusion;
         lestado.setText(inclusion.getEstado().toString());
-        lmateria.setText(inclusion.getGrupo().getCurso().getNombre()+ " GR "+ inclusion.getGrupo().getNumGrupo());
-        labelProfe.setText(inclusion.getGrupo().getProfesor());
+        lmateria.setText(inclusion.getGrupo().getCurso().getNombre()+ " GR "+ inclusion.getGrupo().getNumGrupo() +"\n"+inclusion.getGrupo().getProfesor());
         if(inclusion.isPlanB()){
             labelPlanB.setTextFill(Color.RED);
             labelPlanB.setText("PIDE PLAN B");
@@ -132,7 +132,7 @@ public class ViewInclusion {
         estadisticas+="Pendientes: "+ pendientes+'\t';
         estadisticas+="Aceptadas: "+ aceptadas+'\t';
         estadisticas+="Rechazadas: "+ rechazadas;
-        estadisticas+=inclusion.getGrupo().getHorariotext();
+        labelHorario.setText(inclusion.getGrupo().getHorariotext());
         labelEstadisticas.setText(estadisticas);
     }
 }

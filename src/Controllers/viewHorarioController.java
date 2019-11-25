@@ -1,5 +1,6 @@
 package Controllers;
 
+import Model.DataHolder;
 import Model.Grupo;
 import Model.Horario;
 import Model.Inclusion;
@@ -8,7 +9,9 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
+import javax.xml.crypto.Data;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,9 +20,11 @@ public class viewHorarioController {
 
     public void setDias(Inclusion i){
         Map<String, Grupo> materias = i.getEstudiante().getGrupos();
+        //ArrayList<Inclusion> otrasInclusiones = DataHolder.getInstance().getInclusionesMapPorEstudiante().get(i.getEstudiante().getCarnet()); poner inclusion encima de horario? pero ocupo choque de horario
+
         GraphicsContext gr = canvas.getGraphicsContext2D();
         //Empezar 7:30am
-        //Terminar 9:50pm 14:20 = 860 minutos = 0.7 ratio
+        //Terminar 9:50pm 14:20 = 860 minutos =~ 0.7 ratio
         //600 pixeles
         Map<String,Integer> mapDias = new HashMap<>();
         mapDias.put("LUNES",50);
@@ -62,12 +67,10 @@ public class viewHorarioController {
 
                 String[] strings = GenericFunctions.splitByNumber(materia.getValue().getCurso().getNombre(), materia.getValue().getCurso().getNombre().length() / 2);
                 gr.fillText(strings[0],x,y+20,maxWidth);
-                gr.fillText(strings[1],x,y+30,maxWidth);//TODO mostrar bonito, hacer generic function
+                gr.fillText(strings[1],x,y+30,maxWidth);
                 gr.fillText(materia.getValue().getProfesor().replace("\t"," " ),x,y+0.4*height,maxWidth);
                 gr.fillText(h.getAula().getCodigo(),x,y+0.6*height,maxWidth);
                 gr.fillText(h.getHoraInicio().toString() + " " + h.getHoraSalida(),x,y+0.8*height,maxWidth);
-
-
             }
         }
     }

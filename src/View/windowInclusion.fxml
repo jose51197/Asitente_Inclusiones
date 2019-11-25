@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="850.0" prefWidth="1250.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.WindowInclusion">
+<AnchorPane fx:id="ap" prefHeight="850.0" prefWidth="1250.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.WindowInclusion">
    <children>
       <Label fx:id="lnombre" layoutX="14.0" layoutY="14.0" text="Nombre">
          <font>
@@ -14,16 +14,20 @@
          <font>
             <Font size="20.0" />
          </font></Label>
-      <Label layoutX="526.0" layoutY="17.0" text="Inclusion">
+      <Label layoutX="417.0" layoutY="193.0" text="Inclusion">
          <font>
             <Font size="16.0" />
          </font></Label>
-      <Button layoutX="521.0" layoutY="49.0" mnemonicParsing="false" onAction="#izquierda" text="&lt;" />
-      <Label fx:id="lcantidad" layoutX="548.0" layoutY="53.0" prefHeight="17.0" prefWidth="25.0" text="#" />
+      <Button layoutX="405.0" layoutY="218.0" mnemonicParsing="false" onAction="#izquierda" text="&lt;" />
+      <Label fx:id="lcantidad" alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="436.0" layoutY="222.0" prefHeight="17.0" prefWidth="25.0" text="#" />
       <Label fx:id="lrn" layoutX="14.0" layoutY="76.0" text="RN" />
-      <TabPane fx:id="tabPlanHorario" layoutY="248.0" prefHeight="602.0" prefWidth="1250.0" tabClosingPolicy="UNAVAILABLE" />
+      <ScrollPane fx:id="scroll" layoutY="276.0" prefHeight="600" prefWidth="1250.0">
+         <content>
+            <TabPane fx:id="tabPlanHorario" prefHeight="650.0" prefWidth="1250.0" tabClosingPolicy="UNAVAILABLE" />
+         </content>
+      </ScrollPane>
       <Label fx:id="labelPonderado" layoutX="14.0" layoutY="106.0" text="Ponderado" />
-      <TabPane fx:id="tabInclusiones" layoutX="613.0" layoutY="-12.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="288.0" prefWidth="637.0" style="-fx-background-color: #5696BC;" tabClosingPolicy="UNAVAILABLE" tabMaxHeight="0.0" tabMaxWidth="0.0" />
-      <Button layoutX="571.0" layoutY="49.0" mnemonicParsing="false" onAction="#derecha" text="&gt;" />
+      <TabPane fx:id="tabInclusiones" layoutX="500.0" layoutY="-12.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="288.0" prefWidth="750.0" style="-fx-background-color: #5696BC;" tabClosingPolicy="UNAVAILABLE" tabMaxHeight="0.0" tabMaxWidth="0.0" />
+      <Button layoutX="468.0" layoutY="218.0" mnemonicParsing="false" onAction="#derecha" text="&gt;" />
    </children>
 </AnchorPane>
