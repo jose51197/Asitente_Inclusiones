@@ -180,6 +180,7 @@ public class MainWindow {
         }  catch (IOException e){
             System.out.println(e.toString());
         }
+        tablaInclusiones.refresh();
     }
 
     public void enviarCorreos(ActionEvent actionEvent) {
@@ -200,23 +201,11 @@ public class MainWindow {
     }
 
     public void btn_enter(ActionEvent actionEvent) {
-        //TODO definir bien las busquedas
-        String query = textSearch.getText().toLowerCase();
-        String[] querys = query.split(":");
-        for(String q:querys){
-            switch (q){
-                case ("nombre"):
-
-                    break;
-
-
-            }
-        }
+       search(actionEvent);
     }
 
     public void search(ActionEvent actionEvent) {
         String[] query = textSearch.getText().split("-");
-        System.out.println(query.length);
         ArrayList<Inclusion> actuales;
         if(query.length==1 || query.length%2!=0){
             tablaInclusiones.setItems(FXCollections.observableArrayList(DataHolder.getInstance().getInclusiones()));
