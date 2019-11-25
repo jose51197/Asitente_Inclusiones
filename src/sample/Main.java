@@ -38,12 +38,7 @@ public class Main extends Application {
     }
 
     public static void pruebasOscar() throws IOException {
-        ReportePDF pdf = new ReportePDF("../BlankPage.pdf");
-        try {
-            pdf.write();
-        } catch (COSVisitorException e) {
-            e.printStackTrace();
-        }
+
     }
 
     public static void pruebasSergie() throws IOException {

@@ -11,6 +11,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 //import jdk.nashorn.internal.runtime.logging.Logger;
 
+import java.io.IOException;
 import java.time.LocalTime;
 import java.util.*;
 
@@ -187,6 +188,11 @@ public class EditGroupController {
             a.setTitle("Choques de horario");
             a.setContentText("Se guardaron los cambios");
             a.show();
+            try {
+                DataHolder.getInstance().saveStatus();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
             closeWindow();
         }
