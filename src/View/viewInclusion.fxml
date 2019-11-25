@@ -42,16 +42,20 @@
       </Label>
       <Label fx:id="lrequisitos" layoutX="237.0" layoutY="115.0" text="Ninguno" />
       <Label fx:id="lcorrequistos" layoutX="15.0" layoutY="115.0" text="Ninguno" />
-      <TextArea fx:id="lcomentario" layoutX="7.0" layoutY="209.0" prefHeight="70.0" prefWidth="736.0" />
-      <Label layoutX="6.0" layoutY="193.0" text="Comentario:" />
+      <Label layoutX="6.0" layoutY="187.0" text="Comentario de estudiante:" />
       <Label fx:id="labelEstadisticas" alignment="TOP_LEFT" layoutX="8.0" layoutY="49.0" prefHeight="47.0" prefWidth="515.0" text="LabelEstadicitcasInclusion">
          <font>
             <Font size="16.0" />
          </font></Label>
-      <Label fx:id="labelHorario" layoutX="8.0" layoutY="165.0" prefHeight="30.0" prefWidth="215.0" text="Horario">
+      <Label fx:id="labelHorario" layoutX="6.0" layoutY="160.0" prefHeight="30.0" prefWidth="215.0" text="Horario">
          <font>
             <Font size="20.0" />
          </font></Label>
       <Label fx:id="labelPlanB" layoutX="606.0" layoutY="41.0" text="PLAN B: " />
+      <ScrollPane layoutX="9.0" layoutY="205.0">
+         <content>
+            <TextFlow fx:id="lcomentario" prefHeight="68.0" prefWidth="734.0" />
+         </content>
+      </ScrollPane>
    </children>
 </AnchorPane>

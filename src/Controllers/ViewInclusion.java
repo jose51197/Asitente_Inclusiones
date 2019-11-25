@@ -9,6 +9,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -16,10 +18,9 @@ import java.util.ArrayList;
 
 public class ViewInclusion {
     public Label lcorrequistos;
-    public Label labelProfe;
     public Label labelPlanB;
     public Label labelHorario;
-    @FXML TextArea lcomentario;
+    public TextFlow lcomentario;
     @FXML Label lestado;
     @FXML Label lmateria;
     @FXML Label lrequisitos;
@@ -111,7 +112,7 @@ public class ViewInclusion {
             corequisitos+=curso.getNombre()+"\n";
         }
         lcorrequistos.setText(corequisitos);
-        lcomentario.setText(inclusion.getDetalle());
+        lcomentario.getChildren().add(new Text(inclusion.getDetalle()));
         ArrayList<Inclusion> inclusiones = DataHolder.getInstance().getInclusionesMapPorMateria().get(inclusion.getGrupo().getCurso().getId());
         String estadisticas="Total recibidas: "+ inclusiones.size()+" Matriculados: "+inclusion.getGrupo().getCantEstudiantes() +"\n";
         int pendientes=0;
