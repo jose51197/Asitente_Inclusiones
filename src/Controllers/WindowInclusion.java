@@ -37,6 +37,7 @@ public class WindowInclusion {
     public void iniciar(Inclusion i) {
 
         this.carnet = i.getEstudiante().getCarnet();
+        labelPonderado.setStyle("-fx-font-weight: bold;");
         labelPonderado.setText("Ponderado: " + String.valueOf(i.getEstudiante().getPonderado()));
 
         ArrayList<Inclusion> inclusiones = DataHolder.getInstance().getInclusionesMapPorEstudiante().get(carnet);

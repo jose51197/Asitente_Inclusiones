@@ -20,13 +20,19 @@
          </font></Label>
       <Button layoutX="405.0" layoutY="218.0" mnemonicParsing="false" onAction="#izquierda" text="&lt;" />
       <Label fx:id="lcantidad" alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="436.0" layoutY="222.0" prefHeight="17.0" prefWidth="25.0" text="#" />
-      <Label fx:id="lrn" layoutX="14.0" layoutY="76.0" text="RN" />
+      <Label fx:id="lrn" layoutX="14.0" layoutY="76.0" text="RN">
+         <font>
+            <Font size="20.0" />
+         </font></Label>
       <ScrollPane fx:id="scroll" layoutY="276.0" prefHeight="600" prefWidth="1250.0">
          <content>
             <TabPane fx:id="tabPlanHorario" prefHeight="650.0" prefWidth="1250.0" tabClosingPolicy="UNAVAILABLE" />
          </content>
       </ScrollPane>
-      <Label fx:id="labelPonderado" layoutX="14.0" layoutY="106.0" text="Ponderado" />
+      <Label fx:id="labelPonderado" layoutX="14.0" layoutY="106.0" text="Ponderado">
+         <font>
+            <Font size="26.0" />
+         </font></Label>
       <TabPane fx:id="tabInclusiones" layoutX="500.0" layoutY="-12.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="288.0" prefWidth="750.0" style="-fx-background-color: #5696BC;" tabClosingPolicy="UNAVAILABLE" tabMaxHeight="0.0" tabMaxWidth="0.0" />
       <Button layoutX="468.0" layoutY="218.0" mnemonicParsing="false" onAction="#derecha" text="&gt;" />
    </children>
