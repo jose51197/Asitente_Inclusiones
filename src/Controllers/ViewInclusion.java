@@ -4,14 +4,18 @@ import Model.Curso;
 import Model.DataHolder;
 import Model.EstadoInclusion;
 import Model.Inclusion;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextInputDialog;
+import javafx.geometry.Insets;
+import javafx.scene.Node;
+import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import javafx.util.Pair;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -30,15 +34,40 @@ public class ViewInclusion {
     private Inclusion inclusion;
 
     public void btn_rechazar(ActionEvent actionEvent) {
-        String razon=inclusion.getComentarioAdmin();
-        TextInputDialog dialog = new TextInputDialog(razon);
+        String comentarioAdmin=inclusion.getComentarioAdmin().replace("linebreaku","\n");//Querido Javier, si usted ve esto, es culpa de Sergie Atte Jose
+        Dialog<String> dialog = new Dialog<>();
         dialog.setTitle("Rechazo");
-        dialog.setHeaderText("Razón de rechazo");
-        dialog.setContentText("Razón:");
+        dialog.setHeaderText("Ingrese la razón del rechazo");
+        ButtonType loginButtonType = new ButtonType("ok", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(loginButtonType, ButtonType.CANCEL);
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(20, 150, 10, 10));
+
+        TextArea razon = new TextArea();
+        razon.setText(comentarioAdmin);
+        razon.setPromptText("Razón");
+        grid.add(new Label("Razón:"), 0, 0);
+        grid.add(razon, 1, 0);
+        Node loginButton = dialog.getDialogPane().lookupButton(loginButtonType);
+        loginButton.setDisable(true);
+        //deshabilito si no hay texto
+        razon.textProperty().addListener((observable, oldValue, newValue) -> {
+            loginButton.setDisable(newValue.trim().isEmpty());
+        });
+        dialog.getDialogPane().setContent(grid);
+        Platform.runLater(() -> razon.requestFocus());
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == loginButtonType) {
+                return razon.getText();
+            }
+            return null;
+        });
         Optional<String> result = dialog.showAndWait();
         if (result.isPresent()) {
             inclusion.setEstado(EstadoInclusion.RECHAZADA);
-            inclusion.setComentarioAdmin(result.get());
+            inclusion.setComentarioAdmin(result.get().replace("\n","linebreaku"));
             lestado.setText("Rechazada");
             lestado.setTextFill(Color.DARKRED);
             setInclusion(this.inclusion);
