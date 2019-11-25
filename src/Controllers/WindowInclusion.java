@@ -2,7 +2,6 @@ package Controllers;
 
 import Model.DataHolder;
 import Model.Inclusion;
-import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -46,7 +45,7 @@ public class WindowInclusion {
         try{
             Tab tab = new Tab();
             tab.setText(i.getEstudiante().getPlan());
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/viewPlan.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("viewPlan.fxml"));
             tab.setContent(loader.load());
             ((viewPlanController)loader.getController()).setPlan(i.getEstudiante());
             tabPlanHorario.getTabs().add(tab);
@@ -58,7 +57,7 @@ public class WindowInclusion {
         try{
             Tab tab = new Tab();
             tab.setText("Horario");
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/viewHorario.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("viewHorario.fxml"));
             tab.setContent(loader.load());
             ((viewHorarioController)loader.getController()).setDias(i);
             tabPlanHorario.getTabs().add(tab);
@@ -69,7 +68,7 @@ public class WindowInclusion {
         //INCLUSION SELECCIONADA
         try{
             Tab tab = new Tab();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/viewInclusion.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("viewInclusion.fxml"));
             tab.setContent(loader.load());
             ((ViewInclusion)loader.getController()).setInclusion(i);
             tabInclusiones.getTabs().add(tab);
@@ -85,7 +84,7 @@ public class WindowInclusion {
                 }
                 this.total+=1;
                 Tab tab = new Tab();
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/viewInclusion.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("viewInclusion.fxml"));
                 tab.setContent(loader.load());
                 ((ViewInclusion)loader.getController()).setInclusion(inclusion);
                 tabInclusiones.getTabs().add(tab);

@@ -1,7 +1,6 @@
 package sample;
 
 import Controllers.CargadorArchivos;
-import Controllers.EditGroupController;
 import Controllers.MainWindow;
 import Data.ReportePDF;
 import Model.*;
@@ -14,7 +13,6 @@ import javafx.stage.Stage;
 import org.apache.pdfbox.exceptions.COSVisitorException;
 
 import java.io.*;
-import java.util.ArrayList;
 
 
 public class Main extends Application {
@@ -24,7 +22,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../View/mainwindow.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("mainwindow.fxml"));
         Parent root = fxmlLoader.load();
         primaryStage.setTitle("Asistente Inclusiones ATI");
         primaryStage.setScene(new Scene(root, 1000, 800));

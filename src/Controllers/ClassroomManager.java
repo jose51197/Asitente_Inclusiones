@@ -240,7 +240,7 @@ public class ClassroomManager {
     private void abrirEdicionGrupo(Grupo group){
         System.out.println(group.toString());
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../View/editgroup.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("editgroup.fxml"));
             Parent parent = (Parent) fxmlLoader.load();
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);

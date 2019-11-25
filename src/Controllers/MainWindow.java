@@ -34,7 +34,7 @@ public class MainWindow {
     public void abrirConfiguracion()  {
 
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../View/configuration.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("configuration.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
@@ -83,7 +83,7 @@ public class MainWindow {
     public void abrirAdminAulas()  {
 
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../View/classroommanager.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("classroommanager.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
@@ -176,7 +176,7 @@ public class MainWindow {
         }
         tablaInclusiones.getSelectionModel().clearSelection();
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../View/WindowInclusion.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("windowInclusion.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
