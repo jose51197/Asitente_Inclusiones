@@ -27,7 +27,6 @@ import java.util.ArrayList;
 
 public class MainWindow {
     @FXML TextField textSearch;
-    @FXML Menu btn_abrirConfig;
     @FXML TableView tablaInclusiones;
     @FXML TableColumn cNombre,cCarne,cMateria,cEstado,cPonderado;
     private ObservableList<Inclusion> inclusiones = FXCollections.observableArrayList(DataHolder.getInstance().getInclusiones());
@@ -93,15 +92,13 @@ public class MainWindow {
 
     }
 
-    public void cargarInclusiones(){
+
+    public void initialize(){
         cNombre.setCellValueFactory(new PropertyValueFactory<>("Nombre"));
         cMateria.setCellValueFactory(new PropertyValueFactory<>("Materia"));
         cEstado.setCellValueFactory(new PropertyValueFactory<>("EstadoString"));
         cPonderado.setCellValueFactory(new PropertyValueFactory<>("Ponderado"));
         cCarne.setCellValueFactory(new PropertyValueFactory<>("Carne"));
-
-
-
         cEstado.setCellFactory(new Callback<TableColumn, TableCell>() {
             public TableCell call(TableColumn param) {
                 return new TableCell<Inclusion, String>() {
@@ -124,19 +121,10 @@ public class MainWindow {
                 };
             }
         });
-
         tablaInclusiones.setItems(inclusiones);
-    }
-
-    public void initialize(){
-        cargarInclusiones();
-        pruebasJose();
 
     }
 
-    public void pruebasJose(){
-
-    }
 
     public void imprimirAprobados(){
         ReportePDF pdf = new ReportePDF("../ReporteDAR.pdf");
@@ -224,5 +212,59 @@ public class MainWindow {
 
             }
         }
+    }
+
+    public void search(ActionEvent actionEvent) {
+        String[] query = textSearch.getText().split("-");
+        System.out.println(query.length);
+        ArrayList<Inclusion> actuales;
+        if(query.length==1 || query.length%2!=0){
+            tablaInclusiones.setItems(FXCollections.observableArrayList(DataHolder.getInstance().getInclusiones()));
+            return;
+        }
+        ArrayList<Inclusion> seleccionadas = DataHolder.getInstance().getInclusiones();
+        for (int i =0;i<query.length;i+=2) {
+            switch (query[i]){
+                case "n"://por nombre
+                    actuales=seleccionadas;
+                    seleccionadas = new ArrayList<Inclusion>();
+                    for(Inclusion inclusion: actuales){
+                        if(inclusion.getEstudiante().getNombre().toLowerCase().contains(query[i+1].toLowerCase())){
+                            seleccionadas.add(inclusion);
+                        }
+                    }
+                    break;
+                case "m"://por materia
+                    actuales=seleccionadas;
+                    seleccionadas = new ArrayList<Inclusion>();
+                    for(Inclusion inclusion: actuales){
+                        if(inclusion.getGrupo().getCurso().getNombre().toLowerCase().contains(query[i+1].toLowerCase())){
+                            seleccionadas.add(inclusion);
+                        }
+                    }
+                    break;
+                case "p>":
+                    actuales=seleccionadas;
+                    seleccionadas = new ArrayList<Inclusion>();
+                    for(Inclusion inclusion: actuales){
+                        if(inclusion.getEstudiante().getPonderado() > Double.valueOf(query[i+1])){
+                            seleccionadas.add(inclusion);
+                        }
+                    }
+                    break;
+                case "p<":
+                    actuales=seleccionadas;
+                    seleccionadas = new ArrayList<Inclusion>();
+                    for(Inclusion inclusion: actuales){
+                        if(inclusion.getEstudiante().getPonderado() < Double.valueOf(query[i+1])){
+                            seleccionadas.add(inclusion);
+                        }
+                    }
+                    break;
+
+            }
+        }
+        tablaInclusiones.setItems(FXCollections.observableArrayList(seleccionadas));
+
     }
 }

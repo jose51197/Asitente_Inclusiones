@@ -73,4 +73,5 @@ public class Curso {
     public void addCorequisito(Curso corequisito){
         this.corequisitos.add(corequisito);
     }
+
 }
