@@ -234,8 +234,10 @@ public class MainWindow {
             alert.showAndWait();
             return;
         }
+
         ArrayList<Inclusion> seleccionadas = DataHolder.getInstance().getInclusiones();
         for (int i =0;i<query.length;i+=2) {
+
             switch (query[i]){
                 case "n"://por nombre
                     actuales=seleccionadas;
@@ -291,6 +293,27 @@ public class MainWindow {
                             alert.showAndWait();
                         }
 
+                    }
+                    break;
+                case "e":
+                    EstadoInclusion e=EstadoInclusion.EN_PROCESO;
+                    switch(query[i+1].toLowerCase()){
+                        case "a":
+                            e=EstadoInclusion.ACEPTADA;
+                            break;
+                        case "c":
+                            e=EstadoInclusion.CANCELADA;
+                            break;
+                        case "r":
+                            e=EstadoInclusion.RECHAZADA;
+                            break;
+                    }
+                    actuales=seleccionadas;
+                    seleccionadas = new ArrayList<Inclusion>();
+                    for(Inclusion inclusion: actuales){
+                        if(inclusion.getEstado() == e){
+                            seleccionadas.add(inclusion);
+                        }
                     }
                     break;
                 default:
