@@ -65,9 +65,8 @@ public class viewHorarioController {
                 gr.fillRect(x,y,maxWidth,height);
                 gr.setFill(Color.WHITE);
 
-                String[] strings = GenericFunctions.splitByNumber(materia.getValue().getCurso().getNombre(), materia.getValue().getCurso().getNombre().length() / 2);
-                gr.fillText(strings[0],x,y+20,maxWidth);
-                gr.fillText(strings[1],x,y+30,maxWidth);
+                String[] strings = GenericFunctions.splitByNumber(materia.getValue().getCurso().getNombre(), 20);
+                gr.fillText(strings[0],x,y+10,maxWidth);
                 gr.fillText(materia.getValue().getProfesor().replace("\t"," " ),x,y+0.4*height,maxWidth);
                 gr.fillText(h.getAula().getCodigo(),x,y+0.6*height,maxWidth);
                 gr.fillText(h.getHoraInicio().toString() + " " + h.getHoraSalida(),x,y+0.8*height,maxWidth);

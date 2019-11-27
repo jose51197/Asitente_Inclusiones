@@ -128,28 +128,33 @@ public class ViewInclusion {
 
         String requisitos="";
         for (Curso curso: inclusion.getGrupo().getCurso().getRequisitos()) {
+            String estado = inclusion.getEstudiante().getCursos().get(curso.getId());
+            if (estado==null){
+                estado="Sin info";
+            }
             if(curso.getNombre().length()>20){
-                String estado = inclusion.getEstudiante().getCursos().get((curso.getId()));
-                if (estado==null){
-                    estado="Sin info";
-                }
-                requisitos+=GenericFunctions.splitByNumber(curso.getNombre(),20)[0] + "-"+estado;
+
+                System.out.println(estado);
+
+                requisitos+=GenericFunctions.splitByNumber(curso.getNombre(),20)[0] + "-"+ estado;
                 continue;
             }
-            requisitos+=curso.getNombre() + "\n";
+            requisitos+=curso.getNombre() +" - "+ estado +"\n";
         }
         lrequisitos.setText(requisitos);
         String corequisitos="";
         for (Curso curso: inclusion.getGrupo().getCurso().getCorequisitos()) {
+            String estado = inclusion.getEstudiante().getCursos().get(curso.getId());
+            if (estado==null){
+                estado="Sin info";
+            }
             if(curso.getNombre().length()>20){
-                String estado = inclusion.getEstudiante().getCursos().get((curso.getId()));
-                if (estado==null){
-                    estado="Sin info";
-                }
+
+
                 corequisitos+=GenericFunctions.splitByNumber(curso.getNombre(),20)[0] +"-" + estado;
                 continue;
             }
-            corequisitos+=curso.getNombre()+"\n";
+            corequisitos+=curso.getNombre()+" - "+estado+"\n";
         }
         lcorrequistos.setText(corequisitos);
         lcomentario.getChildren().clear();
