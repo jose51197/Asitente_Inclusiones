@@ -49,7 +49,8 @@ public class Main extends Application {
         try{
             dataLoader.getPlanes("plan.xlsx");
             dataLoader.addAulas("aulas.xlsx");
-            dataLoader.getEstudiantes("infoEstudiantes.xlsx","rn.csv");
+            dataLoader.getEstudiantes("infoEstudiantes.xlsx");
+            dataLoader.addRN("rn.csv");
         }
         catch (Exception e){
 

@@ -13,7 +13,7 @@ public class DataLoader {
     private DataHolder dataHolder= DataHolder.getInstance();
 
 
-    public void getEstudiantes(String filepathStudents,String filepathRN) throws IOException {
+    public void getEstudiantes(String filepathStudents) throws IOException {
         Map<String, ArrayList<ArrayList<String>>> data= excelreader.readXlsxFile(filepathStudents);
         Map<String, Curso> plan = null;
         for(String sheetName: data.keySet()){
@@ -28,7 +28,6 @@ public class DataLoader {
                 addHorario(sheet,sheetName.toLowerCase());
             }
         }
-        addRN(filepathRN);
     }
 
     private void addEstudiante(ArrayList<ArrayList<String>> sheet,String sheetName){
@@ -54,22 +53,27 @@ public class DataLoader {
         }
     }
 
-    private void addRN(String filepath) throws IOException {
+    public void addRN(String filepath) throws IOException {
         ArrayList<ArrayList<String>> data= excelreader.readCsvFiles(filepath);
         Map<Integer, Estudiante> estudiantes= DataHolder.getInstance().getEstudiantes();
         int carnet=-1;
         data.remove(0);
         Estudiante estudiante = null;
         for(ArrayList<String> row: data){
-            int carnetAux= Integer.valueOf(row.get(0));
-            if(carnetAux!=carnet){
-                carnet=carnetAux;
-                estudiante=estudiantes.get(carnet);
-            }
-            if(!row.get(2).equals("1.0")){
-                if(estudiante!=null){
-                    estudiante.setRn(true);
+            try{
+                int carnetAux= Integer.valueOf(row.get(0));
+                if(carnetAux!=carnet){
+                    carnet=carnetAux;
+                    estudiante=estudiantes.get(carnet);
                 }
+                if(!row.get(2).equals("1.0")){
+                    if(estudiante!=null){
+                        estudiante.setRn(true);
+                    }
+                }
+            }
+            catch (Exception e){
+
             }
         }
     }
@@ -123,8 +127,9 @@ public class DataLoader {
             }
             catch (Exception e){
                 System.out.println("Se detecto estudiante invalido");
+                continue;
             }
-
+            System.out.println(dataRow.get(3));
             String idGrupo="GR"+String.valueOf(Double.valueOf(dataRow.get(3)).intValue())+dataRow.get(1);
             Grupo grupo=grupos.get(idGrupo);
             if(grupo==null){

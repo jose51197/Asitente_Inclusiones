@@ -127,9 +127,36 @@ public class Configuration {
                 FileUtils.copyFile(infoEstudiantes, infoEstudiantesDestino);
                 FileUtils.copyFile(aulas, aulasDestino);
                 DataHolder.getInstance().resetDataHolder();
-                dataLoader.getPlanes("plan.xlsx");
-                dataLoader.addAulas("aulas.xlsx");
-                dataLoader.getEstudiantes("infoEstudiantes.xlsx","rn.csv");
+                try{
+                    dataLoader.getPlanes("plan.xlsx");
+                }
+                catch(Exception e){
+                    controllerMain.alertMe("Error en archivo "+plan.getName());
+                    return;
+                }
+                try{
+                    dataLoader.addAulas("aulas.xlsx");
+                }
+                catch(Exception e){
+                    controllerMain.alertMe("Error en archivo "+aulas.getName());
+                    return;
+                }
+                try{
+                    dataLoader.getEstudiantes("infoEstudiantes.xlsx");
+
+                }
+                catch(Exception e){
+                    controllerMain.alertMe("Error en archivo "+infoEstudiantes.getName());
+                    return;
+                }
+                try{
+                    dataLoader.addRN("rn.csv");
+                }
+                catch(Exception e){
+                    controllerMain.alertMe("Error en archivo "+rn.getName());
+                    e.printStackTrace();
+                    return;
+                }
                 ObservableList<Inclusion> inclusionesView = FXCollections.observableArrayList(DataHolder.getInstance().getInclusiones());
                 controllerMain.tablaInclusiones.setItems(inclusionesView);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -142,6 +169,8 @@ public class Configuration {
             }
             catch (Exception e){
                 controllerMain.alertMe("Error en los archivos");
+                e.printStackTrace();
+                System.out.println(e.getMessage());
             }
 
         }
