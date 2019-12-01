@@ -1,6 +1,6 @@
 package Controllers;
 
-import Data.ReportePDF;
+import Data.ReporteDAR;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import org.apache.pdfbox.exceptions.COSVisitorException;
@@ -17,7 +17,7 @@ public class DialogDatosPDF {
     public void guardarResultados(){
         String anio = field_anio.getText();
         String periodo = textBox_periodo.getText();
-        ReportePDF pdf = new ReportePDF("../ReporteDAR.pdf", periodo, anio);
+        ReporteDAR pdf = new ReporteDAR("../ReporteDAR.pdf", periodo, anio);
         try {
             pdf.write();
         } catch (COSVisitorException e) {

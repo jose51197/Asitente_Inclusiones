@@ -1,6 +1,5 @@
 package Controllers;
 
-import Data.ReportePDF;
 import Model.DataHolder;
 import Model.Email;
 import Model.EstadoInclusion;
@@ -20,7 +19,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
-import org.apache.pdfbox.exceptions.COSVisitorException;
 
 import java.io.IOException;
 import java.util.ArrayList;
