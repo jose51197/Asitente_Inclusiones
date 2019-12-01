@@ -13,7 +13,7 @@ public class DataLoader {
     private DataHolder dataHolder= DataHolder.getInstance();
 
 
-    public void getEstudiantes(String filepathStudents) throws IOException {
+    public void addEstudiantes(String filepathStudents) throws IOException {
         Map<String, ArrayList<ArrayList<String>>> data= excelreader.readXlsxFile(filepathStudents);
         Map<String, Curso> plan = null;
         for(String sheetName: data.keySet()){
@@ -86,10 +86,10 @@ public class DataLoader {
             ArrayList<ArrayList<String>> sheet = data.get(sheetName);
             for(ArrayList<String> row:sheet){
                 linea++;
-                if(row.get(1).split("-").length<2){
-                    continue;
-                }
                 try{
+                    if(row.get(1).split("-").length<2){
+                        continue;
+                    }
                     if(row.get(3)==""){
                         row.set(3,"0");
                     }
@@ -100,7 +100,7 @@ public class DataLoader {
                     aulas.put(row.get(1),aula);
                 }
                 catch(Exception e){
-                    dataHolder.addError("Error creando el aula "+ row.get(1)+" en la linea "+ String.valueOf(linea)+" de la hoja "+ sheetName);
+                    dataHolder.addError("Error creando el aula "+ row.get(1)+" en la línea "+ String.valueOf(linea)+" de la hoja "+ sheetName);
                 }
 
             }
@@ -126,7 +126,7 @@ public class DataLoader {
                 }
             }
             catch (Exception e){
-                System.out.println("Se detecto estudiante invalido");
+                System.out.println("Se detecto estudiante inválido");
                 continue;
             }
             System.out.println(dataRow.get(3));
@@ -146,7 +146,7 @@ public class DataLoader {
             Aula aula= aulas.get(dataRow.get(6));
             if(aula==null){
                 aula=new Aula(dataRow.get(6),"N/A",-1,"N/A","N/A","N/A","N/A");
-                dataHolder.addError("Aula codigo: "+dataRow.get(6)+" no se encontro en la lista de aulas, creando perfil nuevo");
+                dataHolder.addError("Aula código: "+dataRow.get(6)+" no se encontro en la lista de aulas, creando perfil nuevo");
                 aulas.put(dataRow.get(6),aula);
             }
             Horario horario= new Horario(aula,dataRow.get(5),horaInicio,horaFinal);
@@ -164,35 +164,49 @@ public class DataLoader {
         }
     }
 
-    public void getPlanes(String filepath) throws IOException {
+    public void addPlanes(String filepath) throws IOException {
         Map<String, ArrayList<ArrayList<String>>> data = excelreader.readXlsxFile(filepath);
         for(String sheetName: data.keySet()){
             ArrayList<ArrayList<String>> sheet = data.get(sheetName);
             Curso actual;
             Map<String, Curso> result = new HashMap<String, Curso>();
             sheet.remove(0);
+            int linea=1;
             for(ArrayList<String> row :sheet){
-                String codigo= row.get(0);
-                actual=new Curso(codigo,row.get(1),Double.valueOf(row.get(2)).intValue(),Double.valueOf(row.get(5)).intValue());
-                result.put(codigo,actual);
+                linea++;
+                try {
+                    String codigo = row.get(0);
+                    actual = new Curso(codigo, row.get(1), Double.valueOf(row.get(2)).intValue(), Double.valueOf(row.get(5)).intValue());
+                    result.put(codigo, actual);
+                }
+                catch (Exception e){
+                    dataHolder.addError("Curso en la línea: "+linea+" hoja: "+sheetName +" del archivo de planes, presenta errores");
+                }
             }
+            linea=1;
             for(ArrayList<String> row :sheet){
-                String codigo= row.get(0);
-                String[] requisitos = row.get(3).split(",");
-                String[] corequisitos = row.get(4).split(",");
-                for(String requisito:requisitos){
-                    if(result.containsKey(requisito)) {
-                        Curso requisitoActual = result.get(requisito);
-                        actual = result.get(codigo);
-                        actual.addRequisito(requisitoActual);
+                try {
+                    linea++;
+                    String codigo = row.get(0);
+                    String[] requisitos = row.get(3).split(",");
+                    String[] corequisitos = row.get(4).split(",");
+                    for (String requisito : requisitos) {
+                        if (result.containsKey(requisito)) {
+                            Curso requisitoActual = result.get(requisito);
+                            actual = result.get(codigo);
+                            actual.addRequisito(requisitoActual);
+                        }
+                    }
+                    for (String corequisito : corequisitos) {
+                        if (result.containsKey(corequisito)) {
+                            Curso corequisitoActual = result.get(corequisito);
+                            actual = result.get(codigo);
+                            actual.addCorequisito(corequisitoActual);
+                        }
                     }
                 }
-                for(String corequisito:corequisitos){
-                    if(result.containsKey(corequisito)) {
-                        Curso corequisitoActual = result.get(corequisito);
-                        actual = result.get(codigo);
-                        actual.addCorequisito(corequisitoActual);
-                    }
+                catch (Exception e){
+
                 }
             }
             dataHolder.getMalla().put(sheetName.toLowerCase(),result);
@@ -200,7 +214,7 @@ public class DataLoader {
 
     }
 
-    public void getInclusionesExistentes() throws IOException {
+    public void addInclusionesExistentes() throws IOException {
         ArrayList<ArrayList<String>> data= excelreader.readCsvFiles("inclusionesResult.csv");
         Map<Integer, Estudiante> estudiantes = dataHolder.getEstudiantes();
         Map<String, Grupo> grupos = dataHolder.getGrupos();
@@ -208,7 +222,7 @@ public class DataLoader {
         Map<String, ArrayList<Inclusion>> inclusionesMateriaMap = dataHolder.getInclusionesMapPorMateria();
         data.remove(0);
         ArrayList<Inclusion>  result = dataHolder.getInclusiones();
-        int linea=0;
+        int linea=1;
         Estudiante estudiante=null;
         for(ArrayList<String> row :data){
             linea++;
@@ -216,7 +230,7 @@ public class DataLoader {
                 estudiante= estudiantes.get(Integer.valueOf(row.get(1)));
             }
             catch (Exception e){
-                dataHolder.addError("Inclusión en la linea "+Integer.toString(linea)+" no tiene un carnet válido");
+                dataHolder.addError("Inclusión en la línea "+Integer.toString(linea)+" no tiene un carnet válido");
                 continue;
             }
             if(estudiante== null){
@@ -225,11 +239,11 @@ public class DataLoader {
                     int carnet=Integer.parseInt(row.get(1));
                     estudiante= new Estudiante(carnet,row.get(2),"N/A");
                     estudiantes.put(carnet,estudiante);
-                    dataHolder.addError("Estudiante con carnet "+ Integer.toString(carnet)+", en la linea "+Integer.toString(linea)+" no se encontro, se creo nuevo perfil");
+                    dataHolder.addError("Estudiante con carnet "+ Integer.toString(carnet)+", en la línea "+Integer.toString(linea)+" no se encontro, se creo nuevo perfil");
                 }
                 catch (NumberFormatException e)
                 {
-                    dataHolder.addError("Inclusión en la linea "+Integer.toString(linea)+" no tiene un carnet válido");
+                    dataHolder.addError("Inclusión en la línea "+Integer.toString(linea)+" no tiene un carnet válido");
                     continue;
                 }
             }
@@ -256,7 +270,7 @@ public class DataLoader {
                 }
                 catch (Exception e)
                 {
-                    dataHolder.addError("Inclusión en la linea "+Integer.toString(linea)+" no tiene un grupo válido");
+                    dataHolder.addError("Inclusión en la línea "+Integer.toString(linea)+" no tiene un grupo válido");
                     continue;
                 }
             }
@@ -289,7 +303,7 @@ public class DataLoader {
     }
 
 
-    public void getInclusionesNuevas(String filepath ) throws IOException {
+    public void addInclusionesNuevas(String filepath ) throws IOException {
         ArrayList<ArrayList<String>> data= excelreader.readCsvFiles(filepath);
         Map<Integer, Estudiante> estudiantes = dataHolder.getEstudiantes();
         Map<String, Grupo> grupos = dataHolder.getGrupos();
@@ -297,77 +311,81 @@ public class DataLoader {
         Map<String, ArrayList<Inclusion>> inclusionesMateriaMap = dataHolder.getInclusionesMapPorMateria();
         data.remove(0);
         ArrayList<Inclusion>  result = dataHolder.getInclusiones();
-        int linea=0;
+        int linea=1;
         Estudiante estudiante=null;
         for(ArrayList<String> row :data){
             linea++;
             try{
-                estudiante= estudiantes.get(Integer.valueOf(row.get(2)));
+                try{
+                    estudiante= estudiantes.get(Integer.valueOf(row.get(2)));
+                }
+                catch (Exception e){
+                    dataHolder.addError("Inclusión en la línea "+Integer.toString(linea)+" no tiene un carnet válido");
+                    continue;
+                }
+                if(estudiante== null){
+                    try
+                    {
+                        int carnet=Integer.parseInt(row.get(2));
+                        estudiante= new Estudiante(carnet,row.get(3),"N/A");
+                        estudiantes.put(carnet,estudiante);
+                        dataHolder.addError("Estudiante con carnet "+ Integer.toString(carnet)+", en la línea "+Integer.toString(linea)+" no se encontro, se creo nuevo perfil");
+                    }
+                    catch (NumberFormatException e)
+                    {
+                        dataHolder.addError("Inclusión en la línea "+Integer.toString(linea)+" no tiene un carnet válido");
+                        continue;
+                    }
+                }
+                String[] datosCurso=row.get(5).split("-");
+                Grupo grupo = grupos.get(datosCurso[2].replace(" ","")+datosCurso[0].replace(" ",""));
+                if(grupo== null){
+                    try
+                    {
+                        int numGrupo=Integer.parseInt(datosCurso[2].replace("GR",""));
+                        Curso curso=dataHolder.getCursoInPlanes(datosCurso[0]);
+                        if(curso==null){
+                            curso= new Curso(datosCurso[0],datosCurso[1],-1,-1);
+                            dataHolder.getMalla().get("N/A").put(datosCurso[0],curso);
+                            dataHolder.addError("Curso código "+ datosCurso[0]+" no se encontro, se creo nuevo curso en plan N/A");
+                        }
+                        grupo = new Grupo(numGrupo,"No disponible",curso);
+                        grupos.put(datosCurso[2]+datosCurso[0],grupo);
+                        dataHolder.addError("Grupo código "+ datosCurso[2]+" - "+datosCurso[0]+" no se encontro, se creo nuevo grupo");
+
+                    }
+                    catch (Exception e)
+                    {
+                        dataHolder.addError("Inclusión en la línea "+Integer.toString(linea)+" no tiene un grupo válido");
+                        continue;
+                    }
+                }
+                boolean planB = (!row.get(6).equals("No"));
+                Inclusion nuevaInclusion= new Inclusion(planB, grupo,estudiante,row.get(7),row.get(1));
+                result.add(nuevaInclusion);
+                ArrayList<Inclusion> inclusionesAux;
+                if(inclusionesEstudianteMap.containsKey(estudiante.getCarnet())){
+                    inclusionesAux=inclusionesEstudianteMap.get(estudiante.getCarnet());
+                    inclusionesAux.add(nuevaInclusion);
+                }
+                else{
+                    inclusionesAux= new ArrayList<>();
+                    inclusionesAux.add(nuevaInclusion);
+                    inclusionesEstudianteMap.put(estudiante.getCarnet(),inclusionesAux);
+                }
+                if(inclusionesMateriaMap.containsKey(datosCurso[0])){
+                    inclusionesAux=inclusionesMateriaMap.get(datosCurso[0]);
+                    inclusionesAux.add(nuevaInclusion);
+                }
+                else{
+                    inclusionesAux= new ArrayList<>();
+                    inclusionesAux.add(nuevaInclusion);
+                    inclusionesMateriaMap.put(datosCurso[0],inclusionesAux);
+                }
             }
             catch (Exception e){
-                dataHolder.addError("Inclusión en la linea "+Integer.toString(linea)+" no tiene un carnet válido");
-                continue;
+                dataHolder.addError("Inclusión en la línea "+Integer.toString(linea)+" tiene errores");
             }
-            if(estudiante== null){
-                try
-                {
-                    int carnet=Integer.parseInt(row.get(2));
-                    estudiante= new Estudiante(carnet,row.get(3),"N/A");
-                    estudiantes.put(carnet,estudiante);
-                    dataHolder.addError("Estudiante con carnet "+ Integer.toString(carnet)+", en la linea "+Integer.toString(linea)+" no se encontro, se creo nuevo perfil");
-                }
-                catch (NumberFormatException e)
-                {
-                    dataHolder.addError("Inclusión en la linea "+Integer.toString(linea)+" no tiene un carnet válido");
-                    continue;
-                }
-            }
-            String[] datosCurso=row.get(5).split(" - ");
-            Grupo grupo = grupos.get(datosCurso[2]+datosCurso[0]);
-            if(grupo== null){
-                try
-                {
-                    int numGrupo=Integer.parseInt(datosCurso[2].replace("GR",""));
-                    Curso curso=dataHolder.getCursoInPlanes(datosCurso[0]);
-                    if(curso==null){
-                        curso= new Curso(datosCurso[0],datosCurso[1],-1,-1);
-                        dataHolder.getMalla().get("N/A").put(datosCurso[0],curso);
-                        dataHolder.addError("Curso código "+ datosCurso[0]+" no se encontro, se creo nuevo curso en plan N/A");
-                    }
-                    grupo = new Grupo(numGrupo,"No disponible",curso);
-                    grupos.put(datosCurso[2]+datosCurso[0],grupo);
-                    dataHolder.addError("Grupo código "+ datosCurso[2]+" - "+datosCurso[0]+" no se encontro, se creo nuevo grupo");
-
-                }
-                catch (Exception e)
-                {
-                    dataHolder.addError("Inclusión en la linea "+Integer.toString(linea)+" no tiene un grupo válido");
-                    continue;
-                }
-            }
-            boolean planB = (!row.get(6).equals("No"));
-            Inclusion nuevaInclusion= new Inclusion(planB, grupo,estudiante,row.get(7),row.get(1));
-            result.add(nuevaInclusion);
-            ArrayList<Inclusion> inclusionesAux;
-            if(inclusionesEstudianteMap.containsKey(estudiante.getCarnet())){
-                inclusionesAux=inclusionesEstudianteMap.get(estudiante.getCarnet());
-                inclusionesAux.add(nuevaInclusion);
-            }
-            else{
-                inclusionesAux= new ArrayList<>();
-                inclusionesAux.add(nuevaInclusion);
-                inclusionesEstudianteMap.put(estudiante.getCarnet(),inclusionesAux);
-            }
-            if(inclusionesMateriaMap.containsKey(datosCurso[0])){
-                inclusionesAux=inclusionesMateriaMap.get(datosCurso[0]);
-                inclusionesAux.add(nuevaInclusion);
-            }
-            else{
-                inclusionesAux= new ArrayList<>();
-                inclusionesAux.add(nuevaInclusion);
-                inclusionesMateriaMap.put(datosCurso[0],inclusionesAux);
-            }
-
         }
     }
 }

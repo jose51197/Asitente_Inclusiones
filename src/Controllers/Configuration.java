@@ -10,13 +10,14 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
+import java.util.ArrayList;
 
 public class Configuration {
     public Label nameRN;
@@ -86,6 +87,30 @@ public class Configuration {
         }
     }
 
+    public void mostrarErroresDeCarga(){
+        ArrayList<String> errores = DataHolder.getInstance().getErrores();
+        String listadoErrores = "";
+        for(String error: errores){
+            listadoErrores += error + '\n';
+            System.out.println(error);
+        }
+
+        if (listadoErrores.equals("")) return;
+
+        TextArea area = new TextArea(listadoErrores);
+        area.setWrapText(true);
+        area.setEditable(false);
+
+        Alert a = new Alert(Alert.AlertType.NONE);
+        a.setAlertType(Alert.AlertType.ERROR);
+        a.getDialogPane().setContent(area);
+        a.setTitle("Errores de carga de datos");
+        //a.setContentText("Se presentaron los siguientes errores al cargar los datos.");
+        // show the dialog
+        a.show();
+        DataHolder.getInstance().clearErrores();
+    }
+
     public void cargarAulas(ActionEvent actionEvent) {
         try{
             Stage stage = new Stage();
@@ -128,7 +153,7 @@ public class Configuration {
                 FileUtils.copyFile(aulas, aulasDestino);
                 DataHolder.getInstance().resetDataHolder();
                 try{
-                    dataLoader.getPlanes("plan.xlsx");
+                    dataLoader.addPlanes("plan.xlsx");
                 }
                 catch(Exception e){
                     controllerMain.alertMe("Error en archivo "+plan.getName());
@@ -142,7 +167,7 @@ public class Configuration {
                     return;
                 }
                 try{
-                    dataLoader.getEstudiantes("infoEstudiantes.xlsx");
+                    dataLoader.addEstudiantes("infoEstudiantes.xlsx");
 
                 }
                 catch(Exception e){
@@ -164,6 +189,7 @@ public class Configuration {
                 alert.setHeaderText(null);
                 alert.setContentText("Se han cargado los datos seleccionados.");
                 alert.showAndWait();
+                mostrarErroresDeCarga();
             } catch (IOException e) {
                 controllerMain.alertMe("Error alguno de los archivos seleccionados, esta siendo usado por otra aplicación");
             }
@@ -185,7 +211,7 @@ public class Configuration {
             try {
                 FileUtils.copyFile(inclusiones, inclusionesDestino);
                 DataHolder.getInstance().resetInclusiones();
-                dataLoader.getInclusionesNuevas("inclusiones.csv");
+                dataLoader.addInclusionesNuevas("inclusiones.csv");
                 System.out.printf(String.valueOf(DataHolder.getInstance().getInclusiones().size()));
                 ObservableList<Inclusion> inclusionesView = FXCollections.observableArrayList(DataHolder.getInstance().getInclusiones());
                 controllerMain.tablaInclusiones.setItems(inclusionesView);
@@ -195,6 +221,7 @@ public class Configuration {
                 alert.setHeaderText(null);
                 alert.setContentText("Se han cargado las inclusiones.");
                 alert.showAndWait();
+                mostrarErroresDeCarga();
             } catch (IOException e) {
                 controllerMain.alertMe("Error alguno de los archivos seleccionados, esta siendo usado por otra aplicación");
             }

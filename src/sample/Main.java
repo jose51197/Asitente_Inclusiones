@@ -2,7 +2,6 @@ package sample;
 
 import Controllers.CargadorArchivos;
 import Controllers.MainWindow;
-import Data.ReportePDF;
 import Model.*;
 import Model.DataLoader;
 import javafx.application.Application;
@@ -10,7 +9,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.apache.pdfbox.exceptions.COSVisitorException;
 
 import java.io.*;
 
@@ -47,16 +45,16 @@ public class Main extends Application {
     public static void main(String[] args) throws Exception {
         DataLoader dataLoader = new DataLoader();
         try{
-            dataLoader.getPlanes("plan.xlsx");
+            dataLoader.addPlanes("plan.xlsx");
             dataLoader.addAulas("aulas.xlsx");
-            dataLoader.getEstudiantes("infoEstudiantes.xlsx");
+            dataLoader.addEstudiantes("infoEstudiantes.xlsx");
             dataLoader.addRN("rn.csv");
         }
         catch (Exception e){
 
         }
         try{
-            dataLoader.getInclusionesExistentes();
+            dataLoader.addInclusionesExistentes();
         }
         catch (Exception e){
 
