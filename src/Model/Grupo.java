@@ -10,11 +10,11 @@ import java.util.List;
 import java.util.List;
 
 public class Grupo {
-    private int numGrupo;
-    private String profesor;
+    private int numGrupo=0;
+    private String profesor="";
     private Curso curso;
     private List<Horario> horarios;
-    private int cantEstudiantes;
+    private int cantEstudiantes=0;
 
     public boolean notContainsHorario(String dia){
         for (Horario horario: horarios){

@@ -3,13 +3,13 @@ package Model;
 import java.io.Serializable;
 
 public class Aula {
-    private String codigo;
-    private int capacidad;
-    private String tipo;
-    private String ubicacion;
-    private String retiroDeLlaves;
-    private String extension;
-    private String disponeDeVideoBeam;
+    private String codigo="";
+    private int capacidad=-1;
+    private String tipo="";
+    private String ubicacion="";
+    private String retiroDeLlaves="";
+    private String extension="";
+    private String disponeDeVideoBeam="";
 
     public Aula(String codigo, String tipo, int capacidad, String ubicacion, String retiroDeLlaves, String extension, String disponeDeVideoBeam) {
         this.codigo = codigo;

@@ -9,11 +9,11 @@ import javafx.beans.value.ObservableValue;
 import java.io.Serializable;
 
 public class Inclusion {
-    private boolean planB;
+    private boolean planB=false;
     private Grupo grupo;
-    private EstadoInclusion estado;
+    private EstadoInclusion estado=null;
     private Estudiante estudiante;
-    private String detalle;
+    private String detalle="";
     private String comentarioAdmin="";
     private String correo="";
 

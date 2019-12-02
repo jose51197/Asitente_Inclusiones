@@ -11,9 +11,9 @@ public class Estudiante {
     private String nombre="";
     private String email="";
     private int phone=0;
-    private boolean rn;
-    private double ponderado;
-    private String plan;
+    private boolean rn=false;
+    private double ponderado=0;
+    private String plan="N/A";
     private Map<String, String> cursos=  new HashMap<>();
     private Map<String, Grupo> grupos=  new HashMap<>();
 

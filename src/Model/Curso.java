@@ -4,12 +4,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Curso {
-    private String id;
-    private String nombre;
+    private String id="";
+    private String nombre="";
     private ArrayList<Curso> requisitos = new ArrayList<>();
     private ArrayList<Curso> corequisitos = new ArrayList<>();
-    private int creditos;
-    private int semestre;
+    private int creditos=-1;
+    private int semestre=-1;
 
     public Curso(String id, String nombre, int creditos, int semestre) {
         this.id = id;

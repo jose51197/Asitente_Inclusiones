@@ -20,6 +20,7 @@ import javafx.util.Pair;
 import javax.swing.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Optional;
 
 public class ViewInclusion {
@@ -127,7 +128,12 @@ public class ViewInclusion {
         }
 
         String requisitos="";
-        for (Curso curso: inclusion.getGrupo().getCurso().getRequisitos()) {
+        String idCursoInclusion=inclusion.getGrupo().getCurso().getId();
+        Curso cursoInclusion= DataHolder.getInstance().getMalla().get(inclusion.getEstudiante().getPlan()).get(idCursoInclusion);
+        if(cursoInclusion==null){
+            cursoInclusion=DataHolder.getInstance().getCursoInPlanes(idCursoInclusion);
+        }
+        for (Curso curso: cursoInclusion.getRequisitos()) {
             String estado = inclusion.getEstudiante().getCursos().get(curso.getId());
             if (estado==null){
                 estado="Sin info";
@@ -136,14 +142,14 @@ public class ViewInclusion {
 
                 System.out.println(estado);
 
-                requisitos+=GenericFunctions.splitByNumber(curso.getNombre(),20)[0] + "-"+ estado;
+                requisitos+=GenericFunctions.splitByNumber(curso.getNombre(),20)[0] + "-"+ estado+"\n";
                 continue;
             }
             requisitos+=curso.getNombre() +" - "+ estado +"\n";
         }
         lrequisitos.setText(requisitos);
         String corequisitos="";
-        for (Curso curso: inclusion.getGrupo().getCurso().getCorequisitos()) {
+        for (Curso curso: cursoInclusion.getCorequisitos()) {
             String estado = inclusion.getEstudiante().getCursos().get(curso.getId());
             if (estado==null){
                 estado="Sin info";
@@ -151,7 +157,7 @@ public class ViewInclusion {
             if(curso.getNombre().length()>20){
 
 
-                corequisitos+=GenericFunctions.splitByNumber(curso.getNombre(),20)[0] +"-" + estado;
+                corequisitos+=GenericFunctions.splitByNumber(curso.getNombre(),20)[0] +"-" + estado+"\n";
                 continue;
             }
             corequisitos+=curso.getNombre()+" - "+estado+"\n";

@@ -28,11 +28,11 @@ public class viewHorarioController {
         //600 pixeles
         Map<String,Integer> mapDias = new HashMap<>();
         mapDias.put("LUNES",50);
-
         mapDias.put("MARTES",250);
         mapDias.put("MIERCOLES",450);
         mapDias.put("JUEVES",650);
         mapDias.put("VIERNES",850);
+        mapDias.put("SABADO",1050);
         int y,x,height;
         final int maxWidth = 150;
         final double ratio = 0.6;
@@ -51,6 +51,7 @@ public class viewHorarioController {
         gr.fillText("MIERCOLES",500,10);
         gr.fillText("JUEVES",700,10);
         gr.fillText("VIERNES",900,10);
+        gr.fillText("SABADO",1100,10);
 
         for (Map.Entry<String,Grupo> materia : materias.entrySet()) {
             System.out.println(i.getEstudiante().getCarnet());
@@ -59,6 +60,7 @@ public class viewHorarioController {
                 y=(int)(ratio*(h.getHoraInicio().toSecondOfDay()/60 -offset));
                 System.out.println(y);
                 height=(int)(ratio*(h.getHoraSalida().toSecondOfDay()/60 -offset) -y);
+                System.out.println(h.getDia());
                 x=mapDias.get(h.getDia());
 
                 gr.setFill(Color.STEELBLUE);
