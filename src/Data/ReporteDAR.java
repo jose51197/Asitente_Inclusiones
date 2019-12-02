@@ -2,11 +2,6 @@ package Data;
 
 import Controllers.GenericFunctions;
 import Model.*;
-import org.apache.pdfbox.exceptions.COSVisitorException;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.pdmodel.edit.PDPageContentStream;
-import org.apache.poi.wp.usermodel.HeaderFooterType;
 import org.apache.poi.xwpf.model.XWPFHeaderFooterPolicy;
 import org.apache.poi.xwpf.usermodel.*;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTHMerge;
@@ -21,18 +16,16 @@ import java.util.List;
 import java.util.Map;
 
 public class ReporteDAR {
-    private PDDocument document;
-    private XWPFDocument wordDocument = new XWPFDocument();
+    private XWPFDocument document = new XWPFDocument();
 
-    private PDPage page;
     private String path;
-    final float tableStart = 50;
-    final float tableEnd = 550;
 
     private String anio;
     private String periodo;
 
-    private final String porcentange[] = {"16%", "46%", "9.5%", "9.5%", "9.5%", "9.5%"};
+    private List<List<Inclusion>> resultados;
+
+    private final String columnsSizes[] = {"16%", "46%", "9.5%", "9.5%", "9.5%", "9.5%"};
 
     public ReporteDAR(String path, String periodo, String anio){
         this.path = path;
@@ -40,15 +33,16 @@ public class ReporteDAR {
         this.anio = anio;
     }
 
-    public void write() throws IOException, COSVisitorException {
-        wordDocument = new XWPFDocument();
-        document = new PDDocument();
+    public void write() throws IOException {
+        document = new XWPFDocument();
 
+        //for all the document
         escribirHeader();
         escribirFooter();
 
         for (String codCurso : DataHolder.getInstance().getInclusionesMapPorMateria().keySet()){
             System.out.println("Parsenado datos por materia");
+
             ArrayList<Inclusion> inclusionesCurso = DataHolder.getInstance().getInclusionesMapPorMateria().get(codCurso);
             Map<Integer, List<Inclusion>> inclusionesPorGrupo = new HashMap<>();
 
@@ -72,28 +66,15 @@ public class ReporteDAR {
             for (int numeroGrupo : inclusionesPorGrupo.keySet()){
                 List<Inclusion> inclusionesDelGrupo = inclusionesPorGrupo.get(numeroGrupo);
 
-                crearPaginaResultados(inclusionesCurso, inclusionesDelGrupo.get(0).getGrupo());
+                crearPaginaResultados(inclusionesDelGrupo, inclusionesDelGrupo.get(0).getGrupo());
             }
         }
 
-
-
-
-        //pruebas();
-
-        //wordDocument = new XWPFDocument();
-        FileOutputStream out = new FileOutputStream(new File("create_table.docx"));
-        wordDocument.write(out);
+        FileOutputStream out = new FileOutputStream(new File(path));
+        document.write(out);
         out.close();
-        //wordDocument.close();
-        document.save(path);
-        //document.save("../BlankPage.pdf");
-        document.close();
     }
 
-    public void pruebas() throws IOException {
-
-    }
 
 
     private boolean tieneRn(Inclusion inclusion){
@@ -157,11 +138,11 @@ public class ReporteDAR {
         return false;
     }
 
-    private void crearPaginaResultados(List<Inclusion> inclusions, Grupo grupo) throws IOException {
-        XWPFParagraph paragraph = wordDocument.createParagraph();
+    private void crearPaginaResultados(List<Inclusion> inclusions, Grupo grupo) {
+        XWPFParagraph paragraph = document.createParagraph();
         paragraph.setPageBreak(true);
 
-        XWPFTable table = wordDocument.createTable(1, 6); //Base for the upper part
+        XWPFTable table = document.createTable(1, 6); //Base for the upper part
         table.setWidthType(TableWidthType.PCT);
         table.setWidth("100%");
         //Set the first 6 rows
@@ -170,7 +151,7 @@ public class ReporteDAR {
         escribirAprobados(table, inclusions);
     }
 
-    public void escribirTitulo(XWPFTable table, Grupo grupo) throws IOException {
+    public void escribirTitulo(XWPFTable table, Grupo grupo) {
         XWPFTableRow tableRowOne = table.getRow(0); //Primer fila
 
         String firstRowText[] = new String[3];
@@ -179,7 +160,7 @@ public class ReporteDAR {
         textoSimple(tableRowOne.getCell(1), "CA");
         textoSimple(tableRowOne.getCell(2), "Año " + this.anio, true);
         for (int i = 0; i < 6; i++){
-            tableRowOne.getCell(i).setWidth(porcentange[i]);
+            tableRowOne.getCell(i).setWidth(columnsSizes[i]);
         }
 
         XWPFTableRow tableRowTwo = table.createRow(); //Segunda fila
@@ -188,7 +169,7 @@ public class ReporteDAR {
         textoSimple(tableRowTwo.getCell(2), "Periodo", true);
         textoSimple(tableRowTwo.getCell(4), "Modalidad", true);
         for (int i = 0; i < 6; i++){
-            tableRowTwo.getCell(i).setWidth(porcentange[i]);
+            tableRowTwo.getCell(i).setWidth(columnsSizes[i]);
         }
 
         XWPFTableRow tableRowThree = table.createRow(); //Segunda fila
@@ -197,21 +178,21 @@ public class ReporteDAR {
         textoSimple(tableRowThree.getCell(2), this.periodo);
         textoSimple(tableRowThree.getCell(4), "Semestre");
         for (int i = 0; i < 6; i++){
-            tableRowThree.getCell(i).setWidth(porcentange[i]);
+            tableRowThree.getCell(i).setWidth(columnsSizes[i]);
         }
 
         XWPFTableRow tableRowFour = table.createRow(); //Segunda fila
         textoSimple(tableRowFour.getCell(0), "Grupo", true);
         textoSimple(tableRowFour.getCell(1), Integer.toString(grupo.getNumGrupo()));
         for (int i = 0; i < 6; i++){
-            tableRowFour.getCell(i).setWidth(porcentange[i]);
+            tableRowFour.getCell(i).setWidth(columnsSizes[i]);
         }
 
         XWPFTableRow tableRowFive = table.createRow(); //Segunda fila
         textoSimple(tableRowFive.getCell(0), "Profesor", true);
         textoSimple(tableRowFive.getCell(1), grupo.getProfesor());
         for (int i = 0; i < 6; i++){
-            tableRowFive.getCell(i).setWidth(porcentange[i]);
+            tableRowFive.getCell(i).setWidth(columnsSizes[i]);
         }
 
 
@@ -259,8 +240,7 @@ public class ReporteDAR {
         tableRowFive.getCell(5).getCTTc().getTcPr().setHMerge(rowThreeFourMergeB);
     }
 
-    private void escribirAprobados(XWPFTable table, List<Inclusion> inclusiones) throws IOException {
-        int cantidadFilas = inclusiones.size();
+    private void escribirAprobados(XWPFTable table, List<Inclusion> inclusiones) {
 
         String titleText[] = {"Carné", "Nombre del estudiante", "RN", "LR", "LC", "CH"};
 
@@ -273,7 +253,7 @@ public class ReporteDAR {
             }
         }
 
-        for (int current = 0; current < cantidadFilas; current++){
+        for (int current = 0; current < inclusiones.size(); current++){
             Inclusion inclusion = inclusiones.get(current);
             Estudiante estudiante = inclusion.getEstudiante();
             XWPFTableRow currentRow =  table.createRow(); //Segunda fila
@@ -295,7 +275,7 @@ public class ReporteDAR {
                 }
 
                 for (int c = 0; c < 6; c++){
-                    currentRow.getCell(c).setWidth(porcentange[i]);
+                    currentRow.getCell(c).setWidth(columnsSizes[c]);
                 }
             }
 
@@ -304,10 +284,10 @@ public class ReporteDAR {
     }
 
     private void escribirHeader(){
-        wordDocument = new XWPFDocument();
-        XWPFHeaderFooterPolicy headerFooterPolicy = wordDocument.getHeaderFooterPolicy();
+        document = new XWPFDocument();
+        XWPFHeaderFooterPolicy headerFooterPolicy = document.getHeaderFooterPolicy();
         System.out.println(headerFooterPolicy == null);
-        if (headerFooterPolicy == null) headerFooterPolicy = wordDocument.createHeaderFooterPolicy();
+        if (headerFooterPolicy == null) headerFooterPolicy = document.createHeaderFooterPolicy();
         // create header start
         XWPFHeader header = headerFooterPolicy.createHeader(XWPFHeaderFooterPolicy.DEFAULT);
 
@@ -369,9 +349,5 @@ public class ReporteDAR {
 
     private XWPFParagraph textoSimple(XWPFTableCell cell, String texto){
         return textoSimple(cell, texto, false);
-    }
-
-    private void textoEnriquecido(XWPFRun run, String texto){
-        textoEnriquecido(run, texto, false);
     }
 }

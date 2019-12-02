@@ -37,11 +37,11 @@ public class Main extends Application {
 
     }
 
-    public static void pruebasOscar() throws IOException {
+    public static void pruebasOscar() {
         ReporteDAR reporte = new ReporteDAR("path.pdf", "we", "asd");
         try {
             reporte.write();
-        } catch (COSVisitorException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

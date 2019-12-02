@@ -1,5 +1,7 @@
 package Controllers;
 
+import Data.ReporteDAR;
+import Data.ReporteGeneral;
 import Model.DataHolder;
 import Model.Email;
 import Model.EstadoInclusion;
@@ -149,6 +151,27 @@ public class MainWindow {
         }  catch (IOException e){
             System.out.println(e.toString());
         }
+    }
+
+    public void imprimirResultadoGeneral(){
+
+        ReporteGeneral pdf = new ReporteGeneral("../resultado_redes.docx");
+        try {
+            pdf.write();
+            Alert a = new Alert(Alert.AlertType.NONE);
+            a.setAlertType(Alert.AlertType.CONFIRMATION);
+            a.setContentText("El documento se ha escrito con exito.");
+            // show the dialog
+            a.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Alert a = new Alert(Alert.AlertType.NONE);
+            a.setAlertType(Alert.AlertType.ERROR);
+            a.setContentText("No se escribio el documento.");
+            // show the dialog
+            a.show();
+        }
+
     }
 
     public void mostrarErroresDeCarga(){
