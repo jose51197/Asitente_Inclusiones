@@ -16,16 +16,6 @@ public class DialogDatosReporte {
     private TextField textBox_periodo;
 
     public void guardarResultados(){
-        String anio = field_anio.getText();
-        String periodo = textBox_periodo.getText();
-        ReporteDAR pdf = new ReporteDAR("../resultadoDAR.docx", periodo, anio);
-        try {
-            pdf.write();
-            showSuccess();
-        } catch (IOException e) {
-            e.printStackTrace();
-            showError();
-        }
 
     }
 

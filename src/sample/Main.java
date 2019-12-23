@@ -39,11 +39,8 @@ public class Main extends Application {
 
     public static void pruebasOscar() {
         ReporteDAR reporte = new ReporteDAR("path.pdf", "we", "asd");
-        try {
-            reporte.write();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        reporte.write();
+
     }
 
     public static void pruebasSergie() throws IOException {
@@ -67,11 +64,13 @@ public class Main extends Application {
 
         }
         setUserAgentStylesheet(STYLESHEET_CASPIAN);
+
+        launch(args);
         pruebasJose();
         pruebasSergie();
         pruebasOscar();
 
-        launch(args);
+
     }
 
 

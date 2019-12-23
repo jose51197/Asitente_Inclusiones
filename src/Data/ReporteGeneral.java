@@ -10,25 +10,25 @@ import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTSectPr;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ReporteGeneral {
+public class ReporteGeneral extends Reporte {
     private XWPFDocument document = new XWPFDocument();
     private XWPFTable table;
     private String path;
     private List<List<Inclusion>> resultados;
 
-    private final String columnsSizes[] = {"15%", "40%", "7%", "7%", "7%", "7%", "7%", "10%"};
+    private static final String[] columnsSizes = {"15%", "40%", "7%", "7%", "7%", "7%", "7%", "10%"};
 
     public ReporteGeneral(String path){
+        super();
         this.path = path;
     }
 
-    public void write() throws IOException {
+    public void write() {
         document = new XWPFDocument();
         table = document.createTable(1, 8); //Base for the upper part
         table.setWidthType(TableWidthType.PCT);
@@ -62,16 +62,13 @@ public class ReporteGeneral {
             }
         }
 
-        FileOutputStream out = new FileOutputStream(new File(path));
-        document.write(out);
-        out.close();
+        save();
     }
 
     private void escribirTitulos(){
-        String resultText[] = new String[8];
+        String[] resultText = new String[8];
 
             XWPFTableRow resultRow =  table.getRow(0); //Fila en turno
-
 
             resultText[0] = "Número de Carnet";
             resultText[1] = "Seleccione el curso que requiere matricular por inclusión:";
@@ -95,7 +92,7 @@ public class ReporteGeneral {
 
     private void adjuntarResultados(List<Inclusion> inclusions) {
 
-        String resultText[] = new String[8];
+        String[] resultText = new String[8];
         for (Inclusion inclusion : inclusions){
             XWPFTableRow resultRow =  table.createRow(); //Fila en turno
             Estudiante estudiante = inclusion.getEstudiante();
@@ -118,8 +115,6 @@ public class ReporteGeneral {
                 }
             }
         }
-
-
     }
 
     private void textoEnriquecido(XWPFRun run, String texto, boolean bold){
@@ -143,67 +138,6 @@ public class ReporteGeneral {
 
     private XWPFParagraph textoSimple(XWPFTableCell cell, String texto){
         return textoSimple(cell, texto, false);
-    }
-
-    private boolean tieneRn(Inclusion inclusion){
-        return inclusion.getEstudiante().isRn();
-    }
-
-    private boolean cumpleRequisitos(Inclusion inclusion){
-        boolean cumple = true;
-
-        for (Curso curso: inclusion.getGrupo().getCurso().getRequisitos()) {
-            if (curso.getNombre().length() > 20) {
-                String estado = inclusion.getEstudiante().getCursos().get((curso.getId()));
-                if (estado == null) return true;
-
-                estado = estado.toLowerCase();
-
-                if (estado.equals("aprobado") || estado.equals("en curso")){
-                    continue;
-                }
-                cumple = false;
-            }
-
-        }
-        return cumple;
-    }
-
-    private boolean cumpleCorequisitos(Inclusion inclusion){
-        boolean cumple = true;
-
-        for (Curso curso: inclusion.getGrupo().getCurso().getCorequisitos()) {
-            if (curso.getNombre().length() > 20) {
-                String estado = inclusion.getEstudiante().getCursos().get((curso.getId()));
-                if (estado == null) return true;
-
-                estado = estado.toLowerCase();
-
-                if (estado.equals("aprobado") || estado.equals("en curso")){
-                    continue;
-                }
-                cumple = false;
-            }
-
-        }
-
-        return cumple;
-    }
-
-    private boolean tieneChoqueHorario(Inclusion inclusion){
-        String requisitos="";
-        for (Curso curso: inclusion.getGrupo().getCurso().getRequisitos()) {
-            if(curso.getNombre().length()>20){
-                String estado = inclusion.getEstudiante().getCursos().get((curso.getId()));
-                if (estado==null){
-                    estado="Sin info";
-                }
-                requisitos+= GenericFunctions.splitByNumber(curso.getNombre(),20)[0] + "-"+estado;
-                continue;
-            }
-            requisitos+=curso.getNombre() + "\n";
-        }
-        return false;
     }
 
 }

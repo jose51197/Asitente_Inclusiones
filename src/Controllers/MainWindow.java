@@ -6,16 +6,20 @@ import Model.DataHolder;
 import Model.Email;
 import Model.EstadoInclusion;
 import Model.Inclusion;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -24,6 +28,7 @@ import javafx.util.Callback;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class MainWindow {
     @FXML TextField textSearch;
@@ -47,7 +52,6 @@ public class MainWindow {
             System.out.println(e.toString());
         }
     }
-
 
 
     public void alertMe(String mensaje){
@@ -136,28 +140,50 @@ public class MainWindow {
 
 
     public void imprimirAprobados(){
+        Dialog<String> dialog = new Dialog<>();
+        dialog.setTitle("Imprimir Reporte DAR");
+        dialog.setHeaderText("Ingrese los datos necesarios para el reporte.");
 
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("dialogDatosPDF.fxml"));
-            Parent root1 = (Parent) fxmlLoader.load();
-            Stage stage = new Stage();
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.initStyle(StageStyle.UNIFIED);
-            stage.setTitle("Datos Reporte Resultado");
-            stage.setScene(new Scene(root1));
-            stage.setMinHeight(400);
-            stage.setMinWidth(200);
-            stage.show();
-        }  catch (IOException e){
-            System.out.println(e.toString());
-        }
+        ButtonType loginButtonType = new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(loginButtonType, ButtonType.CANCEL);
+
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(20, 150, 10, 10));
+
+        grid.add( new Label("Año:"), 0, 0);
+        grid.add( new Label("Periodo:"), 0, 1);
+
+        TextField annio = new TextField();
+        TextField periodo = new TextField();
+
+        grid.add( annio, 1, 0);
+        grid.add(periodo, 1, 1);
+
+
+        dialog.getDialogPane().setContent(grid);
+
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == loginButtonType) {
+                ReporteDAR pdf = new ReporteDAR("../resultadoDAR.docx", periodo.getText(), annio.getText());
+                pdf.write();
+            }
+
+            return null;
+        });
+
+        dialog.showAndWait();
     }
 
     public void imprimirResultadoGeneral(){
 
         ReporteGeneral pdf = new ReporteGeneral("../resultado_redes.docx");
+        pdf.write();
+
+        /*
         try {
-            pdf.write();
+
             Alert a = new Alert(Alert.AlertType.NONE);
             a.setAlertType(Alert.AlertType.CONFIRMATION);
             a.setContentText("El documento se ha escrito con exito.");
@@ -170,7 +196,7 @@ public class MainWindow {
             a.setContentText("No se escribio el documento.");
             // show the dialog
             a.show();
-        }
+        }*/
 
     }
 

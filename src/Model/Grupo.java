@@ -53,7 +53,6 @@ public class Grupo {
         return numGrupo;
     }
 
-
     public String getProfesor() {
         return profesor;
     }
@@ -106,6 +105,18 @@ public class Grupo {
         this.profesor = profesor;
         this.curso = curso;
         this.horarios = horarios;
+    }
+
+    public boolean tieneChoqueDeHorario(Grupo grupo){
+        if (grupo.equals(this)) return false; //Comparasion con si mismo
+
+        for (Horario horarioActual : this.getHorario()){
+            for (Horario hoComparacion : grupo.horarios){
+                if (horarioActual.choqueDeHorario(hoComparacion)) return true;
+            }
+        }
+
+        return false;
     }
 
     @Override

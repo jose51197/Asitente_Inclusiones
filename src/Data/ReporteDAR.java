@@ -15,17 +15,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ReporteDAR {
-    private XWPFDocument document = new XWPFDocument();
+public class ReporteDAR extends Reporte {
 
     private String path;
-
     private String anio;
     private String periodo;
 
     private List<List<Inclusion>> resultados;
 
-    private final String columnsSizes[] = {"16%", "46%", "9.5%", "9.5%", "9.5%", "9.5%"};
+    private static final String[] columnsSizes = {"16%", "46%", "9.5%", "9.5%", "9.5%", "9.5%"};
 
     public ReporteDAR(String path, String periodo, String anio){
         this.path = path;
@@ -33,12 +31,18 @@ public class ReporteDAR {
         this.anio = anio;
     }
 
-    public void write() throws IOException {
+    public void write() {
+        if (periodo.equals("") || anio.equals("") ){
+            String errorLog = "No se ingresaron los datos de periodo o año.";
+            showErrorLog(errorLog);
+            return;
+        }
+
         document = new XWPFDocument();
 
         //for all the document
         escribirHeader();
-        escribirFooter();
+
 
         for (String codCurso : DataHolder.getInstance().getInclusionesMapPorMateria().keySet()){
             System.out.println("Parsenado datos por materia");
@@ -55,10 +59,10 @@ public class ReporteDAR {
                     inclusionesDelGrupo = new ArrayList<>();
                 }
 
-                //if (inclusion.getEstado() == EstadoInclusion.ACEPTADA){ //Solo importan las aceptadas :p
+                if (inclusion.getEstado() == EstadoInclusion.ACEPTADA){ //Solo importan las aceptadas :p
                     inclusionesDelGrupo.add(inclusion);
                     inclusionesPorGrupo.put(numeroGrupo, inclusionesDelGrupo);
-                //}
+                }
             }
 
             //Con los datos debidamente separados
@@ -70,73 +74,10 @@ public class ReporteDAR {
             }
         }
 
-        FileOutputStream out = new FileOutputStream(new File(path));
-        document.write(out);
-        out.close();
+        save();
     }
 
 
-
-    private boolean tieneRn(Inclusion inclusion){
-        return inclusion.getEstudiante().isRn();
-    }
-
-    private boolean cumpleRequisitos(Inclusion inclusion){
-        boolean cumple = true;
-
-        for (Curso curso: inclusion.getGrupo().getCurso().getRequisitos()) {
-            if (curso.getNombre().length() > 20) {
-                String estado = inclusion.getEstudiante().getCursos().get((curso.getId()));
-                if (estado == null) return true;
-
-                estado = estado.toLowerCase();
-
-                if (estado.equals("aprobado") || estado.equals("en curso")){
-                    continue;
-                }
-                cumple = false;
-            }
-
-        }
-        return cumple;
-    }
-
-    private boolean cumpleCorequisitos(Inclusion inclusion){
-        boolean cumple = true;
-
-        for (Curso curso: inclusion.getGrupo().getCurso().getCorequisitos()) {
-            if (curso.getNombre().length() > 20) {
-                String estado = inclusion.getEstudiante().getCursos().get((curso.getId()));
-                if (estado == null) return true;
-
-                estado = estado.toLowerCase();
-
-                if (estado.equals("aprobado") || estado.equals("en curso")){
-                    continue;
-                }
-                cumple = false;
-            }
-
-        }
-
-        return cumple;
-    }
-
-    private boolean tieneChoqueHorario(Inclusion inclusion){
-        String requisitos="";
-        for (Curso curso: inclusion.getGrupo().getCurso().getRequisitos()) {
-            if(curso.getNombre().length()>20){
-                String estado = inclusion.getEstudiante().getCursos().get((curso.getId()));
-                if (estado==null){
-                    estado="Sin info";
-                }
-                requisitos+= GenericFunctions.splitByNumber(curso.getNombre(),20)[0] + "-"+estado;
-                continue;
-            }
-            requisitos+=curso.getNombre() + "\n";
-        }
-        return false;
-    }
 
     private void crearPaginaResultados(List<Inclusion> inclusions, Grupo grupo) {
         XWPFParagraph paragraph = document.createParagraph();
@@ -257,7 +198,7 @@ public class ReporteDAR {
             Inclusion inclusion = inclusiones.get(current);
             Estudiante estudiante = inclusion.getEstudiante();
             XWPFTableRow currentRow =  table.createRow(); //Segunda fila
-            String bodyText[] = new String[6];
+            String[] bodyText = new String[6];
 
             bodyText[0] = Integer.toString(estudiante.getCarnet());
             bodyText[1] = estudiante.getNombre();
@@ -324,9 +265,6 @@ public class ReporteDAR {
 
     }
 
-    private void escribirFooter() throws IOException {
-
-    }
 
     private void textoEnriquecido(XWPFRun run, String texto, boolean bold){
         // Format as desired

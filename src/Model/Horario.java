@@ -1,7 +1,6 @@
 package Model;
 
 import java.time.LocalTime;
-import java.util.Map;
 
 public class Horario {
     private Aula aula;
@@ -46,6 +45,18 @@ public class Horario {
         this.dia = dia;
         this.horaInicio= horaInicio;
         this.horaSalida=horaSalida;
+    }
+
+
+    public boolean choqueDeHorario(Horario horario){
+        if (!aula.equals(horario.getAula())) return false;
+        if (!dia.equals(horario.getDia())) return false;
+
+        int miInicio = this.horaInicio.toSecondOfDay(), miSalida = this.horaSalida.toSecondOfDay();
+        int pInicio = horario.horaInicio.toSecondOfDay(), pSalida = horario.horaSalida.toSecondOfDay();
+
+        if ( miInicio <= pInicio && pSalida <= miSalida ) return true; //Si yo inicio antes y termino despues
+        else return pInicio <= miInicio && miSalida <= pSalida; //Si el h de compraracion inicia antes y termina despues
     }
 
     @Override

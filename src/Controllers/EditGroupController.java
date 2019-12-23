@@ -7,7 +7,6 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 //import jdk.nashorn.internal.runtime.logging.Logger;
 
@@ -20,24 +19,22 @@ public class EditGroupController {
     GridPane grid_horarios;
     @FXML
     TextField tbox_profesor;
-    @FXML
-    VBox horariosGrupo;
 
-    int filasGrid = 0;
-    Map<Integer, ComboBox[]> datosHorario;
-    List<String> horasInicio = new ArrayList<>();
-    List<String> horasSalida = new ArrayList<>();
-    String dias[];
-    Set<String> aulas;
+    private int filasGrid = 0;
+    private Map<Integer, ComboBox[]> datosHorario;
+    private List<String> horasInicio = new ArrayList<>();
+    private List<String> horasSalida = new ArrayList<>();
+    private String[] dias;
+    private Set<String> aulas;
+    private Grupo miGrupo;
 
-    Grupo miGrupo;
 
     public void initialize(){
         filasGrid = 1;
         datosHorario = new HashMap<>();
     }
 
-    public void iniciar(Grupo grupo, Set<String> aulas, Map<Integer, String> lecciones, String _dias[]){
+    public void iniciar(Grupo grupo, Set<String> aulas, Map<Integer, String> lecciones, String[] _dias){
         this.aulas = aulas;
         dias = new String[]{"LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO"};
         tbox_profesor.setText(grupo.getProfesor().replace('\t', ' '));
@@ -84,7 +81,7 @@ public class EditGroupController {
             final int parameter = revisados;
             eliminar.setOnMouseClicked( e -> eliminarFila(parameter) );
 
-            ComboBox fila[] = {comboBoxAulas, combDia, horaInicio, horaFin};
+            ComboBox[] fila = {comboBoxAulas, combDia, horaInicio, horaFin};
             datosHorario.put(revisados, fila);
 
             box.getChildren().addAll(comboBoxAulas, combDia, horaInicio, horaFin, eliminar);
@@ -126,11 +123,10 @@ public class EditGroupController {
         final int parameter = filasGrid;
         eliminar.setOnMouseClicked( e -> eliminarFila(parameter) );
 
-        ComboBox fila[] = {comboBoxAulas, combDia, horaInicio, horaFin};
+        ComboBox[] fila = {comboBoxAulas, combDia, horaInicio, horaFin};
         datosHorario.put(filasGrid, fila);
 
         box.getChildren().addAll(comboBoxAulas, combDia, horaInicio, horaFin, eliminar);
-        //grid_horarios.addRow(filasGrid++, box);
         grid_horarios.addRow(filasGrid++, comboBoxAulas, combDia, horaInicio, horaFin, eliminar);
     }
 
@@ -138,8 +134,6 @@ public class EditGroupController {
         System.out.println("Eliminando: " + index);
         System.out.println(grid_horarios.getChildren() == null);
         List<Node> toRemove = new ArrayList<>();
-
-        //grid_horarios.getChildren().removeIf(n -> GridPane.getRowIndex(n) == index);
 
         for (Node node : grid_horarios.getChildren()){
             System.out.println( GridPane.getRowIndex(node) );
@@ -151,10 +145,8 @@ public class EditGroupController {
             for (Node node : toRemove){
                 grid_horarios.getChildren().remove(node);
             }
-
             datosHorario.remove(index);
         }
-
 
     }
 
@@ -163,7 +155,7 @@ public class EditGroupController {
         List<Horario> horarios = new ArrayList<>(); //Usar un mapa, int indice y valores de widgets
 
         for (int llave : llaves){
-            ComboBox fila[] = datosHorario.get(llave);
+            ComboBox[] fila = datosHorario.get(llave);
             String codAula = fila[0].getValue().toString();
             String dia =  fila[1].getValue().toString();
 
@@ -171,15 +163,11 @@ public class EditGroupController {
             String horaFin = fila[3].getValue().toString();
 
             Aula aula = DataHolder.getInstance().getAulas().get(codAula);
-            System.out.println(horaInicio + " - " + horaFin);
-            System.out.println(LocalTime.parse("09:30"));
-            System.out.println(horaInicio + " - " + horaFin);
             Horario horario = new Horario(aula, dia, LocalTime.parse(horaInicio), LocalTime.parse(horaFin));
             horarios.add(horario);
         }
 
         if (horariosSonValidos(horarios)){
-            System.out.println("Todo bien con la modificacion");
             miGrupo.setHorario(horarios);
             String profesor = tbox_profesor.getText();
             miGrupo.setProfesor(profesor);
@@ -196,13 +184,6 @@ public class EditGroupController {
 
             closeWindow();
         }
-
-
-
-
-        //Setear el grupo
-        //
-       // miGrupo.setHorario(horarios);
 
 
     }
@@ -223,42 +204,36 @@ public class EditGroupController {
             }
         }
 
-        return !hayColisionHorarios(horariosCambio);
+        return !hayChoqueDeHorario(horariosCambio);
     }
 
-    private boolean hayColisionHorarios(List<Horario> horariosCambio){
+    private boolean hayChoqueDeHorario(List<Horario> horariosCambio){
         String listadoErrores = "";
-        for (Horario horarioC : horariosCambio){
-            Aula aula = horarioC.getAula();
-            int hnInicio = horarioC.getHoraInicio().toSecondOfDay();
-            int hnSalida = horarioC.getHoraSalida().toSecondOfDay();
+        for (Horario hoCambio : horariosCambio){ //Por cada fila de clases
+            Aula aula = hoCambio.getAula();
 
             for (String key : DataHolder.getInstance().getGrupos().keySet()){
                 Grupo grupo = DataHolder.getInstance().getGrupos().get(key);
 
                 if (grupo.equals(miGrupo)) continue; //No va a tener conflicto con si mismo
 
-                for (Horario horario : grupo.getHorario()){
+                for (Horario hoActual : grupo.getHorario()){
+                    //Si no hay choque
+                    if (!hoCambio.choqueDeHorario(hoActual)) continue;
 
-                    if (horario.getAula().getCodigo().equals(aula.getCodigo())){
-                        int hcInicio = horario.getHoraInicio().toSecondOfDay();
-                        int hcSalida = horario.getHoraSalida().toSecondOfDay();
-
-                        if (colisionHoras( hnInicio, hnSalida, hcInicio, hcSalida )){
-                            Curso curso = grupo.getCurso();
-                            String error = "Choque de horario con " + curso.getNombre();
-                            error += " GR" + grupo.getNumGrupo();
-                            error += " (Aula " + aula.getCodigo();
-                            error += ", " + horario.getHoraInicio().toString() + "-" + horario.getHoraSalida() + ")";
-                            listadoErrores+= error + "\n";
-                        }
-                    }
+                    //Aqui si hay choque, entonces
+                    Curso curso = grupo.getCurso();
+                    String error = "Choque de horario con " + curso.getNombre();
+                    error += " GR" + grupo.getNumGrupo();
+                    error += " (Aula " + aula.getCodigo();
+                    error += ", " + hoActual.getHoraInicio().toString() + "-" + hoActual.getHoraSalida() + ")";
+                    listadoErrores+= error + "\n";
                 }
             }
 
         }
 
-        if (listadoErrores != ""){
+        if (!listadoErrores.equals("")){
             TextArea area = new TextArea(listadoErrores);
             area.setWrapText(true);
             area.setEditable(false);
@@ -267,23 +242,12 @@ public class EditGroupController {
             a.setAlertType(Alert.AlertType.ERROR);
             a.getDialogPane().setContent(area);
             a.setTitle("Choques de horario");
-            //a.setContentText("Se presentaron los siguientes errores al cargar los datos.");
-            // show the dialog
             a.show();
             return true;
         }
 
         return false;
     }
-
-    private boolean colisionHoras(int haInicio, int haSalida, int hbInicio, int hbSalida){
-        if ( haInicio <= hbInicio && hbSalida <= haSalida )
-            return true;
-        else return hbInicio <= haInicio && haSalida <= hbSalida;
-    }
-
-
-
 
     public void closeWindow(){
         Stage stage = (Stage) tbox_profesor.getScene().getWindow();
