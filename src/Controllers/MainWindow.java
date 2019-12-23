@@ -166,7 +166,7 @@ public class MainWindow {
 
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == loginButtonType) {
-                ReporteDAR pdf = new ReporteDAR("../resultadoDAR.docx", periodo.getText(), annio.getText());
+                ReporteDAR pdf = new ReporteDAR( periodo.getText(), annio.getText());
                 pdf.write();
             }
 
@@ -178,25 +178,8 @@ public class MainWindow {
 
     public void imprimirResultadoGeneral(){
 
-        ReporteGeneral pdf = new ReporteGeneral("../resultado_redes.docx");
+        ReporteGeneral pdf = new ReporteGeneral();
         pdf.write();
-
-        /*
-        try {
-
-            Alert a = new Alert(Alert.AlertType.NONE);
-            a.setAlertType(Alert.AlertType.CONFIRMATION);
-            a.setContentText("El documento se ha escrito con exito.");
-            // show the dialog
-            a.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-            Alert a = new Alert(Alert.AlertType.NONE);
-            a.setAlertType(Alert.AlertType.ERROR);
-            a.setContentText("No se escribio el documento.");
-            // show the dialog
-            a.show();
-        }*/
 
     }
 

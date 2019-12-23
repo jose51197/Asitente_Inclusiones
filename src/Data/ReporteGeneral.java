@@ -18,19 +18,16 @@ import java.util.Map;
 public class ReporteGeneral extends Reporte {
     private XWPFDocument document = new XWPFDocument();
     private XWPFTable table;
-    private String path;
-    private List<List<Inclusion>> resultados;
 
     private static final String[] columnsSizes = {"15%", "40%", "7%", "7%", "7%", "7%", "7%", "10%"};
 
-    public ReporteGeneral(String path){
+    public ReporteGeneral(){
         super();
-        this.path = path;
     }
 
     public void write() {
-        document = new XWPFDocument();
-        table = document.createTable(1, 8); //Base for the upper part
+        super.document = new XWPFDocument();
+        table = super.document.createTable(1, 8); //Base for the upper part
         table.setWidthType(TableWidthType.PCT);
         table.setWidth("100%");
         escribirTitulos();

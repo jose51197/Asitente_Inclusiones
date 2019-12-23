@@ -38,7 +38,7 @@ public class Main extends Application {
     }
 
     public static void pruebasOscar() {
-        ReporteDAR reporte = new ReporteDAR("path.pdf", "we", "asd");
+        ReporteDAR reporte = new ReporteDAR( "we", "asd");
         reporte.write();
 
     }

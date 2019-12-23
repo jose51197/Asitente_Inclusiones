@@ -24,7 +24,6 @@ public class DialogDatosReporte {
         Alert a = new Alert(Alert.AlertType.NONE);
         a.setAlertType(Alert.AlertType.CONFIRMATION);
         a.setContentText("El documento se ha escrito con exito.");
-        // show the dialog
         a.show();
     }
 

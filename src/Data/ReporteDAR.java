@@ -16,33 +16,28 @@ import java.util.List;
 import java.util.Map;
 
 public class ReporteDAR extends Reporte {
-
-    private String path;
     private String anio;
     private String periodo;
 
-    private List<List<Inclusion>> resultados;
-
     private static final String[] columnsSizes = {"16%", "46%", "9.5%", "9.5%", "9.5%", "9.5%"};
 
-    public ReporteDAR(String path, String periodo, String anio){
-        this.path = path;
+    public ReporteDAR(String periodo, String anio){
+        super();
         this.periodo = periodo;
         this.anio = anio;
     }
 
     public void write() {
         if (periodo.equals("") || anio.equals("") ){
-            String errorLog = "No se ingresaron los datos de periodo o año.";
-            showErrorLog(errorLog);
+            String error = "No se ingresaron los datos de periodo o año.";
+            errorLog.add(error);
+            showErrorLog();
             return;
         }
 
-        document = new XWPFDocument();
-
+        super.document = new XWPFDocument();
         //for all the document
         escribirHeader();
-
 
         for (String codCurso : DataHolder.getInstance().getInclusionesMapPorMateria().keySet()){
             System.out.println("Parsenado datos por materia");
@@ -80,10 +75,10 @@ public class ReporteDAR extends Reporte {
 
 
     private void crearPaginaResultados(List<Inclusion> inclusions, Grupo grupo) {
-        XWPFParagraph paragraph = document.createParagraph();
+        XWPFParagraph paragraph = super.document.createParagraph();
         paragraph.setPageBreak(true);
 
-        XWPFTable table = document.createTable(1, 6); //Base for the upper part
+        XWPFTable table = super.document.createTable(1, 6); //Base for the upper part
         table.setWidthType(TableWidthType.PCT);
         table.setWidth("100%");
         //Set the first 6 rows
@@ -225,10 +220,9 @@ public class ReporteDAR extends Reporte {
     }
 
     private void escribirHeader(){
-        document = new XWPFDocument();
-        XWPFHeaderFooterPolicy headerFooterPolicy = document.getHeaderFooterPolicy();
+        XWPFHeaderFooterPolicy headerFooterPolicy = super.document.getHeaderFooterPolicy();
         System.out.println(headerFooterPolicy == null);
-        if (headerFooterPolicy == null) headerFooterPolicy = document.createHeaderFooterPolicy();
+        if (headerFooterPolicy == null) headerFooterPolicy = super.document.createHeaderFooterPolicy();
         // create header start
         XWPFHeader header = headerFooterPolicy.createHeader(XWPFHeaderFooterPolicy.DEFAULT);
 
