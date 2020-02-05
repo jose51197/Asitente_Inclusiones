@@ -63,7 +63,10 @@ public class MainWindow {
     }
 
     public void ayuda(){
-        alertMe("Ayuda");
+        Alert a = new Alert(Alert.AlertType.INFORMATION);
+        a.setContentText("Información con: Sergie Salas Rojas - sergie98@gmail.com");
+        // show the dialog
+        a.show();
     }
 
     public void abrirSolicitud()  {
@@ -144,13 +147,15 @@ public class MainWindow {
         dialog.setTitle("Imprimir Reporte DAR");
         dialog.setHeaderText("Ingrese los datos necesarios para el reporte.");
 
-        ButtonType loginButtonType = new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE);
-        dialog.getDialogPane().getButtonTypes().addAll(loginButtonType, ButtonType.CANCEL);
+        ButtonType loginButtonType = new ButtonType("Guardar", ButtonBar.ButtonData.OK_DONE);
+        ButtonType cancelButton = new ButtonType("Cancelar", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+        dialog.getDialogPane().getButtonTypes().addAll(loginButtonType, cancelButton);
 
         GridPane grid = new GridPane();
         grid.setHgap(10);
         grid.setVgap(10);
-        grid.setPadding(new Insets(20, 150, 10, 10));
+        grid.setPadding(new Insets(20, 50, 10, 10));
 
         grid.add( new Label("Año:"), 0, 0);
         grid.add( new Label("Periodo:"), 0, 1);
@@ -159,7 +164,7 @@ public class MainWindow {
         TextField periodo = new TextField();
 
         grid.add( annio, 1, 0);
-        grid.add(periodo, 1, 1);
+        grid.add( periodo, 1, 1);
 
 
         dialog.getDialogPane().setContent(grid);

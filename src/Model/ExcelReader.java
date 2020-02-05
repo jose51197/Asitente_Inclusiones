@@ -11,7 +11,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-public class Excelreader {
+public class ExcelReader {
 
     public Map<String, ArrayList<ArrayList<String>>> readXlsxFile(String path) throws IOException {
         File excelFile = new File(path);
@@ -54,7 +54,8 @@ public class Excelreader {
         }
         return result;
     }
-    public ArrayList<ArrayList<String>>  readCsvFiles(String filepath) throws IOException {
+
+    public ArrayList<ArrayList<String>> readCsvFiles(String filepath) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(filepath));
         String row;
         String data="";

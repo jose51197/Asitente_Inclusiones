@@ -1,15 +1,13 @@
 package Model;
 
-import javax.sound.midi.Soundbank;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.sql.SQLOutput;
 import java.time.LocalTime;
 import java.util.*;
 
 public class DataLoader {
-    private Excelreader excelreader = new Excelreader();
+    private ExcelReader excelreader = new ExcelReader();
     private DataHolder dataHolder= DataHolder.getInstance();
 
 

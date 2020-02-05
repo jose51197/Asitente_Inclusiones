@@ -144,15 +144,19 @@ public class DataHolder {
         csvWriter.append("\n");
         String planB;
         for (Inclusion inclusion: inclusiones){
-            if(inclusion.isPlanB()){
-                planB="Si";
-            }
-            else{
-                planB="No";
-            }
+            planB = inclusion.isPlanB() ? "Si" : "No";
             csvWriter.append(inclusion.getCorreo()+","+inclusion.getCarne()+","+inclusion.getEstudiante().getNombre()+","+inclusion.getCodGrupo()+","+planB+","+inclusion.getDetalle()+","+inclusion.getEstado().toString()+","+inclusion.getComentarioAdmin()+"\n");
         }
         csvWriter.flush();
         csvWriter.close();
+    }
+
+
+    public void saveGroups() {
+        //Guardar otra info
+        for (String key : DataHolder.getInstance().getGrupos().keySet()) {
+            Grupo grupo = DataHolder.getInstance().getGrupos().get(key);
+
+        }
     }
 }

@@ -38,8 +38,8 @@ public class Main extends Application {
     }
 
     public static void pruebasOscar() {
-        ReporteDAR reporte = new ReporteDAR( "we", "asd");
-        reporte.write();
+       // ReporteDAR reporte = new ReporteDAR( "we", "asd");
+        //reporte.write();
 
     }
 
