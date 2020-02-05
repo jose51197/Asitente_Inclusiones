@@ -152,11 +152,15 @@ public class DataHolder {
     }
 
 
-    public void saveGroups() {
+    public void saveGroups() throws IOException {
         //Guardar otra info
+        FileWriter csvWriter = new FileWriter("horarios.csv");
         for (String key : DataHolder.getInstance().getGrupos().keySet()) {
             Grupo grupo = DataHolder.getInstance().getGrupos().get(key);
-
+            csvWriter.append(grupo.toCsv());
         }
+
+        csvWriter.flush();
+        csvWriter.close();
     }
 }

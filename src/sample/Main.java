@@ -51,26 +51,30 @@ public class Main extends Application {
         try{
             dataLoader.addPlanes("plan.xlsx");
             dataLoader.addAulas("aulas.xlsx");
+            dataLoader.addEstudiantesComplete("infoEstudiantes.xlsx");
+            //dataHolder.saveGroups();
             dataLoader.addEstudiantes("infoEstudiantes.xlsx");
             dataLoader.addRN("rn.csv");
+            System.out.println("Todos los documentos se han cargado");
         }
         catch (Exception e){
-
+            System.out.println("Error al cargar los documentos");
+            System.out.println(e.toString());
         }
+
         try{
             dataLoader.addInclusionesExistentes();
         }
         catch (Exception e){
 
         }
+
         setUserAgentStylesheet(STYLESHEET_CASPIAN);
 
         launch(args);
         pruebasJose();
         pruebasSergie();
         pruebasOscar();
-
-
     }
 
 

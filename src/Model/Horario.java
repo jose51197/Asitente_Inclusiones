@@ -67,4 +67,8 @@ public class Horario {
                 ", horas='" + horaInicio.toString()+" - "+ horaSalida.toString() + '\'' +
                 '}';
     }
+
+    public String toCsv(){
+        return  dia + ',' + aula.getCodigo() + "," + horaInicio.toString() +"," + horaSalida.toString();
+    }
 }

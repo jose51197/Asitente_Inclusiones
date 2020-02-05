@@ -8,10 +8,10 @@ import java.util.*;
 
 public class DataLoader {
     private ExcelReader excelreader = new ExcelReader();
-    private DataHolder dataHolder= DataHolder.getInstance();
+    private DataHolder dataHolder = DataHolder.getInstance();
 
 
-    public void addEstudiantes(String filepathStudents) throws IOException {
+    public void addEstudiantesComplete(String filepathStudents) throws IOException {
         Map<String, ArrayList<ArrayList<String>>> data= excelreader.readXlsxFile(filepathStudents);
         Map<String, Curso> plan = null;
         for(String sheetName: data.keySet()){
@@ -20,13 +20,76 @@ public class DataLoader {
                 addEstudiante(sheet,sheetName.toLowerCase());
             }
         }
+        //Remove this
         for(String sheetName: data.keySet()){
             ArrayList<ArrayList<String>> sheet = data.get(sheetName);
             if(sheetName.toLowerCase().contains("horarios")){
                 addHorario(sheet,sheetName.toLowerCase());
             }
         }
+
+
     }
+
+    public void addEstudiantes(String filepathStudents) throws IOException {
+        Map<String, ArrayList<ArrayList<String>>> data= excelreader.readXlsxFile(filepathStudents);
+        Map<String, Curso> plan = null;
+
+
+        for(String sheetName: data.keySet()){
+            if(sheetName.toLowerCase().contains("horarios")){
+                //horariosAux();
+            }
+        }
+        horariosAux();
+    }
+
+    public void horariosAux() throws IOException {
+        System.out.println("For fucks sake");
+
+        Map<String, Aula> aulas = dataHolder.getAulas();
+        ArrayList<ArrayList<String>> data = excelreader.readCsvFiles("horarios.csv");
+
+        data.remove(0);
+        Map<String, Grupo> grupos = dataHolder.getGrupos();
+        int linea = 1;
+
+        for (String key : DataHolder.getInstance().getGrupos().keySet()) {
+            Grupo grupo = DataHolder.getInstance().getGrupos().get(key);
+            grupo.setHorarios(new ArrayList<>());
+        }
+
+        for(ArrayList<String> row : data){
+            String idGrupo= "GR"+ row.get(2) + row.get(0);
+            Grupo grupo = grupos.get(idGrupo);
+
+            if(grupo == null){
+                System.out.println("Grupo nulo");
+                continue;
+            }
+
+
+            LocalTime horaInicio = LocalTime.parse(row.get(6)); // LocalTime.ofSecondOfDay(Double.valueOf(86401*Double.valueOf(row.get(6))).longValue());
+            LocalTime horaFinal = LocalTime.parse(row.get(7)); // LocalTime.ofSecondOfDay(Double.valueOf(86401*Double.valueOf(row.get(7))).longValue());
+
+            Aula aula= aulas.get(row.get(5));
+            if(aula == null){
+                System.out.println("Aula nula");
+                continue;
+            }
+
+            Horario horario = new Horario(aula, row.get(4), horaInicio, horaFinal);
+
+            if(grupo.notContainsHorario(horario.getDia())){
+                grupo.addHorario(horario);
+                System.out.println("Se a;ade " + grupo.getHorarios().size());
+            } else {
+                System.out.println("Pues no se a;adio el horario");
+            }
+
+        }
+    }
+
 
     private void addEstudiante(ArrayList<ArrayList<String>> sheet,String sheetName){
         Map<Integer, Estudiante> estudiantes= DataHolder.getInstance().getEstudiantes();
@@ -222,7 +285,7 @@ public class DataLoader {
         ArrayList<Inclusion>  result = dataHolder.getInclusiones();
         int linea=1;
         Estudiante estudiante=null;
-        for(ArrayList<String> row :data){
+        for(ArrayList<String> row : data){
             linea++;
             try{
                 estudiante= estudiantes.get(Integer.valueOf(row.get(1)));

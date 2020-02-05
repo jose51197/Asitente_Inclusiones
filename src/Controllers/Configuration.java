@@ -35,6 +35,7 @@ public class Configuration {
     private File aulas=null;
     private File infoEstudiantes=null;
     private DataLoader dataLoader = new DataLoader();
+    private DataHolder dataHolder = DataHolder.getInstance();
     public MainWindow controllerMain;
 
     public void setControllerMain(MainWindow main){
@@ -52,7 +53,7 @@ public class Configuration {
             nameRN.setText("    Archivo cargado: "+rn.getName());
         }
         catch (Exception e){
-
+            rn = null;
         }
 
     }
@@ -68,7 +69,7 @@ public class Configuration {
             namePlan.setText("    Archivo cargado: "+plan.getName());
         }
         catch (Exception e){
-
+            plan = null;
         }
     }
 
@@ -83,7 +84,7 @@ public class Configuration {
             nameInclusiones.setText("    Archivo cargado: "+inclusiones.getName());
         }
         catch (Exception e){
-
+            inclusiones = null;
         }
     }
 
@@ -122,7 +123,7 @@ public class Configuration {
             nameAulas.setText("    Archivo cargado: "+aulas.getName());
         }
         catch (Exception e){
-
+            aulas = null;
         }
     }
 
@@ -141,68 +142,85 @@ public class Configuration {
     }
 
     public void cargarDatosBase(ActionEvent actionEvent) {
-        if(rn!=null && plan!=null&&infoEstudiantes!=null&&aulas!=null){
-            File rnDestino= new File("rn.csv");
-            File planDestino= new File("plan.xlsx");
-            File infoEstudiantesDestino= new File("infoEstudiantes.xlsx");
-            File aulasDestino = new File("aulas.xlsx");
-            try {
-                FileUtils.copyFile(rn, rnDestino);
-                FileUtils.copyFile(plan, planDestino);
-                FileUtils.copyFile(infoEstudiantes, infoEstudiantesDestino);
-                FileUtils.copyFile(aulas, aulasDestino);
-                DataHolder.getInstance().resetDataHolder();
-                try{
-                    dataLoader.addPlanes("plan.xlsx");
-                }
-                catch(Exception e){
-                    controllerMain.alertMe("Error en archivo "+plan.getName());
-                    return;
-                }
-                try{
-                    dataLoader.addAulas("aulas.xlsx");
-                }
-                catch(Exception e){
-                    controllerMain.alertMe("Error en archivo "+aulas.getName());
-                    return;
-                }
-                try{
-                    dataLoader.addEstudiantes("infoEstudiantes.xlsx");
 
-                }
-                catch(Exception e){
-                    controllerMain.alertMe("Error en archivo "+infoEstudiantes.getName());
-                    return;
-                }
-                try{
-                    dataLoader.addRN("rn.csv");
-                }
-                catch(Exception e){
-                    controllerMain.alertMe("Error en archivo "+rn.getName());
-                    e.printStackTrace();
-                    return;
-                }
-                ObservableList<Inclusion> inclusionesView = FXCollections.observableArrayList(DataHolder.getInstance().getInclusiones());
-                controllerMain.tablaInclusiones.setItems(inclusionesView);
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Éxito");
-                alert.setHeaderText(null);
-                alert.setContentText("Se han cargado los datos seleccionados.");
-                alert.showAndWait();
-                mostrarErroresDeCarga();
-            } catch (IOException e) {
-                controllerMain.alertMe("Error alguno de los archivos seleccionados, esta siendo usado por otra aplicación");
+        Alert notification = new Alert(Alert.AlertType.CONFIRMATION);
+
+        mostrarErroresDeCarga();
+
+        if (rn==null || plan==null || infoEstudiantes==null || aulas==null){
+            notification.setAlertType(Alert.AlertType.ERROR);
+            notification.setHeaderText(null);
+            notification.setContentText("Ingrese todos los documentos antes de solicitar la carga.");
+            return;
+        }
+
+
+        File rnDestino= new File("rn.csv");
+        File planDestino= new File("plan.xlsx");
+        File infoEstudiantesDestino= new File("infoEstudiantes.xlsx");
+        File aulasDestino = new File("aulas.xlsx");
+        File gruposDestino = new File("grupos.csv");
+
+        try {
+            FileUtils.copyFile(rn, rnDestino);
+            FileUtils.copyFile(plan, planDestino);
+            FileUtils.copyFile(infoEstudiantes, infoEstudiantesDestino);
+            FileUtils.copyFile(aulas, aulasDestino);
+            DataHolder.getInstance().resetDataHolder();
+
+            try{
+                dataLoader.addPlanes("plan.xlsx");
             }
-            catch (Exception e){
-                controllerMain.alertMe("Error en los archivos");
+            catch(Exception e){
+                controllerMain.alertMe("Error en archivo "+plan.getName());
+                return;
+            }
+
+            try{
+                dataLoader.addAulas("aulas.xlsx");
+            }
+            catch(Exception e){
+                controllerMain.alertMe("Error en archivo "+aulas.getName());
+                return;
+            }
+            try{
+                dataLoader.addEstudiantesComplete("infoEstudiantes.xlsx");
+                dataHolder.saveGroups(); //Creates the file that stores the groups
+
+            }
+            catch(Exception e){
+                controllerMain.alertMe("Error en archivo "+infoEstudiantes.getName());
+                return;
+            }
+            try{
+                dataLoader.addRN("rn.csv");
+            }
+            catch(Exception e){
+                controllerMain.alertMe("Error en archivo "+rn.getName());
                 e.printStackTrace();
-                System.out.println(e.getMessage());
+                return;
             }
 
+            ObservableList<Inclusion> inclusionesView = FXCollections.observableArrayList(DataHolder.getInstance().getInclusiones());
+            controllerMain.tablaInclusiones.setItems(inclusionesView);
+
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Éxito");
+            alert.setHeaderText(null);
+            alert.setContentText("Se han cargado los datos seleccionados.");
+            alert.showAndWait();
+            mostrarErroresDeCarga();
+        } catch (IOException e) {
+            controllerMain.alertMe("Error alguno de los archivos seleccionados, esta siendo usado por otra aplicación");
         }
-        else{
-            controllerMain.alertMe("Debe cargar todos los archivos antes de continuar");
+        catch (Exception e){
+            controllerMain.alertMe("Error en los archivos");
+            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
+
+
+
     }
 
     public void cargarDatosInclusiones(ActionEvent actionEvent) {

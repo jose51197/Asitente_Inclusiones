@@ -172,17 +172,21 @@ public class EditGroupController {
             String profesor = tbox_profesor.getText();
             miGrupo.setProfesor(profesor);
 
-            Alert a = new Alert(Alert.AlertType.INFORMATION);
-            a.setTitle("Choques de horario");
-            a.setContentText("Se guardaron los cambios");
-            a.show();
+
             try {
-                DataHolder.getInstance().saveStatus();
+                DataHolder.getInstance().saveGroups();
+                Alert a = new Alert(Alert.AlertType.CONFIRMATION);
+                a.setTitle("Modificación del grupo");
+                a.setContentText("Se guardaron los cambios");
+                a.show();
             } catch (IOException e) {
                 e.printStackTrace();
+                Alert a = new Alert(Alert.AlertType.ERROR);
+                a.setTitle("Modificación del grupo");
+                a.setContentText("No se lograron guardar los cambios");
+                a.show();
             }
 
-            closeWindow();
         }
 
 

@@ -80,6 +80,7 @@ public class ClassroomManager {
     }
 
     public void agregarLecciones(Grupo grupo, Horario horario){
+        System.out.println("Agregando ... ");
         double x = diasMap.get(horario.getDia());
         double y = (horario.getHoraInicio().toSecondOfDay()/60) - 410; //
         double height= (horario.getHoraSalida().toSecondOfDay()/60) - 410 -  y;

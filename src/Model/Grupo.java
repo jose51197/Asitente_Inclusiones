@@ -4,6 +4,7 @@ import javafx.scene.layout.GridPane;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -138,5 +139,15 @@ public class Grupo {
         String otherCode = other.getCurso().getId() + other.getNumGrupo();
 
         return thisCode.equals(otherCode);
+    }
+
+    public String toCsv(){
+        String result = "";
+
+        for (Horario h : horarios){
+            result += this.curso.getId() + ",\"" + this.curso.getNombre() + "\"," + this.numGrupo + "," + this.profesor + "," + h.toCsv() + "\n";
+        }
+
+        return result; //To remove the last change of line
     }
 }
